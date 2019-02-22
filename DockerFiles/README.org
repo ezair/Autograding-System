@@ -1,0 +1,184 @@
+#+STARTUP: showall
+#+OPTIONS: toc:nil
+#+TITLE: Setting up a Django Project /inside/ the described Docker environment.
+#+AUTHOR: Dr. Brian C. Ladd
+#+DATE: Spring 2019
+
+This document describes how to run the various =django-admin= commands as presented in [[https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django]] *inside* a Docker container where Django is installed. This can be done /without/ establishing or activating a virtual environment. Since Python runs inside a "contained" (read: virtual) machine, pip can install the Python packages directly.
+
+* Docker, Django and MySQL
+** Docker uses creates /images/ of "virtual machines" from =Dockerfile= descriptions.
+** Docker then creates and runs /containers/ from the /images/
+*** A container is, effectively, an operating system running inside a process
+*** The operating system in the image can have packages pre-installed
+**** This lets you install a version of a program with all supporting libraries /inside/ the image so it can be run inside the running container *without* installing the software on your machine.
+*** The container should run *one* program or service.
+**** It starts more quickly if there is not a lot to start.
+**** If the container "gets confused", kill it and restart it.
+**** If there is less to start, there is less to install and the image is lighter.
+** This repository includes =docker-compose.yml=
+*** Docker Compose permits the description of multiple containers that run as a group.
+*** Using two containers, Django stores its data using a MySQL database.
+**** MySQL is more robust than SQLite
+*** One Compose command can start, and one other stop, both containers.
+** This repository includes =docker/=
+*** The directory has two subdirectories, one for the django image and one for the mysql image.
+*** When the images are built, the packages named are installed, along with all supporting systems.
+
+* Building the Docker images.
+** About the command-lines
+*** The =docker_compose= commands given below are to be run in the root folder of the templates. Where the =docker-compose.yml= file lives.
+*** Environment variables:
+**** =docker_compose.yml= is a YAML file describing the services to run. Before interpretation, =docker-compose= substitutes environment variables in the YAML rules.
+***** A variable in the YAML is of the form ${NAME}
+**** The variables are set in the shell before the program is run
+***** We specify them on the command-line before the executable; this way they are for the command only
+**** The variables used in this application are
+     - HOST_USER_ID :: the *user ID* of the user running the Docker images; set with the =id= command.
+     - HOST_GROUP_ID :: the *group ID* of the user running Docker on the host; set with =id=.
+     - DJANGO_PORT :: the *host* port number that is to be connected to the Django server inside the =django= service image.
+       - Django always uses 8000 *inside* the container; this is what that maps to *outside*.
+       - This document will use 8888 as the port number. You should change this to avoid colliding with other students
+**** *MacOS Note* The =--user= and =--group= parameters for =id= must be =-u= and =-g=. This is for the BSD version of =id=.
+** Before running for the first time (or after changing the Docker configuration): build the Docker images from the configuration.
+
+#+BEGIN_SRC bash
+$ HOST_USER_ID=`id --user` HOST_GROUP_ID=`id --group` DJANGO_PORT=8888 docker-compose build
+#+END_SRC
+
+*** This builds the images according to the contents of the =docker/= directory.
+** After clearing the whole database (described below) or building for the first time, the =db= image must run to initialize its tables/files.
+
+#+BEGIN_SRC bash
+$ HOST_USER_ID=`id --user` HOST_GROUP_ID=`id --group` DJANGO_PORT=8888 docker-compose up db &
+     ... let it finish printing things out until it says something like
+     mysql_1000_1000 | 2019-01-31T21:50:11.937299Z 0 [Note] mysqld: ready for connections.
+     mysql_1000_1000 | Version: '5.7.25'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server (GPL)
+$ HOST_USER_ID=`id --user` HOST_GROUP_ID=`id --group` DJANGO_PORT=8888 docker-compose down
+#+END_SRC
+
+*** The =&= at the end of the command puts the command in the background so you can, later, type the second command
+*** The name of the container, here =mysql_1000_1000=, will reflect the user's UID_GID on the host system at the end.
+*** The =db= service mounts the local =db/= folder as the folder where MySQL stores its data.
+
+* Starting a Django project inside the django image.
+** Copy this template (the directory tree rooted in the directory with this README in it) into a new directory.
+*** The name of the directory is unimportant. It will be referred to here as the root of the template.
+** Change directories into the new copy's root.
+** Following the instructions in the tutorial, use =django-admin= to =startproject=; the project will be named =locallibrary= as it is in the tutorial.
+*** Note: the =$= at the beginning of a line in a bash code block represents the bash prompt string; the =\= at the end of a line indicates that the line continues onto the next line.
+
+#+BEGIN_SRC bash
+$ HOST_USER_ID=`id --user` HOST_GROUP_ID=`id --group` DJANGO_PORT=8888 \
+  docker-compose run django django-admin startproject locallibrary
+$ HOST_USER_ID=`id --user` HOST_GROUP_ID=`id --group` DJANGO_PORT=8888 docker-compose down
+#+END_SRC
+
+*** The compose file mounts the current directory on the host machine to =/app/src= inside the container.
+**** The =django-admin= command creates a new folder below =/app/src= named for the new project.
+**** This means a new folder is created below the folder where you run the above command.
+*** Reading that command-line
+**** The first line of the command issued above sets environment variables for the duration of the command:
+#+BEGIN_EXAMPLE
+  HOST_USER_ID=`id --user` HOST_GROUP_ID=`id --group` DJANGO_PORT=8888
+  +                        +                          + the HOST port where the django container connects
+  +                        + Used to set the GID inside the container to match host GID of user
+  + Used to set the UID inside the container to match the host UID of the user running the command
+#+END_EXAMPLE
+**** The second line is the =docker-compose= command-line:
+#+BEGIN_EXAMPLE
+  docker-compose run django django-admin startproject locallibrary
+  +              +   +      + Command run inside the container with its parameters
+  +              +   + Name of the service (in the compose file) where command runs
+  +              + docker-compose command: start a new container and run one command
+  + the executable to run on the host
+#+END_EXAMPLE
+
+** Make our project use MySQL
+*** The project template starts with Django using a local SQLite database. This is specified in =locallibrary/locallibrary/settings.py=
+**** In the file, find the lines
+#+BEGIN_SRC python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+#+END_SRC
+**** Replace them with
+#+BEGIN_SRC python
+DATABASES = {
+  'default': {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'djangodocker_db',
+    'USER': 'django',
+    'PASSWORD': 'django',
+    'HOST': 'db',
+    'PORT': '3306',
+  }
+}
+#+END_SRC
+**** The user, password, and database name must match those in the =docker-compose.yml= file since those environment variables set how MySQL runs and authenticates.
+
+* Run Django inside Docker with MySQL
+** To run (remember, this is the most basic version of the project so we'll just see "it worked!")
+#+BEGIN_SRC bash
+$ HOST_USER_ID=`id --user` HOST_GROUP_ID=`id --group` DJANGO_PORT=8888 docker-compose up
+#+END_SRC
+*** This will generate a lot of output; at this moment, that seems like a good idea to see error messages.
+** To run without the output, add the =--detach= switch after =up=:
+#+BEGIN_SRC bash
+$ HOST_USER_ID=`id --user` HOST_GROUP_ID=`id --group` DJANGO_PORT=8888 docker-compose up --detach
+#+END_SRC
+
+** To connect to the application, point your browser to =http://localhost:8888/=
+
+** The development web server (connected to port 8000 inside the container) is watching the directory tree below =/src/app/locallibrary= for changes (at least to code).
+*** Changes you make in and below =locallibrary/= are shared into the container
+*** When you change code, the app reloads
+
+** To shut down the Django application (this will *not* erase the contents of =db/=)
+*** Must be run in the same directory where =docker-compose.yml= lives.
+*** If you detach or put the =up= command in the background, you can reuse the same terminal.
+#+BEGIN_SRC bash
+$ HOST_USER_ID=`id --user` HOST_GROUP_ID=`id --group` DJANGO_PORT=8888 docker-compose down
+#+END_SRC
+
+* To erase the database contents (this will *not* be reversible)
+** Those comments do not need to be run...they are a reminder
+#+BEGIN_SRC bash
+$ # Delete all of the data files in the MySQL database.
+$ # *** !DANGER! Yes, it will clobber all data that is in the Django database. All. Of. It. !DANGER!
+$ rm -rf db/*
+#+END_SRC
+
+* Other tasks in the tutorial
+** The other tasks in the tutorial can be run with the =run= command as in the following.
+** Create /catalog/ app inside /locallibrary/ in the Docker image
+*** Run =manage.py= with the =startapp= command
+*** But =manage.py=, from the root of the project, is in the =locallibrary/= directory; the name of the file (relative) is thus =locallibrary/manage.py=
+
+#+BEGIN_SRC bash
+$ HOST_USER_ID=`id --user` HOST_GROUP_ID=`id --group` DJANGO_PORT=8888 \
+  docker-compose run django python3 locallibrary/manage.py startapp catalog
+$ HOST_USER_ID=`id --user` HOST_GROUP_ID=`id --group` DJANGO_PORT=8888 docker-compose down
+#+END_SRC
+
+** Running the migration code inside the Docker image
+
+#+BEGIN_SRC bash
+$ HOST_USER_ID=`id --user` HOST_GROUP_ID=`id --group` DJANGO_PORT=8888 \
+  docker-compose run django python3 locallibrary/manage.py makemigrations
+$ HOST_USER_ID=`id --user` HOST_GROUP_ID=`id --group` DJANGO_PORT=8888 \
+  docker-compose run django python3 locallibrary/manage.py migrate
+$ HOST_USER_ID=`id --user` HOST_GROUP_ID=`id --group` DJANGO_PORT=8888 docker-compose down
+#+END_SRC
+
+** Create a superuser
+*** In Compose, =run= is interactive and associated with a tty UNLESS you say otherwise; so you will see the generated prompts in the terminal where you run this.
+
+#+BEGIN_SRC bash
+$ HOST_USER_ID=`id --user` HOST_GROUP_ID=`id --group` DJANGO_PORT=8888 \
+  docker-compose run django python3 locallibrary/manage.py createsuperuser
+$ HOST_USER_ID=`id --user` HOST_GROUP_ID=`id --group` DJANGO_PORT=8888 docker-compose down
+#+END_SRC
