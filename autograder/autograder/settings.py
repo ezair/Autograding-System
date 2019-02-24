@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@pt54@4521u@=jo=g**buy&^m--f1r3dk^=aoe8&or57#*wkmt'
+SECRET_KEY = '2&qt60edqv!el*_f(o*xzlu@b%lmp6fpi7hmgu7-n53d26ur3f'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'catalog.apps.CatalogConfig',
 ]
 
 MIDDLEWARE = [
@@ -76,12 +75,11 @@ WSGI_APPLICATION = 'autograder.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'djangodocker_db',
-        'USER': 'django',
-        'PASSWORD': 'django',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
         'HOST': 'db',
-        'PORT': '3306',
+        'PORT': 5432,
     }
 }
 
@@ -110,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'America/New_York'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
