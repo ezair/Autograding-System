@@ -31,6 +31,12 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # These are applications that have been manually installed.
+    #'accounts.apps.AccountsConfig',
+    'crispy_forms',
+    'accounts.apps.AccountsConfig',
+
+    # Default installed django applications
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -54,7 +60,7 @@ ROOT_URLCONF = 'autograder.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -117,7 +123,21 @@ USE_L10N = True
 USE_TZ = True
 
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.0/howto/static-files/
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+#make the default form for crispy forms 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+# After user is logged in, they are sent back to home page.
+LOGIN_REDIRECT_URL =  '/'
