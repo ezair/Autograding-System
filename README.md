@@ -10,3 +10,8 @@ To make migrations , simply type "docker-compose run web python3 manage.py migra
 To sign into admin page, Username: "Admin", Password: "Admin"
 
 Varying on your computer, you may have to put sudo in front of the command.
+
+
+For testinging admin:
+	username: admin
+	password: testtest
