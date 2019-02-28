@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # These are applications that have been manually installed.
-    #'accounts.apps.AccountsConfig',
     'crispy_forms',
     'accounts.apps.AccountsConfig',
     'catalog.apps.CatalogConfig',
@@ -109,7 +108,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -123,8 +121,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
@@ -132,13 +128,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 STATIC_URL = '/static/'
 
+#Statics file will be placed in first same folder as manage.py
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+# for staic collect.
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 #make the default form for crispy forms 'bootstrap4'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-# After user is logged in, they are sent back to home page.
+# After user is logged in, they are sent here.
 LOGIN_REDIRECT_URL =  '/'
