@@ -27,7 +27,7 @@ def main():
 	# Add the ability to migrate through the run.py file
 	# Command:
 	#		python3 run.py migrate
-	if (sys.argv != 1) and (str(sys.argv[1]) == 'migrate'):
+	if (len(sys.argv) > 0) and (str(sys.argv[0]) == 'migrate'):
 		system("sudo docker-compose run web python3 manage.py migrate")
 	
 	# run after script in all cases.
