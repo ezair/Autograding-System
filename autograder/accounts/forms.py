@@ -10,28 +10,24 @@ Last edited on:	02/27/2019
 '''
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import *
+from django.contrib.auth.forms import UserCreationForm
 
 
 # This form is used for the purpose of OVERRIDING
 # the user object's fields.
 # In otherwords, this form can allow you to add
 # MORE fields to user objects for the sake of user registraion.
-# Currently, we only have fields for (username, email,
-#									  password1, password2).
-class CustomUserCreationForm(UserCreationForm):
-    # "reads" data off the original user registration model
-    # as meta data (data on top of data) and adds email form.
+# Currently, we only have fields for registration are:
+# (username, email, password1, password2).
+class StudentRegistrationForm(UserCreationForm):
+    # extra datafields go here.
+    email = forms.EmailField()
+
+    # Checks to see what model we are basing this form off of,
+    # which in this case, is the built in django "User" model.
+    # NOTE:
+    #	If you want to add anther fiedl to this form, you must add it
+    #   to the "fields" list located below in the Meta class.
     class Meta(UserCreationForm):
-        model = CustomUser
-        fields = ('username', 'email')
-
-
-# Allows us to override and actually CHANGE
-# our custom user fields.
-# DON'T EDIT THIS.
-class CustomUserChangeForm(UserChangeForm):
-    class Meta:
-        model = CustomUser
-        fields = ('username', 'email')
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
