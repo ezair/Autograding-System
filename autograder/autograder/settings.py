@@ -140,8 +140,3 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # After user is logged in, they are sent here.
 LOGIN_REDIRECT_URL =  '/'
-
-# Used here so that we change the default
-# Fields for a user (during registration)
-# and creation.
-AUTH_USER_MODEL = 'accounts.CustomUser'
