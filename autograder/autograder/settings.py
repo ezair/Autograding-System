@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     #'accounts.apps.AccountsConfig',
     'crispy_forms',
     'accounts.apps.AccountsConfig',
+    'catalog.apps.CatalogConfig',
 
     # Default installed django applications
     'django.contrib.admin',
