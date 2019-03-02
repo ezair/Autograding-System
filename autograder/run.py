@@ -12,25 +12,28 @@ Description:	This file is just a quick script to allow people
 					Migrate:	python3 run.py migrate
 					Run with just build and up:
 						python3 run.py
-
+					Run with docker down (will run docker down before anything else):
+						python3 run.py down
 Last edited by:	Eric Zair
-Last edited on:	02/28/2019
+Last edited on:	03/01/2019
 '''
 from os import system
 import sys
 
 
 def main():
-	# Always run a build before doing anything.
+	# run docker down (if give down as an argument), then close program.
+	if 'down'.strip() in sys.argv:
+		system("sudo docker-compose down")
+
+	# ALWAYS run a build before doing anything, no matter what.
 	system("sudo docker-compose build")
 
-	# Add the ability to migrate through the run.py file
-	# Command:
-	#		python3 run.py migrate
-	if (len(sys.argv) > 0) and (str(sys.argv[0]) == 'migrate'):
+	# migrate command.
+	if 'migrate'.strip() in sys.argv:
 		system("sudo docker-compose run web python3 manage.py migrate")
-	
-	# run after script in all cases.
+
+	# run after script, no matter what.
 	system("sudo docker-compose up")
 
 # end program	
