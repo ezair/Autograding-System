@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
-def index(request):
 
-    return render(request, 'index.html')
+# view for our catalog/ page.
+# aka the homepage.
+def index(request):
+    return render(request, 'catalog/index.html')
