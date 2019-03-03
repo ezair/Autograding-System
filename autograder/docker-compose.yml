@@ -1,15 +1,23 @@
-version: '3'
+version: '2.1'
 
 services:
   db:
+    ports:
+    - "5432:5432"
     image: postgres
     restart: always
+    healthcheck:
+      test: "exit 0"
+      retries: 3
+      timeout: 10s
+      interval: 3s
     environment:
       POSTGRES_PASSWORD: 'postgres'
       POSTGRES_DB: 'postgres'
       POSTGRES_HOST: 'db'
     volumes:
       - database_data:/var/lib/postgresql/data
+
 
   web:
     build: .
@@ -19,7 +27,9 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    
 
 volumes:
   database_data:
