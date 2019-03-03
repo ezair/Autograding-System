@@ -81,10 +81,12 @@ WSGI_APPLICATION = 'autograder.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
         'USER': 'postgres',
+        'PASSWORD': 'postgres',
         'HOST': 'db',
+        # Make sure that this port matches the one in docker-compose.yml
         'PORT': 5432,
     }
 }
