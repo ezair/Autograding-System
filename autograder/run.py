@@ -20,8 +20,6 @@ Description:	This file is just a quick script to allow people
 Last edited by:	Eric Zair
 Last edited on:	03/02/2019
 '''
-import socket
-import time
 import os
 import sys
 from os import system
