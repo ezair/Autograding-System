@@ -11,6 +11,7 @@ Last edited on:	02/27/2019
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView, LogoutView
 
 
 # This form is used for the purpose of OVERRIDING

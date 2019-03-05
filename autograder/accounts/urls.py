@@ -9,12 +9,12 @@ Last edited by:	Eric Zair
 Last edited on:	02/27/2019
 '''
 from django.urls import path, include
-from .views import *
+from django.contrib.auth.views import LoginView, LogoutView
+from . import views
 
-
-# All /accounts application pages here.
+# Linking of all /accounts application pages here.
 # Make sure to add the name = param, or everything will just suck.
 urlpatterns = [
-	path('register/', StudentRegistrationView.as_view(),
-				  	name='accounts-student_registration'),
-	]
+	path('register/', views.StudentRegistrationView.as_view(), name='accounts-student_registration'),
+	path('login/', LoginView.as_view(template_name='catalog/index.html'), name="accounts-index"),
+]
