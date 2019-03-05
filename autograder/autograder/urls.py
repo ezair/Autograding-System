@@ -18,13 +18,14 @@ from django.urls import path, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic import RedirectView
 
 '''
-Description:
+Description:    this is the MAIN urls.py file. It will link all of the paths()
+                from every single django application we have created.
 Last edited by: Eric Zair
 Last edited on: 02/26/2019
 '''
-
 
 # Simply contains the paths to different applications in our project.
 # This list of urls will ONLY have paths to default apps and to our homepage.
@@ -33,6 +34,7 @@ Last edited on: 02/26/2019
 #		When it comes to using the "name=" parameter, always name the link
 #		name='application_name-the_name_of_the_template'
 urlpatterns = [
+    path('', RedirectView.as_view(url='/catalog/', permanent=True)),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('catalog/', include('catalog.urls')),
