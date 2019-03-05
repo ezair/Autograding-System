@@ -1,3 +1,14 @@
+Some notes on running our docker:
+	
+	You can run our project by using the run.py script (located in the autograder/ folder next to manage.py).
+
+	NOTE:
+		If using run.py, you may have to get rid of the sudo commands (if you are on windows or any machine that you do not have sudo access to).
+
+		If you do have sudo access, then this will not be a problem.
+
+		The script has instructions as to how it works.
+
 Important note:
 	All commands stated may need to be run with sudo, varying on your computer and operating system.
 
