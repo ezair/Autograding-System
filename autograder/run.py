@@ -18,7 +18,7 @@ Description:	This file is just a quick script to allow people
 						python3 run.py down migrate (will always run down first) even if
 													 you do "python3 run.py migrate down")
 Last edited by:	Eric Zair
-Last edited on:	03/02/2019
+Last edited on:	03/05/2019
 '''
 import os
 import sys
@@ -37,6 +37,10 @@ def main():
 	# Allows us to run a docker-compose down
 	if 'migrate'.strip() in sys.argv:
 		system("sudo docker-compose run web python3 manage.py migrate")
+
+	# Allows us to run ALL tests.
+	if 'test'.strip() in sys.argv:
+		system("sudo docker-compose run web python3 manage.py test")
 
 	# Run after script, no matter what.
 	# We are simply starting the server here.
