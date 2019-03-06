@@ -13,12 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.conf import settings
-from django.conf.urls.static import static
-from django.views.generic import RedirectView
+
 
 '''
 Description:    this is the MAIN urls.py file. It will link all of the paths()
@@ -26,6 +21,13 @@ Description:    this is the MAIN urls.py file. It will link all of the paths()
 Last edited by: Eric Zair
 Last edited on: 02/26/2019
 '''
+from django.contrib import admin
+from django.urls import path, include
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf import settings
+from django.conf.urls.static import static
+from django.views.generic import RedirectView
+
 
 # Simply contains the paths to different applications in our project.
 # This list of urls will ONLY have paths to default apps and to our homepage.

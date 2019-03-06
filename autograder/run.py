@@ -8,12 +8,19 @@ Description:	This file is just a quick script to allow people
 					This file is python3 NOT python2
 					Thus, it should be run as "python3 run.py arg"
 
-				List of things you can do from this file:
-					Migrate:	python3 run.py migrate
+				List of things you can do from this file:					
 					Run with just build and up:
 						python3 run.py
+
+					Run migrations with:
+						python3 run.py migrate
+					
 					Run with docker down (will run docker down before anything else):
 						python3 run.py down
+					
+					Run ALL tests with:
+						python3 run.py test
+					
 					Run build, down, and migrate:
 						python3 run.py down migrate (will always run down first) even if
 													 you do "python3 run.py migrate down")
@@ -23,6 +30,7 @@ Last edited on:	03/05/2019
 import os
 import sys
 from os import system
+
 
 #_______________________________________________________________________
 def main():
