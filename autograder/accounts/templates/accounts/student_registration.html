@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  	<h2>Registration</h2>  	
+  	<h3>Student account registration:</h3>  	
   	<form method="post">
   		{% csrf_token %}
 	    {{ form|crispy }}
