@@ -1,0 +1,8 @@
+{% extends "base_generic.html" %}
+{% if user.is_authenticated %}
+<body>
+	{{ user.get_username }} You've won at life!
+</body>
+{% else %}
+<h1> REDIRECT TO THE HOME PAGE!!!! </h1>
+{% endif %}
