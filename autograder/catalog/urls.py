@@ -14,4 +14,5 @@ from django.contrib.auth.views import LoginView, LogoutView
 # it is always 'app_name-html_file_name' and nothing else.
 urlpatterns = [
 	path('', LoginView.as_view(template_name='catalog/index.html'), name="catalog-index"),
+	path('student_home', LoginView.as_view(template_name='catalog/student_home.html'), name="catalog-student-home"),
 ]
