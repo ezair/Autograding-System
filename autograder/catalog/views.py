@@ -1,6 +1,14 @@
-from django.http import HttpResponseRedirect, HttpResponse
-from django.contrib.auth.decorators import login_required
-from django.template import Context, loader
+'''
+Created by: Chris Stannard
+File: catalog/views.py
+Description:	contains all views for the catalog/ app.
+				These views include things for each model in
+				catalog/models.py
+Last Edited by:	03/23/2019
+Last Edited by: Eric Zair
+'''
+
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 
@@ -9,6 +17,5 @@ from django.contrib.auth.decorators import login_required
 # Not logged in? Then you redirected to the login page. Upon logging, you are
 # then directed back to the page you were trying to
 @login_required
-def my_view(request):
-    	template = loader.get_template('catalog/my.html')
-    	return HttpResponse(template.render())
+def my_view(request):	
+    	return render(request, 'catalog/my.html')

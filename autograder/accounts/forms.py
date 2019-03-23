@@ -31,4 +31,4 @@ class StudentRegistrationForm(UserCreationForm):
     #   to the "fields" list located below in the Meta class.
     class Meta(UserCreationForm):
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
