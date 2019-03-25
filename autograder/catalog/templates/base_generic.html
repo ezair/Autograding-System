@@ -12,7 +12,7 @@
 				<a href="" class="navbar-brand" style="width: 12%;">
 					<img src="{% static 'img\potsdam(8).png' %}" alt="potsdam" width="60%">
 				</a>
-				<span style="width: 1100px;"></span>
+				<span style="width: 1050px;"></span>
 			{% if request.user.is_authenticated %}
 				<div class="dropdown">
 					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #8A1538;">
@@ -27,7 +27,7 @@
 			{% else %}
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active">
-						<a class="nav-link" href="#">Sign In <span class="sr-only">(current)</span></a>
+						<a class="nav-link" href="#">Log In</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#">Register</a>
