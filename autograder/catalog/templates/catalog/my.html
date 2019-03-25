@@ -1,3 +1,27 @@
 {% extends "base_generic.html" %}
-
-<p>{{ user.get_username }} You've won at life!</p>
+{% load static %}
+{% block content %}
+<div class="jumbotron">
+	<center>
+		<h3>Active Courses:</h3>
+	</center>
+	<br>
+	<div class="container">
+		<center>
+		<div class="col-8">
+			<ul class="list-group">
+				<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+					CIS 405 Software Engineering <span class="badge badge-danger badge-pill maroon">14</span>
+				</a>
+				<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+					CIS 410 Computer Networks <span class="badge badge-danger badge-pill maroon">1</span>
+				</a>
+				<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+					CIS 303 Analysis of Algorithms <span class="badge badge-danger badge-pill maroon"></span>
+				</a>
+			</ul>
+		</div>
+		</center>
+	</div>
+</div>
+{% endblock %}
