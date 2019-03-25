@@ -1,14 +1,10 @@
+{% extends "base_generic.html" %}
 {% load crispy_forms_tags %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>Null Spark Autograder</title>
-	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-</head>
+{% block content %}
 	<body>
 		<br />
 		<br />
-		<div class="container">
+		<div class="container" style="width: 50%;">
 			<div class="jumbotron">
 				<center>
 					<h3> Welcome to the Null Spark <h2>
@@ -16,8 +12,7 @@
 					<p> Please, log in.</p>
 				</center>
 				<br>
-
-				<div class="container" id="login_form">
+				<div class="col-8" id="login_form" style="margin: auto;">
 					<!-- THIS IS THE LOG IN FORM -->
 					<!-- It is added by crispy forms. -->
 					<form method="post">
@@ -25,7 +20,6 @@
 					    {{ form|crispy }}
 				    	<button class="btn btn-danger" type="submit" style="background-color: #8A1538;border: none;">Sign in</button>
 				  	</form>
-
 					<br/>
 					<p>Don't have an account? Sign up <a href="{% url 'accounts-student_registration' %}">here</a></p>
 				</div>
@@ -33,4 +27,4 @@
 			<!-- END OF THE JUMOTRON -->
 		</div>
 	</body>
-</html>
+{% endblock %}
