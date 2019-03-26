@@ -5,7 +5,11 @@
 }
 body, h1, h2, h3, h4, h5{
 			font-family: "San Francisco", sans-serif;
-	}
+}
+.instructor-name{
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
 .spacer{
 	margin-left: 5px;
 }
@@ -16,5 +20,16 @@ body, h1, h2, h3, h4, h5{
 	background-color: #8A1538; 
 	color: white; 
 	padding: 10px 10px 10px 20px; 
-	border-radius: 25px;
+	border-radius: 15px;
+}
+.white{
+	color: white;
+}
+.white-bg{
+	background-color: white;
+}
+#logout-container{
+	padding: 30px 10px 30px 35px;
+	border-radius: 15px;
+	margin: 40px auto;
 }

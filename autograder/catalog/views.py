@@ -10,7 +10,7 @@ Last Edited by: Eric Zair
 
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.auth import logout
 
 # This is the view for the location of a user's classes and thing of that sort.
 # If you are logged in, you get sent to the page.
@@ -19,3 +19,9 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def my_view(request):	
     	return render(request, 'catalog/my.html')
+
+@login_required(login_url='/catalog/')
+def logout_view(request):
+	logout(request)
+	# Redirect to a success page.
+	return render(request, 'catalog/logout.html')
