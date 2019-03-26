@@ -1,0 +1,20 @@
+@font-face {
+	font-family: "San Francisco";
+	font-weight: 400;
+	src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
+}
+body, h1, h2, h3, h4, h5{
+			font-family: "San Francisco", sans-serif;
+	}
+.spacer{
+	margin-left: 5px;
+}
+.maroon{
+	background-color: #8A1538;
+}
+.assignment-item{
+	background-color: #8A1538; 
+	color: white; 
+	padding: 10px 10px 10px 20px; 
+	border-radius: 25px;
+}
