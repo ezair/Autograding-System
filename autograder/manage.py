@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+'''
+Last edited by: Eric Zair
+Last edited on: 03/27/2019
+'''
 import os
 import sys
 
@@ -9,7 +13,7 @@ if __name__ == '__main__':
         from django.core.management import execute_from_command_line
         # Added by: ERIC ZAIR
         # Load the fixtures that we have in our database
-        # every time we run manage command.
+        # every time we run migrate command.
         # We do this so we can automatically load the fitxures
         # instead of having to do it after every migrate.
         if (len(sys.argv) == 2) and (sys.argv[1] == 'migrate'):
