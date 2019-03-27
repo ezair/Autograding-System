@@ -143,3 +143,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # After user is logged in, they are sent here.
 LOGIN_REDIRECT_URL =  '/catalog/my'
+
+# ...prety straight forward.
+FIXTURE_DIRS = (os.path.join(BASE_DIR, 'fixtures'),)
