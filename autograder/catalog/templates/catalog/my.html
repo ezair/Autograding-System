@@ -54,42 +54,4 @@
 		</div>
 	</div>
 </div>
-<!-- Script for login timeout -->
-<script>
-	var timeout_cleared = false;
-	
-	// Keeps the user logged in
-	function logInStatus(timeout_cleared) {
-		window.clearTimeout();
-		timeout_cleared = true;
-		$("#full-screen").toggle();
-		$("#timeout-banner-container").toggle();
-	}
-	
-	// Logs the user out
-	function logOut() {
-		window.location.href = "/catalog/logout";
-	}
-	
-	// Display the popup
-	function displayLogOutDialogue(timeout_cleared) {
-		$("body").prepend("<div id='full-screen'><center><div class='container white maroon' id='final-warning-container'><h2>You will be logged out in a few moments...</h2><button class='btn btn-dark' onClick='logInStatus(timeout_cleared)'>No, don't log me out!</button></div></center></div>");
-		window.setTimeout(function (timeoutCleared) {
-			if (!timeout_cleared) {
-				logOut();
-			}
-		}, 6000);
-	}
-	
-	// After sometime show the banner
-	window.setTimeout(function () {
-		// Show the warning banner
-		$("body").prepend("<div class='container-fluid maroon white' id='timeout-banner-container'><div id='timeout-banner'>You have been inactive for 10 minutes. {{ user.get_username }} you will be logged out soon.</div></div>" );
-		
-		// Show the second dialogue box and log you out
-		window.setTimeout(function () {
-			displayLogOutDialogue();
-		}, 12000);
-	}, 30000);
-</script>
 {% endblock %}

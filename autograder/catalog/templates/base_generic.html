@@ -15,7 +15,44 @@
 				</a>
 				<span style="width: 1050px;"></span>
 			{% if request.user.is_authenticated %}
-			<!------------------------------>
+			<!-----------TIMEOUT SCRIPT------------------->
+			<script>
+				// Keeps the user logged in
+				function logInStatus() {
+					window.clearTimeout();
+					$("#full-screen").toggle();
+					$("#timeout-banner-container").toggle();
+				}
+				
+				// Logs the user out
+				function logOut() {
+					window.location.href = "/catalog/logout";	
+				}
+				
+				
+				// Display the popup
+				function displayLogOutDialogue() {
+					console.log("I JUST RAN")
+					$("body").prepend("<div id='full-screen'><center><div class='container white maroon' id='final-warning-container'><h3>You have been inactive for 10 minutes. You will be logged out in a few moments...</h3><button class='btn btn-dark' id='stay-logged-in-button'>No, don't log me out!</button></div></center></div>");
+					
+					// Wait 30 secs and log the user out
+					var logout = setTimeout(function(){
+						logOut();
+					}, 30000);
+					
+					// Clear the timeout after button press
+					$("#stay-logged-in-button").click(function () {
+						clearTimeout(logout);
+						$("#full-screen").toggle();
+					});
+				}
+				
+				// After sometime show the dialogue box (1 minute)
+				var display = setTimeout(function(){
+					displayLogOutDialogue()
+				}, 60000);
+			</script>
+			<!------------------------------------------>
 			<!-- Continue the navbar elements ---------->
 				<div class="dropdown">
 					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #8A1538;">
