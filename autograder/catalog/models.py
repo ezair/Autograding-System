@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import Group, User
 
+class Course(models.Model):
+    name = models.CharField(max_length=6, help_text='Enter Coures Title')
 
 class Assignment(models.Model):
     name = models.CharField(max_length=60, help_text='Enter a name')
