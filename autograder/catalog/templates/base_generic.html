@@ -33,7 +33,7 @@
 				// Display the popup
 				function displayLogOutDialogue() {
 					console.log("I JUST RAN")
-					$("body").prepend("<div id='full-screen'><center><div class='container white maroon' id='final-warning-container'><h3>You have been inactive for 10 minutes. You will be logged out in a few moments...</h3><button class='btn btn-dark' id='stay-logged-in-button'>No, don't log me out!</button></div></center></div>");
+					$("body").prepend("<div id='full-screen'><center><div class='container white maroon' id='final-warning-container'><h4>You have been inactive for 10 minutes.</h4><p class='white'> You will be logged out in a few moments...</p><button class='btn btn-dark' id='stay-logged-in-button'>No, don't log me out!</button></div></center></div>");
 					
 					// Wait 30 secs and log the user out
 					var logout = setTimeout(function(){
