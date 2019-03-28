@@ -17,9 +17,8 @@ if __name__ == '__main__':
         # We do this so we can automatically load the fitxures
         # instead of having to do it after every migrate.
         if (len(sys.argv) == 2) and (sys.argv[1] == 'migrate'):
-            execute_from_command_line(['manage.py', 'loaddata', 'fixtures/group_fixtures.json'])
+            execute_from_command_line(['manage.py', 'loaddata', 'fixtures/groups_and_users_fixture.json'])
         execute_from_command_line(sys.argv)
-
     except ImportError as exc:
         raise ImportError(
             "Couldn't import Django. Are you sure it's installed and "
