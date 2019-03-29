@@ -1,0 +1,4 @@
+[31;1mCommandError: object_class must be provided in the following format: app_name.model_name
+Try calling dump_object with --help argument or use the following arguments:
+ <[--kitchensink | -k] [--natural] [--query] object_class id [id ...]>
+[0m
