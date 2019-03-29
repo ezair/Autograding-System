@@ -14,7 +14,7 @@ class Course(models.Model):
     name = models.CharField(max_length=80, help_text='Enter course title')
     crn = models.CharField(max_length=6, help_text='Enter course title', default='00000')
     description = models.TextField(help_text='Enter a detailed description',
-                                            default='This class description'
+                                            default='This class description')
 
 
 # This model is used to keep tracks of the students that are taking a course.
