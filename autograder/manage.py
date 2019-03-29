@@ -15,13 +15,10 @@ if __name__ == '__main__':
         # Load the fixtures that we have in our database
         # every time we run migrate command.
         # We do this so we can automatically load the fitxures for groups and users.
-        # instead of having to do it after every migrate.
-        # if (len(sys.argv) == 2) and (sys.argv[1] == 'migrate'):
-        #     #This is the command to get the data for groups and user (without quotes):
-        #     #    "sudo docker-compose run web python3 manage.py dumpdata auth.groups > 
-        #     #     fixtures/groups_and_users_fixture.json"
-        #     execute_from_command_line(['manage.py', 'loaddata', 'fixtures/groups_and_users_fixture.json'])
-        # execute_from_command_line(sys.argv)
+        #instead of having to do it after every migrate.
+        if (len(sys.argv) == 2) and (sys.argv[1] == 'migrate'):
+            execute_from_command_line(['manage.py', 'loaddata', 'fixtures/all_fixtures.json'])
+        execute_from_command_line(sys.argv)
     
     except ImportError as exc:
         raise ImportError(
