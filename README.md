@@ -18,11 +18,8 @@ Then you can simply type "docker-compose up" to begin running the project's web 
 
 To make migrations , simply type "docker-compose run web python3 manage.py migrate"
 
-To sign into admin page, Username: "Admin", Password: "Admin"
+To sign into admin page, Username: "admin", Password: "password"
+
+To sign into as a basic, Username: "user", Password: "userpassword"
 
 Varying on your computer, you may have to put sudo in front of the command.
-
-
-For testinging admin:
-	username: admin
-	password: testtest
