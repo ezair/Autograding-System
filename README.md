@@ -23,3 +23,8 @@ To sign into admin page, Username: "admin", Password: "password"
 To sign into as a basic, Username: "user", Password: "userpassword"
 
 Varying on your computer, you may have to put sudo in front of the command.
+
+
+EMAIL ACCOUNT INFORMATION:
+	instuctor email: autograderinstructor@gmail.com
+	instructor password: autograder1
