@@ -1,1 +1,578 @@
-[{"model": "auth.group", "pk": 1, "fields": {"name": "Student", "permissions": [8, 4, 12, 16]}}, {"model": "auth.group", "pk": 2, "fields": {"name": "Grader", "permissions": [8, 4, 12, 16]}}, {"model": "auth.group", "pk": 3, "fields": {"name": "Instructor", "permissions": [5, 8, 1, 4, 9, 12, 13, 16]}}, {"model": "auth.user", "pk": 1, "fields": {"password": "pbkdf2_sha256$120000$IEDdDD1fhb0w$DLYIrHNui79TEEpKyqJhYEBt2MKKelGBXIxvj7s/cVs=", "last_login": "2019-03-28T23:47:11.212Z", "is_superuser": true, "username": "admin", "first_name": "", "last_name": "", "email": "zairea200@potsdam.edu", "is_staff": true, "is_active": true, "date_joined": "2019-03-28T21:56:51.875Z", "groups": [], "user_permissions": []}}, {"model": "auth.user", "pk": 2, "fields": {"password": "pbkdf2_sha256$120000$qfRWICimbZjn$/cM+RE/+GvrQf03Hq2dGzpbcYBvaRq/MJOXeLseyrgo=", "last_login": null, "is_superuser": false, "username": "user", "first_name": "", "last_name": "", "email": "", "is_staff": false, "is_active": true, "date_joined": "2019-03-29T02:02:33.896Z", "groups": [], "user_permissions": []}}]
+[
+{
+  "model": "auth.permission",
+  "pk": 1,
+  "fields": {
+    "name": "Can add course",
+    "content_type": 1,
+    "codename": "add_course"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 2,
+  "fields": {
+    "name": "Can change course",
+    "content_type": 1,
+    "codename": "change_course"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 3,
+  "fields": {
+    "name": "Can delete course",
+    "content_type": 1,
+    "codename": "delete_course"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 4,
+  "fields": {
+    "name": "Can view course",
+    "content_type": 1,
+    "codename": "view_course"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 5,
+  "fields": {
+    "name": "Can add take",
+    "content_type": 2,
+    "codename": "add_take"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 6,
+  "fields": {
+    "name": "Can change take",
+    "content_type": 2,
+    "codename": "change_take"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 7,
+  "fields": {
+    "name": "Can delete take",
+    "content_type": 2,
+    "codename": "delete_take"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 8,
+  "fields": {
+    "name": "Can view take",
+    "content_type": 2,
+    "codename": "view_take"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 9,
+  "fields": {
+    "name": "Can add instruct",
+    "content_type": 3,
+    "codename": "add_instruct"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 10,
+  "fields": {
+    "name": "Can change instruct",
+    "content_type": 3,
+    "codename": "change_instruct"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 11,
+  "fields": {
+    "name": "Can delete instruct",
+    "content_type": 3,
+    "codename": "delete_instruct"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 12,
+  "fields": {
+    "name": "Can view instruct",
+    "content_type": 3,
+    "codename": "view_instruct"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 13,
+  "fields": {
+    "name": "Can add assignment",
+    "content_type": 4,
+    "codename": "add_assignment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 14,
+  "fields": {
+    "name": "Can change assignment",
+    "content_type": 4,
+    "codename": "change_assignment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 15,
+  "fields": {
+    "name": "Can delete assignment",
+    "content_type": 4,
+    "codename": "delete_assignment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 16,
+  "fields": {
+    "name": "Can view assignment",
+    "content_type": 4,
+    "codename": "view_assignment"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 17,
+  "fields": {
+    "name": "Can add project",
+    "content_type": 5,
+    "codename": "add_project"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 18,
+  "fields": {
+    "name": "Can change project",
+    "content_type": 5,
+    "codename": "change_project"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 19,
+  "fields": {
+    "name": "Can delete project",
+    "content_type": 5,
+    "codename": "delete_project"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 20,
+  "fields": {
+    "name": "Can view project",
+    "content_type": 5,
+    "codename": "view_project"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 21,
+  "fields": {
+    "name": "Can add test case",
+    "content_type": 6,
+    "codename": "add_testcase"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 22,
+  "fields": {
+    "name": "Can change test case",
+    "content_type": 6,
+    "codename": "change_testcase"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 23,
+  "fields": {
+    "name": "Can delete test case",
+    "content_type": 6,
+    "codename": "delete_testcase"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 24,
+  "fields": {
+    "name": "Can view test case",
+    "content_type": 6,
+    "codename": "view_testcase"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 25,
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": 7,
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 26,
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": 7,
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 27,
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": 7,
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 28,
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": 7,
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 29,
+  "fields": {
+    "name": "Can add permission",
+    "content_type": 8,
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 30,
+  "fields": {
+    "name": "Can change permission",
+    "content_type": 8,
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 31,
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": 8,
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 32,
+  "fields": {
+    "name": "Can view permission",
+    "content_type": 8,
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 33,
+  "fields": {
+    "name": "Can add group",
+    "content_type": 9,
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 34,
+  "fields": {
+    "name": "Can change group",
+    "content_type": 9,
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 35,
+  "fields": {
+    "name": "Can delete group",
+    "content_type": 9,
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 36,
+  "fields": {
+    "name": "Can view group",
+    "content_type": 9,
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 37,
+  "fields": {
+    "name": "Can add user",
+    "content_type": 10,
+    "codename": "add_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 38,
+  "fields": {
+    "name": "Can change user",
+    "content_type": 10,
+    "codename": "change_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 39,
+  "fields": {
+    "name": "Can delete user",
+    "content_type": 10,
+    "codename": "delete_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 40,
+  "fields": {
+    "name": "Can view user",
+    "content_type": 10,
+    "codename": "view_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 41,
+  "fields": {
+    "name": "Can add content type",
+    "content_type": 11,
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 42,
+  "fields": {
+    "name": "Can change content type",
+    "content_type": 11,
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 43,
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": 11,
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 44,
+  "fields": {
+    "name": "Can view content type",
+    "content_type": 11,
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 45,
+  "fields": {
+    "name": "Can add session",
+    "content_type": 12,
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 46,
+  "fields": {
+    "name": "Can change session",
+    "content_type": 12,
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 47,
+  "fields": {
+    "name": "Can delete session",
+    "content_type": 12,
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "pk": 48,
+  "fields": {
+    "name": "Can view session",
+    "content_type": 12,
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 1,
+  "fields": {
+    "name": "Student",
+    "permissions": [
+      16,
+      4,
+      12,
+      8
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 2,
+  "fields": {
+    "name": "Grader",
+    "permissions": [
+      16,
+      4,
+      12,
+      8
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 3,
+  "fields": {
+    "name": "Instructor",
+    "permissions": [
+      13,
+      16,
+      1,
+      4,
+      9,
+      12,
+      5,
+      8
+    ]
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$IEDdDD1fhb0w$DLYIrHNui79TEEpKyqJhYEBt2MKKelGBXIxvj7s/cVs=",
+    "last_login": "2019-04-01T19:39:24.307Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "zairea200@potsdam.edu",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2019-03-28T21:56:51.875Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$qfRWICimbZjn$/cM+RE/+GvrQf03Hq2dGzpbcYBvaRq/MJOXeLseyrgo=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "user",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-03-29T02:02:33.896Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$Ky6iKDQAiJsu$AwGuVXZ9HTXxCwSYPXnV9r2lOlwbk3q1x7Q8ju/kofU=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "instructor",
+    "first_name": "",
+    "last_name": "",
+    "email": "autograderinstructor@gmail.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-04-01T20:00:18Z",
+    "groups": [
+      3
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$120000$Zi3GNDzdQ5e6$vuwTHMButXugKYPtLfmtYNgDnQ14ciYHokfdoc9s3yE=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "Student",
+    "first_name": "student",
+    "last_name": "student",
+    "email": "zairea200@potsdam.edu",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2019-04-01T20:01:47Z",
+    "groups": [
+      1
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "catalog.course",
+  "pk": 1,
+  "fields": {
+    "name": "course",
+    "crn": "00001",
+    "description": "This is a test course for sending invites....or w.e."
+  }
+},
+{
+  "model": "catalog.take",
+  "pk": 1,
+  "fields": {
+    "student": 4,
+    "course": 1
+  }
+},
+{
+  "model": "catalog.instruct",
+  "pk": 1,
+  "fields": {
+    "instructor": 3,
+    "course": 1
+  }
+}
+]
