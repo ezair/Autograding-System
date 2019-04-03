@@ -26,5 +26,5 @@ Varying on your computer, you may have to put sudo in front of the command.
 
 
 EMAIL ACCOUNT INFORMATION:
-	instuctor email: autograderinstructor@gmail.com
+	instructor email: autograderinstructor@gmail.com
 	instructor password: autograder1
