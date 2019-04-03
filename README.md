@@ -12,11 +12,11 @@ Some notes on running our docker:
 Important note:
 	All commands stated may need to be run with sudo, varying on your computer and operating system.
 
-Before doing anything, you want to run "docker-compose-build" so that you can make any needed install changes that are required.
+Before doing anything, you want to run "docker-compose build" so that you can make any needed install changes that are required.
+
+Next, run "docker-compose run web python3 manage.py migrate" (this will perform the migrations needed to populate the database)
 
 Then you can simply type "docker-compose up" to begin running the project's web server.
-
-To make migrations , simply type "docker-compose run web python3 manage.py migrate"
 
 To sign into admin page, Username: "admin", Password: "password"
 
