@@ -15,7 +15,7 @@
 				</a>
 				<span style="width: 1050px;"></span>
 			{% if request.user.is_authenticated %}
-			<!-----------TIMEOUT SCRIPT------------------->
+
 			<script>
 				// Keeps the user logged in
 				function logInStatus() {
@@ -26,7 +26,7 @@
 				
 				// Logs the user out
 				function logOut() {
-					window.location.href = "/catalog/logout";	
+					window.location.href = "{% url 'accounts-logout' %}";	
 				}
 				
 				
@@ -52,8 +52,7 @@
 					displayLogOutDialogue()
 				}, 60000);
 			</script>
-			<!------------------------------------------>
-			<!-- Continue the navbar elements ---------->
+			
 				<div class="dropdown">
 					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #8A1538;">
 						{{ user.get_username }}
