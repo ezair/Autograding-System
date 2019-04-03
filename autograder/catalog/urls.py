@@ -16,5 +16,4 @@ from django.contrib.auth.views import LoginView, LogoutView
 urlpatterns = [
 	path('', LoginView.as_view(template_name='catalog/index.html'), name="catalog-index"),
 	path('my', views.my_view, name="catalog-my"),
-	path('logout', LogoutView.as_view(template_name='catalog/logout.html'), name="catalog-logout"),
 ]
