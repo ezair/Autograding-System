@@ -12,6 +12,6 @@ from catalog.views import *
 
 class TestStudentRegistration(TestCase):
     def test_correct_template(self):
-        response = self.client.get(reverse('accounts-student_registration'))
+        response = self.client.get(reverse('accounts-registration'))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'accounts/student_registration.html')
+        self.assertTemplateUsed(response, 'accounts/registration.html')
