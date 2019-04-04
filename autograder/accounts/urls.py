@@ -16,7 +16,7 @@ from . import views
 # Linking of all /accounts application pages here.
 # Make sure to add the name = param, or everything will just suck.
 urlpatterns = [
-	path('register/', views.StudentRegistrationView.as_view(), name='accounts-student_registration'),
+	path('register/', views.register_account_view, name='accounts-registration'),
 	path('login/', LoginView.as_view(template_name='catalog/index.html'), name='accounts-login'),
 	path('logout/', LogoutView.as_view(template_name='accounts/logout.html'), name='accounts-logout'),
 ]
