@@ -7,19 +7,33 @@ Description:	Contains ALL views for our account application.
 					registration view
 					etc...
 Last edited by:	Eric Zair
-Last edited on:	03/05/2019
+Last edited on:	04/04/2019
 '''
-from django.contrib.auth import authenticate, login
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.contrib.auth.models import User
 from . import forms
+from django.shortcuts import render
 
 
-# Create a view that will be used for User Registration.
-# We base this view off of the django built in UserCreationForm
-# Note, we will redirect users to the homepage, if form is successfully
-# submitted.
-class StudentRegistrationView(CreateView):
-	form_class = forms.StudentRegistrationForm
-	template_name = 'accounts/student_registration.html'
-	success_url = reverse_lazy("catalog-index")
+
+# View for an admin, when registering a user to the database.
+# The user currently has no group associated with it, however,
+# this is something that we will add.
+def register_account_view(request):
+	form = forms.UserRegistrationForm(request.POST or None)
+	# Grab the information from the user and make sure that the
+	# email field has been filled out successfully.
+	if request.POST and form.is_valid():
+		# We now parse the email field given on the form, which allows us
+		# to create the account username.
+		username = form.cleaned_data['email'][0 : index('@')]
+		# The password needs to be a random gened one, so that
+		# only the user is aware of what it may be.
+		password = 'testpassword'
+		user = User.objects.create_user(username=username,
+										password=password,
+										email=form.cleaned_data['email'])
+		user.save()
+		# This is where we will have to send the "invite" email to the user.
+		return render(request, 'accounts/registration.html', {'form' : form})
+	return render(request, 'accounts/registration.html', {'form' : form})
