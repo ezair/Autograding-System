@@ -26,7 +26,7 @@ def register_account_view(request):
 	if request.POST and form.is_valid():
 		# We now parse the email field given on the form, which allows us
 		# to create the account username.
-		username = form.cleaned_data['email'][0 : index('@')]
+		username = form.cleaned_data['email'].split('@')[0]
 		# The password needs to be a random gened one, so that
 		# only the user is aware of what it may be.
 		password = 'testpassword'
