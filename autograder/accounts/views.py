@@ -42,7 +42,7 @@ def send_confimation_email(username, password):
 	sender = 'autograderinstructor@gmail.com'
 	# The receivers are currently used just for sending.
 	# This will be changed later...
-	receivers = ['zairea200@potsdam.edu']
+	receivers = ['zairea200@potsdam.edu','demaraj198@potsdam.edu']
 	send_mail(subject, message, sender, receivers)
 
 
@@ -70,12 +70,12 @@ def register_account_view(request):
 										password=password,
 										email=email_address)
 		user.save()
-		
+
 		# Handles generic layout of sending emails.
 		# Self made method (listed above this view).
 		send_confimation_email(username=username, password=password)
 		return render(request, 'accounts/registration.html', {'form' : form})
-	
+
 	# This will be changed shortly. Varying on what we choose to do.
 	# I will think about if we want to redirect, or have a "add another page".
 	# Again...this will come later, it doesn't matter right now.
