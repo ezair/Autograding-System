@@ -17,6 +17,6 @@ from . import views
 # Make sure to add the name = param, or everything will just suck.
 urlpatterns = [
 	path('register/', views.register_account_view, name='accounts-registration'),
-	path('login/', LoginView.as_view(template_name='catalog/index.html'), name='accounts-login'),
+	path('login/', LoginView.as_view(template_name='accounts/login.html'), name='accounts-login'),
 	path('logout/', LogoutView.as_view(template_name='accounts/logout.html'), name='accounts-logout'),
 ]

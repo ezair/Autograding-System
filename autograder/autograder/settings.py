@@ -143,7 +143,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # After user is logged in, they are sent here.
-LOGIN_REDIRECT_URL =  '/catalog/my'
+LOGIN_REDIRECT_URL = '/catalog/my'
 
 # ...prety straight forward.
 FIXTURE_DIRS = (os.path.join(BASE_DIR, 'fixtures'),)
+
+# Needed for sending emails out of our autograder account.
+# For testing purposes, DO NOT EVER change these settings...
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'autograderinstructor@gmail.com'
+EMAIL_HOST_PASSWORD = 'autograder1'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
