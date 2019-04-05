@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="{% static 'css\main.css' %}" />
 	</head>
 	<body>
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">	
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 				<a href="" class="navbar-brand" style="width: 12%;">
 					<img src="{% static 'img\potsdam(8).png' %}" alt="potsdam" width="60%">
 				</a>
@@ -23,36 +23,36 @@
 					$("#full-screen").toggle();
 					$("#timeout-banner-container").toggle();
 				}
-				
+
 				// Logs the user out
 				function logOut() {
-					window.location.href = "{% url 'accounts-logout' %}";	
+					window.location.href = "{% url 'accounts-logout' %}";
 				}
-				
-				
+
+
 				// Display the popup
 				function displayLogOutDialogue() {
 					console.log("I JUST RAN")
 					$("body").prepend("<div id='full-screen'><center><div class='container white maroon' id='final-warning-container'><h4>You have been inactive for 10 minutes.</h4><p class='white'> You will be logged out in a few moments...</p><button class='btn btn-dark' id='stay-logged-in-button'>No, don't log me out!</button></div></center></div>");
-					
+
 					// Wait 30 secs and log the user out
 					var logout = setTimeout(function(){
 						logOut();
 					}, 30000);
-					
+
 					// Clear the timeout after button press
 					$("#stay-logged-in-button").click(function () {
 						clearTimeout(logout);
 						$("#full-screen").toggle();
 					});
 				}
-				
+
 				// After sometime show the dialogue box (1 minute)
 				var display = setTimeout(function(){
 					displayLogOutDialogue()
 				}, 60000);
 			</script>
-			
+
 				<div class="dropdown">
 					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: #8A1538;">
 						{{ user.get_username }}
@@ -65,11 +65,9 @@
 				</div>
 			{% else %}
 				<ul class="navbar-nav mr-auto">
+					<span style="width: 75px;"></span>
 					<li class="nav-item active">
 						<a class="nav-link" href="#">Log In</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Register</a>
 					</li>
 				</ul>
 			{% endif %}
