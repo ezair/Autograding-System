@@ -21,7 +21,3 @@ class UserRegistrationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['email',]
-
-    # group = forms.ChoiceField(choices=[('Student', 'STUDENT'),
-    #                                    ('Grader', 'GRADER'),
-    #                                    ('Instructor', 'INSTRUCTOR')]

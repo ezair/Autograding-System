@@ -8,7 +8,7 @@ Last edited by: Chris Stannard
 Last edited on: 03/28/2019
 '''
 from django.contrib import admin
-from catalog.models import Project, TestCase, Assignment, Course, Take, Instruct
+from catalog.models import *
 
 
 # All we are doing here is adding the option to create the following gorups
