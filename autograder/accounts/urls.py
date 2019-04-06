@@ -9,7 +9,7 @@ Last edited by:	Eric Zair
 Last edited on:	02/27/2019
 '''
 from django.urls import path, include
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView
 from . import views
 
 
@@ -19,4 +19,6 @@ urlpatterns = [
 	path('register/', views.register_account_view, name='accounts-registration'),
 	path('login/', LoginView.as_view(template_name='accounts/login.html'), name='accounts-login'),
 	path('logout/', LogoutView.as_view(template_name='accounts/logout.html'), name='accounts-logout'),
+	path('change/', PasswordChangeView.as_view(template_name='accounts/password_change.html'), name='accounts-password-change'),
+	path('change/done/', PasswordChangeDoneView.as_view(template_name='accounts/password_change_done.html'), name='accounts-password-change-done'),
 ]

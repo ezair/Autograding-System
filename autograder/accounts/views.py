@@ -48,7 +48,6 @@ def send_confimation_email(username, password):
 
 #VIEWS BELOW_________________________________________________________________________________
 
-
 # View for an admin, when registering a user to the database.
 # The user currently has no group associated with it, however,
 # this is something that we will add.
