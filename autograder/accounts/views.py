@@ -11,12 +11,12 @@ Description:	Contains ALL views for our account application.
 				There will also be methods that are used for specific things
 				such as sending emails.
 Last edited by:	Eric Zair
-Last edited on:	04/04/2019
+Last edited on:	04/06/2019
 '''
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
 from django.http import Http404
 from . import forms
 
@@ -38,13 +38,16 @@ def error_not_admin(request):
 def send_confimation_email(username, password):
 	subject = "AUTO_GRADER account created"
 	message = "Your new AUTO_GRADER account has been created!\n"
-	message += "Username: " + username + "\nPassword:" + password
+	message += "Username: " + username + "\nPassword: " + password
 	sender = 'autograderinstructor@gmail.com'
 	# The receivers are currently used just for sending.
 	# This will be changed later...
 	receivers = ['zairea200@potsdam.edu','demaraj198@potsdam.edu']
-	send_mail(subject, message, sender, receivers)
-
+	password_reset_link = 'Please reset your password at http://127.0.0.1:8000/accounts/change/'
+	message += "\n" + password_reset_link
+	# Attach password change link, so user can change their password to their liking.
+	email = EmailMultiAlternatives(subject, message, sender, receivers)
+	email.send()
 
 #VIEWS BELOW_________________________________________________________________________________
 
