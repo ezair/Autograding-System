@@ -21,7 +21,6 @@ urlpatterns = [
 	path('logout/', LogoutView.as_view(template_name='accounts/logout.html'), name='accounts-logout'),
 	path('change/', PasswordChangeView.as_view(template_name='accounts/password_change.html'),
 											   name='accounts-password_change'),
-	path('change/done/', PasswordChangeDoneView.as_view(
-											template_name='accounts/password_change_done.html'),
-											name='accounts-password_change_done'),
+	path('change/done/', PasswordChangeDoneView.as_view(template_name='accounts/password_change_done.html'),
+												name='password_change_done'),
 ]
