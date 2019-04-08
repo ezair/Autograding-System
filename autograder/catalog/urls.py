@@ -14,5 +14,6 @@ from django.contrib.auth.views import LoginView, LogoutView
 # Stick to the nameing conventions for the name= parameter.
 # it is always 'app_name-html_file_name' and nothing else.
 urlpatterns = [
+	path('', views.my_view, name = "catalog-my"),
 	path('my', views.my_view, name="catalog-my"),
 ]

@@ -36,7 +36,6 @@ from django.views.generic import RedirectView
 #		When it comes to using the "name=" parameter, always name the link
 #		name='application_name-the_name_of_the_template'
 urlpatterns = [
-    path('', RedirectView.as_view(url='/catalog/', permanent=True)),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('catalog/', include('catalog.urls')),
