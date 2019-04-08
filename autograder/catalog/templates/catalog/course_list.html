@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+{% block content %}
+
+<h1>Course List</h1>
+{% if course_list %}
+  <ul>
+    {% for course in course_list %}
+        <a href="{{ course.get_absolute_url }}">{{ course.name }}</a><br />
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>You have no courses.</p>
+  {% endif %}
+
+{% endblock %}

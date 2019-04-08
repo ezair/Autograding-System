@@ -4,18 +4,24 @@ File: catalog/urls.py
 Description: contains all url/path and logic in regards
 			 to routing for the catalog application.
 Last edited by: Chris Stannard
-Last edited on:	03/28/2019
+Last edited on:	04/08/2019
 '''
 from django.db import models
 from django.contrib.auth.models import Group, User
+from django.urls import reverse
 
 # This model represents a class that a student is taking.
 class Course(models.Model):
-    name = models.CharField(max_length=80, help_text='Enter course title')
-    crn = models.CharField(max_length=6, help_text='Enter course title', default='00000')
-    description = models.TextField(help_text='Enter a detailed description',
-                                            default='This class description')
+	name = models.CharField(max_length=80, help_text='Enter course title', default='course')
+	crn = models.CharField(max_length=6, help_text='Enter course title', default='00000')
+	description = models.TextField(help_text='Enter a detailed description', default='This class description')
 
+	def __str__(self):
+		return self.name
+
+	# This is the url for the detail view location.
+	def get_absolute_url(self):
+		return reverse('course-detail', args=[str(self.id)])
 
 # This model is used to keep tracks of the students that are taking a course.
 # Essentially, all we are doing is connecting a student to a course via a student's

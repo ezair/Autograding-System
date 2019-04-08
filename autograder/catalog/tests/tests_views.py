@@ -1,12 +1,13 @@
 '''
 Created by:	Chris Stannard
 Description: This is the test file for the catalog views
-Last edited by:	Eric Zair
-Last edited on:	03/21/2019
+Last edited by:	Chris Stannard
+Last edited on:	04/08/2019
 '''
 
 from django.test import TestCase
 from django.urls import reverse
+from catalog.models import Course
 from catalog.views import *
 from django.contrib.auth.models import User
 from django.test import Client
@@ -18,7 +19,7 @@ class CatalogTemplateTests(TestCase):
 		response = self.client.get(reverse('catalog-index'))
 		self.assertEqual(response.status_code, 200)
 		self.assertTemplateUsed(response, 'catalog/index.html')
-	
+
 	# create user for testing reasons.
 	def setUp(self):
 		self.credentials = {'username': 'testuser', 'password': 'secret'}
@@ -66,3 +67,27 @@ class IndexRedirectToRegistrationTest(TestCase):
         response = self.client.get(reverse('catalog-index'))
         # checks to see if the link is there and gets the correct template
         self.assertContains(response, '<a href="%s">here</a>' % reverse("accounts-student_registration"), html=True)
+
+class CourseListViewTest(TestCase):
+
+	# checks to see if the right template is used
+	def test_template(self):
+		response = self.client.get(reverse('courses'))
+		self.assertEqual(response.status_code, 200)
+		self.assertTemplateUsed(response, 'catalog/course_list.html')
+
+	# checks to see if the response is there whithout courses
+	def test_no_courses(self):
+		response = self.client.get(reverse('courses'))
+		self.assertContains(response, 'You have no courses.')
+
+	# checks to see if there is a link with the courses name
+	def test_with_courses(self):
+		# create the course
+		Course.objects.create(name='TestCoures')
+		# get the course
+		course = Course.objects.get(id=1)
+		# get the page
+		response = self.client.get(reverse('courses'))
+		# checks to see if the page has a link with the courses name
+		self.assertContains(response, course.name, html=True)
