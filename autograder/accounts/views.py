@@ -49,6 +49,14 @@ def send_confimation_email(username, password):
 	email = EmailMultiAlternatives(subject, message, sender, receivers)
 	email.send()
 
+	'''
+	def username_present(username):
+    if User.objects.filter(username=username).exists():
+        return True
+    
+    return False
+    '''
+
 #VIEWS BELOW_________________________________________________________________________________
 
 # View for an admin, when registering a user to the database.
@@ -65,17 +73,23 @@ def register_account_view(request):
 		email_address = form.cleaned_data['email']
 		username = email_address.split('@')[0]
 		password = User.objects.make_random_password()
-		# Basically, we create the user account and fill in default information
-		# so that the admin does not know the password of the user, but we are
-		# still able to email all of the needed information to said user.
-		user = User.objects.create_user(username=username,
-										password=password,
-										email=email_address)
-		user.save()
 
-		# Handles generic layout of sending emails.
-		# Self made method (listed above this view).
-		send_confimation_email(username=username, password=password)
+		# We NEED to make sure that we are NOT trying to create a duplicate user
+		# accounts. Because that just sucks. Like omg it really sucks. 
+		# It's actually not fun at all.
+		if not User.objects.filter(username=username).exists():
+			# Basically, we create the user account and fill in default information
+			# so that the admin does not know the password of the user, but we are
+			# still able to email all of the needed information to said user.
+			user = User.objects.create_user(username=username,
+											password=password,
+											email=email_address)
+			user.save()
+
+			# Handles generic layout of sending emails.
+			# Self made method (listed above this view).
+			send_confimation_email(username=username, password=password)
+		
 		return render(request, 'accounts/registration.html', {'form' : form})
 
 	# This will be changed shortly. Varying on what we choose to do.
