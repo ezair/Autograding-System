@@ -55,3 +55,21 @@ body, h1, h2, h3, h4, h5{
 	height: 100%;
 	background-color: rgba(30, 30, 30, .5);
 }
+#upcoming-assignment-dropdown{
+	background-color: #fff;
+}
+#upcoming-assignment-card:hover{
+	background-color: #e9ecef;
+	border-radius: 15px;
+	color: #333;
+}
+#upcoming-assignment-details{
+	margin-bottom: 15px;
+	margin-top: 15px;
+}
+#see-assignment-link{
+	color: #8A1538;
+}
+#see-assignment-link:hover{
+	text-decoration: none;
+}

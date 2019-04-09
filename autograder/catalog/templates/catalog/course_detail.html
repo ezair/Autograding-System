@@ -7,8 +7,40 @@
 		<h2>{{ course.name }}</h2>
 		<p>Dr. Laura Grabowski<br>Spring 2019 </p>
 	</center>
-	<div class="container assignment-announcements-container">
-		Assignment announcements!
+</div>
+<div class="container assignment-announcements-container">
+	<div id="upcoming-assignment-dropdown">
+		<center>
+			<h3>Upcoming assignments due</h3>
+		</center>
+	</div>
+	<br>
+	<div class="container">
+		<center>
+			<div class="row">
+				<div class="col-sm" id="upcoming-assignment-card" style="margin-left: -15px;">
+					<div id="upcoming-assignment-details">
+						<p>Kth Largest</p>
+						<p>Due date: <strong>04/12/2019</strong></p>
+						<a href="#" id="see-assignment-link">See assignment details</a>
+					</div>
+				</div>
+				<div class="col-sm" id="upcoming-assignment-card">
+					<div id="upcoming-assignment-details">
+						<p>Ackermann Function</p>
+						<p>Due date: <strong>04/19/2019</strong></p>
+						<a href="#" id="see-assignment-link">See assignment details</a>
+					</div>
+				</div>
+				<div class="col-sm" id="upcoming-assignment-card">
+					<div id="upcoming-assignment-details">
+						<p>AVL Trees</p>
+						<p>Due date: <strong>04/20/2019</strong></p>
+						<a href="#" id="see-assignment-link">See assignment details</a>
+					</div>
+				</div>
+			</div>
+		</center>
 	</div>
 </div>
 {% endblock %}
