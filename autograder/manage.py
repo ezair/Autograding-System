@@ -16,9 +16,11 @@ if __name__ == '__main__':
         # every time we run migrate command.
         # We do this so we can automatically load the fitxures for groups and users.
         #instead of having to do it after every migrate.
-        if (len(sys.argv) == 2) and (sys.argv[1] == 'migrate'):
-            execute_from_command_line(['manage.py', 'loaddata', 'fixtures/all_fixtures.json'])
-        execute_from_command_line(sys.argv)
+        
+        # THIS WILL BE FIXED LATER, I GOT IT QQ QQ
+        # if (len(sys.argv) == 2) and (sys.argv[1] == 'migrate'):
+        #     execute_from_command_line(['manage.py', 'loaddata', 'fixtures/all_fixtures.json'])
+        # execute_from_command_line(sys.argv)
     
     except ImportError as exc:
         raise ImportError(
