@@ -34,7 +34,7 @@ class IndexLogInPassTest(TestCase):
             'password': 'secret'}
         # create user using credentials
         User.objects.create_user(**self.credentials)
-    
+
     def test_login(self):
         # send login data
         response = self.client.post('/accounts/login/', self.credentials, follow=True)
@@ -49,7 +49,7 @@ class IndexLogInFailTest(TestCase):
             'password': 'secret'}
         # create user using different credentials
         User.objects.create_user('usertest', password='secret')
-    
+
     def test_login(self):
         # send login data
         response = self.client.post('/accounts/login/', self.credentials, follow=True)
@@ -57,7 +57,6 @@ class IndexLogInFailTest(TestCase):
         self.assertFalse(response.context['user'].is_active)
         # a message should be viewable
         self.assertContains(response, 'Please enter a correct username and password. Note that both fields may be case-sensitive.')
-
 
 # class IndexRedirectToRegistrationTest(TestCase):
 #     def test_the_redirect(self):

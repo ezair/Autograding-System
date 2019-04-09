@@ -14,7 +14,13 @@
 				<ul class="list-group">
 					{% for course in course_list %}
 					<a href="{{ course.get_absolute_url }}" class="list-group-item list-group-item-action flex-column align-items-start" style="">
-						{{ course.name }}<span class="spacer"></span><span class="badge badge-danger badge-pill maroon">14</span><p class="text-muted instructor-name">Dr. Laura Grabowski</p>
+						{{ course.name }}<span class="spacer"></span><!--<span class="badge badge-danger badge-pill maroon">14</span>--><p class="text-muted instructor-name">
+						{% for instruct in instruct %}
+							{% if instruct.course.name == course.name %}
+								{{ instruct.instructor.username }}
+							{% endif %}
+						{% endfor %}
+						</p>
 					</a>
 					{% endfor %}
 				</ul>

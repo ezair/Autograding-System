@@ -11,7 +11,7 @@ from django.views import generic
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from catalog.models import Course, Instruct
+from catalog.models import Course, Instruct, Take
 from django.contrib.auth.models import User
 
 # This is the view for the location of a user's classes and thing of that sort.
@@ -21,9 +21,10 @@ from django.contrib.auth.models import User
 @login_required
 def my_view(request):
 	course_list = Course.objects.all()
-
+	instruct = Instruct.objects.all()
 	context = {
-		'course_list': course_list
+		'course_list': course_list,
+		'instruct': instruct,
 	}
 	return render(request, 'catalog/my.html', context=context)
 
