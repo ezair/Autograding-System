@@ -21,18 +21,15 @@ from django.contrib.auth.models import User
 @login_required
 def my_view(request):
 	context = {
-
+	# Why is this here @anyone???
 	}
 	return render(request, 'catalog/my.html', context=context)
 
-@login_required(login_url='/catalog/')
-def logout_view(request):
-	logout(request)
-	# Redirect to a success page.
-	return render(request, 'catalog/logout.html')
 
 class CourseListView(generic.ListView):
 	model = Course
+	template = 'catalog/course_list.html'
 
 class CourseDetailView(generic.DetailView):
     model = Course
+    template = 'catalog/course_detail.html'
