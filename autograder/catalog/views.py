@@ -20,8 +20,10 @@ from django.contrib.auth.models import User
 # then directed back to the page you were trying to
 @login_required
 def my_view(request):
+	course_list = Course.objects.all()
+
 	context = {
-	# Why is this here @anyone???
+		'course_list': course_list
 	}
 	return render(request, 'catalog/my.html', context=context)
 
