@@ -17,8 +17,10 @@ from . import views
 # Make sure to add the name = param, or everything will just suck.
 urlpatterns = [
 	path('register/', views.register_account_view, name='accounts-registration'),
-	path('login/', LoginView.as_view(template_name='accounts/login.html'), name='accounts-login'),
-	path('logout/', LogoutView.as_view(template_name='accounts/logout.html'), name='accounts-logout'),
+	path('login/', LoginView.as_view(template_name='accounts/login.html'),
+									 name='accounts-login'),
+	path('logout/', LogoutView.as_view(template_name='accounts/logout.html'),
+									   name='accounts-logout'),
 	path('change/', PasswordChangeView.as_view(template_name='accounts/password_change.html'),
 											   name='accounts-password_change'),
 	path('change/done/', PasswordChangeDoneView.as_view(template_name='accounts/password_change_done.html'),

@@ -15,7 +15,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 # it is always 'app_name-html_file_name' and nothing else.
 urlpatterns = [
 	path('', views.my_view, name="catalog-my"),
-	path('my', views.my_view, name="catalog-my"),
-	path('my/courses/', views.CourseListView.as_view(), name='courses'),
-	path('course/<int:pk>', views.CourseDetailView.as_view(), name='course-detail'),
+	path('my/', views.my_view, name="catalog-my"),
+	path('my/courses/', views.CourseListView.as_view(), name='catalog-courses'),
+	path('course/<int:pk>', views.CourseDetailView.as_view(), name='catalog-course_detail'),
 ]
