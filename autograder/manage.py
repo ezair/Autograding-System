@@ -20,7 +20,7 @@ if __name__ == '__main__':
         # THIS WILL BE FIXED LATER, I GOT IT QQ QQ
         # if (len(sys.argv) == 2) and (sys.argv[1] == 'migrate'):
         #     execute_from_command_line(['manage.py', 'loaddata', 'fixtures/all_fixtures.json'])
-        # execute_from_command_line(sys.argv)
+        execute_from_command_line(sys.argv)
     
     except ImportError as exc:
         raise ImportError(
