@@ -5,11 +5,11 @@ Description:	Contains and manages the paths to all of our pages in
 				the accounts/ application.
 				This will include things like logins, logouts, student registrations,
 				...etc
-Last edited by:	Eric Zair
-Last edited on:	04/06/2019
+Last edited by:	Jared DeMarais
+Last edited on:	04/09/2019
 '''
 from django.urls import path, include
-from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView
+from django.contrib.auth.views import LoginView,LogoutView,PasswordChangeView,PasswordChangeDoneView,PasswordResetView,PasswordResetDoneView,PasswordResetConfirmView,PasswordResetCompleteView
 from . import views
 
 
@@ -25,4 +25,11 @@ urlpatterns = [
 											   name='accounts-password_change'),
 	path('change/done/', PasswordChangeDoneView.as_view(template_name='accounts/password_change_done.html'),
 													    name='password_change_done'),
+	path('reset/', PasswordResetView.as_view(template_name='accounts/password_reset.html'), name='accounts-password_reset'),
+	path('reset/done', PasswordResetDoneView.as_view(template_name='accounts/password_reset_done.html'),
+														name='password_reset_done'),
+	path('reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name='accounts/password_reset_confirm.html'),
+														name='password_reset_confirm'),
+	path('reset/complete', PasswordResetCompleteView.as_view(template_name='accounts/password_reset_complete.html'),
+														name='password_reset_complete'),
 ]
