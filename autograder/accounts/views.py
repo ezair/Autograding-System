@@ -11,7 +11,7 @@ Description:	Contains ALL views for our account application.
 				There will also be methods that are used for specific things
 				such as sending emails.
 Last edited by:	Eric Zair
-Last edited on:	04/06/2019
+Last edited on:	04/09/2019
 '''
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
@@ -49,23 +49,12 @@ def send_confimation_email(username, password):
 	email = EmailMultiAlternatives(subject, message, sender, receivers)
 	email.send()
 
-	'''
-	def username_present(username):
-    if User.objects.filter(username=username).exists():
-        return True
-    
-    return False
-    '''
-
 #VIEWS BELOW_________________________________________________________________________________
 
 # View for an admin, when registering a user to the database.
-# The user currently has no group associated with it, however,
-# this is something that we will add.
 def register_account_view(request):
-	# USER MUST BE AN ADMIN!!!!!!!!!!!
+	# USER MUST BE AN ADMIN, or they should not be creating other users
 	error_not_admin(request)
-
 	form = forms.UserRegistrationForm(request.POST or None)
 	# Grab the information from the user and make sure that the
 	# email field has been filled out successfully.
