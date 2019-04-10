@@ -10,19 +10,23 @@
 	<div class="container">
 		<center>
 			<div class="col-8">
+				{% if course_list %}
 				<ul class="list-group">
-					<a href="#" class="list-group-item list-group-item-action flex-column align-items-start" style="">
-						CIS 405 Software Engineering <span class="spacer"></span><span class="badge badge-danger badge-pill maroon">14</span><p class="text-muted instructor-name">Dr. Laura Grabowski</p> 
+					{% for course in course_list %}
+					<a href="{{ course.get_absolute_url }}" class="list-group-item list-group-item-action flex-column align-items-start" style="">
+						{{ course.name }}<span class="spacer"></span><!--<span class="badge badge-danger badge-pill maroon">14</span>--><p class="text-muted instructor-name">
+						{% for instruct in instruct %}
+							{% if instruct.course.name == course.name %}
+								{{ instruct.instructor.username }}
+							{% endif %}
+						{% endfor %}
+						</p>
 					</a>
-					<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-						CIS 410 Computer Networks <span class="spacer"></span><span class="badge badge-danger badge-pill maroon">1</span>
-						<p class="text-muted instructor-name">Dr. Surpraja Gurajala</p>
-					</a>
-					<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-						CIS 303 Analysis of Algorithms <span class="badge badge-danger badge-pill maroon"></span>
-						<p class="text-muted instructor-name">Dr. Laura Grabowski</p>
-					</a>
+					{% endfor %}
 				</ul>
+				{% else %}
+					<p>You have no courses.</p>
+				{% endif %}
 			</div>
 		</center>
 	</div>
@@ -30,7 +34,7 @@
 <div class="container-fluid">
 	<h3 style="padding-left: 20px;">Upcoming Assignments</h3>
 	<br>
-	<div class="row"> 
+	<div class="row">
 		<div class="col-4">
 			<div class="assignment-item">
 				<strong>Assignment Uno</strong>

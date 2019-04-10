@@ -11,7 +11,7 @@ Description:	Contains ALL views for our account application.
 				There will also be methods that are used for specific things
 				such as sending emails.
 Last edited by:	Eric Zair
-Last edited on:	04/06/2019
+Last edited on:	04/09/2019
 '''
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
@@ -52,12 +52,9 @@ def send_confimation_email(username, password):
 #VIEWS BELOW_________________________________________________________________________________
 
 # View for an admin, when registering a user to the database.
-# The user currently has no group associated with it, however,
-# this is something that we will add.
 def register_account_view(request):
-	# USER MUST BE AN ADMIN!!!!!!!!!!!
+	# USER MUST BE AN ADMIN, or they should not be creating other users
 	error_not_admin(request)
-
 	form = forms.UserRegistrationForm(request.POST or None)
 	# Grab the information from the user and make sure that the
 	# email field has been filled out successfully.
@@ -65,17 +62,23 @@ def register_account_view(request):
 		email_address = form.cleaned_data['email']
 		username = email_address.split('@')[0]
 		password = User.objects.make_random_password()
-		# Basically, we create the user account and fill in default information
-		# so that the admin does not know the password of the user, but we are
-		# still able to email all of the needed information to said user.
-		user = User.objects.create_user(username=username,
-										password=password,
-										email=email_address)
-		user.save()
 
-		# Handles generic layout of sending emails.
-		# Self made method (listed above this view).
-		send_confimation_email(username=username, password=password)
+		# We NEED to make sure that we are NOT trying to create a duplicate user
+		# accounts. Because that just sucks. Like omg it really sucks. 
+		# It's actually not fun at all.
+		if not User.objects.filter(username=username).exists():
+			# Basically, we create the user account and fill in default information
+			# so that the admin does not know the password of the user, but we are
+			# still able to email all of the needed information to said user.
+			user = User.objects.create_user(username=username,
+											password=password,
+											email=email_address)
+			user.save()
+
+			# Handles generic layout of sending emails.
+			# Self made method (listed above this view).
+			send_confimation_email(username=username, password=password)
+		
 		return render(request, 'accounts/registration.html', {'form' : form})
 
 	# This will be changed shortly. Varying on what we choose to do.
