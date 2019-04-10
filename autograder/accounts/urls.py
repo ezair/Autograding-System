@@ -6,7 +6,7 @@ Description:	Contains and manages the paths to all of our pages in
 				This will include things like logins, logouts, student registrations,
 				...etc
 Last edited by:	Jared DeMarais
-Last edited on:	04/09/2019
+Last edited on:	04/010/2019
 '''
 from django.urls import path, include
 from django.contrib.auth.views import LoginView,LogoutView,PasswordChangeView,PasswordChangeDoneView,PasswordResetView,PasswordResetDoneView,PasswordResetConfirmView,PasswordResetCompleteView
