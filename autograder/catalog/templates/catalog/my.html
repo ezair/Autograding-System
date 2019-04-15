@@ -34,28 +34,21 @@
 <div class="container-fluid">
 	<h3 style="padding-left: 20px;">Upcoming Assignments</h3>
 	<br>
-	<div class="row">
-		<div class="col-4">
-			<div class="assignment-item">
-				<strong>Assignment Uno</strong>
-				<p>Assignment short description</p>
-				<span><p>Due Date: 3/25/2019 @ 10pm!</span>
+	{% if assignments %}
+		{% for assignment in assignments %}
+			<div class="row">
+				<div class="col-4">
+					<div class="assignment-item">
+						<a href="{{ assignment.get_absolute_url }}"><strong>{{ assignment.name }}</strong></a>
+						<p>Assignment short description</p>
+						<span><p>Due Date: {{ assignment.due_date }}</span>
+					</div>
+				</div>
 			</div>
-		</div>
-		<div class="col-4">
-			<div class="assignment-item">
-				<strong>Assignment Dos</strong>
-				<p>Assignment short description</p>
-				<span><p>Due Date: 3/28/2019 @ 11pm!</span>
-			</div>
-		</div>
-		<div class="col-4">
-			<div class="assignment-item">
-				<strong>Assignment Tres</strong>
-				<p>Assignment short description</p>
-				<span><p>Due Date: 3/25/2019 @ 12pm!</p></span>
-			</div>
-		</div>
+		{% endfor %}
+	{% else %}
+		<p>You have no courses.</p>
+	{% endif %}
 	</div>
 </div>
 {% endblock %}

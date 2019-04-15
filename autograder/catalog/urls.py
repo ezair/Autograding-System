@@ -4,7 +4,7 @@ File: catalog/urls.py
 Description: contains all url/path and logic in regards
 			 to routing for the catalog application.
 Last edited by: Chris Stannard
-Last edited on:	04/08/2019
+Last edited on:	04/15/2019
 '''
 from django.urls import path
 from . import views
@@ -18,5 +18,6 @@ urlpatterns = [
 	path('my/', views.my_view, name="catalog-my"),
 	path('my/courses/', views.CourseListView.as_view(), name='courses'),
 	path('course/<int:pk>', views.CourseDetailView.as_view(), name='course_detail'),
+	path('my/assignments/', views.AssignmentListView.as_view(), name='assignments'),
 	path('assignment/<int:pk>', views.AssignmentDetailView.as_view(), name='assignment_detail'),
 ]

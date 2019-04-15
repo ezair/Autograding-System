@@ -1,10 +1,10 @@
 '''
 Created by: Chris S
-File: catalog/urls.py
+File: catalog/models.py
 Description: contains all url/path and logic in regards
 			 to routing for the catalog application.
 Last edited by: Chris Stannard
-Last edited on:	04/08/2019
+Last edited on:	04/015/2019
 '''
 from django.db import models
 from django.contrib.auth.models import Group, User
@@ -52,7 +52,7 @@ class Assignment(models.Model):
 
     # This is the url for the detail view location.
     def get_absolute_url(self):
-        return reverse('assignmnet-detail', args=[str(self.id)])
+        return reverse('assignment_detail', args=[str(self.id)])
 
 
 # At its core, this is a one prograamming assignment that will be given to an

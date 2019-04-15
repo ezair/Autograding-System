@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+{% block content %}
+
+<h1>Assignment List</h1>
+{% if assignment_list %}
+  <ul>
+    {% for assignment in assignment_list %}
+        <a href="{{ assignment.get_absolute_url }}">{{ assignment.name }}</a><br />
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>You have no assignments.</p>
+  {% endif %}
+
+{% endblock %}

@@ -1,7 +1,7 @@
 '''
 Created by:	Chris Stannard
 Description: This is the test file for the catalog views
-Last edited by:	Eric Zair
+Last edited by:	Chris Stannard
 Last edited on:	04/09/2019
 '''
 
@@ -9,7 +9,7 @@ from django.test import TestCase
 from django.urls import reverse
 from catalog.models import Course
 from catalog.views import *
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 
 class CatalogTemplateTests(TestCase):
@@ -80,25 +80,6 @@ class CourseListViewTest(TestCase):
         response = self.client.get(reverse('courses'))
         # checks to see if the page has a link with the courses name
         self.assertContains(response, course.name, html=True)
-
-class AssignmentDetailViewTest(TestCase):
-
-	def test_template_with_assingment(self):
-		Assignment.objects.create(name='Assignment1')
-		response = self.client.get(reverse('assignment_detail', args=[1]))
-		self.assertEqual(response.status_code, 200)
-		self.assertTemplateUsed(response, 'catalog/assignment_detail.html')
-
-	def test_template_without_assingment(self):
-		response = self.client.get(reverse('assignment_detail', args=[1]))
-		self.assertEqual(response.status_code, 404)
-
-	def test_display(self):
-		Assignment.objects.create(name='Assignment1')
-		response = self.client.get(reverse('assignment_detail', args=[1]))
-		assignment = Assignment.objects.get(id=1)
-		self.assertContains(response, assignment.name)
-		self.assertContains(response, assignment.due_date)
 
 class LogoutTemplateTests(TestCase):
 	# create user for testing reasons.

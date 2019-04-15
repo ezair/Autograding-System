@@ -4,7 +4,7 @@ File: catalog/views.py
 Description:	contains all views for the catalog/ app.
 				These views include things for each model in
 				catalog/models.py
-Last Edited by:	04/08/2019
+Last Edited by:	04/15/2019
 Last Edited by: Chris Stannard
 '''
 from django.views import generic
@@ -22,9 +22,11 @@ from django.contrib.auth.models import User
 def my_view(request):
 	course_list = Course.objects.all()
 	instruct = Instruct.objects.all()
+	assignment = Assignment.objects.all()
 	context = {
 		'course_list': course_list,
 		'instruct': instruct,
+		'assignments': assignment,
 	}
 	return render(request, 'catalog/my.html', context=context)
 
@@ -36,6 +38,10 @@ class CourseListView(generic.ListView):
 class CourseDetailView(generic.DetailView):
     model = Course
     template = 'catalog/course_detail.html'
+
+class AssignmentListView(generic.ListView):
+	model = Assignment
+	template = 'catalog/assignment_list.html'
 
 class AssignmentDetailView(generic.DetailView):
 	model = Assignment
