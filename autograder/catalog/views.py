@@ -35,13 +35,22 @@ class CourseListView(generic.ListView):
 	model = Course
 	template = 'catalog/course_list.html'
 
+
 class CourseDetailView(generic.DetailView):
-    model = Course
-    template = 'catalog/course_detail.html'
+	model = Course
+	template = 'catalog/course_detail.html'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['instruct'] = Instruct.objects.all()
+		context['assignments'] = Assignment.objects.all()
+		return context
+
 
 class AssignmentListView(generic.ListView):
 	model = Assignment
 	template = 'catalog/assignment_list.html'
+
 
 class AssignmentDetailView(generic.DetailView):
 	model = Assignment

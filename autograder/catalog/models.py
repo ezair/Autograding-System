@@ -43,16 +43,17 @@ class Instruct(models.Model):
 # Model containting one or multiple projects, that a student must submit for a grade.
 # Assignment is going to be created by an instructor.
 class Assignment(models.Model):
-    name = models.CharField(max_length=60, help_text='Enter a name')
-    due_date = models.DateField(null=True, blank=True)
-    assigned_students = models.ManyToManyField(User, help_text='Assign students to assignmnet')
+	name = models.CharField(max_length=60, help_text='Enter a name')
+	course = models.ForeignKey('Course', on_delete=models.SET_NULL, null=True)
+	due_date = models.DateField(null=True, blank=True)
+	assigned_students = models.ManyToManyField(User, help_text='Assign students to assignmnet')
 
-    def __str__(self):
-        return self.name
+	def __str__(self):
+		return self.name
 
     # This is the url for the detail view location.
-    def get_absolute_url(self):
-        return reverse('assignment_detail', args=[str(self.id)])
+	def get_absolute_url(self):
+		return reverse('assignment_detail', args=[str(self.id)])
 
 
 # At its core, this is a one prograamming assignment that will be given to an
