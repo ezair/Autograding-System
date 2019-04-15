@@ -5,7 +5,13 @@
 <div class="jumbotron">
 	<center>
 		<h2>{{ course.name }}</h2>
-		<p>Dr. Laura Grabowski<br>Spring 2019 </p>
+		<p>{% for instruct in instruct %}
+			{% if instruct.course.name == course.name %}
+				{{ instruct.instructor.username }}
+			{% endif %}
+		{% endfor %}
+		<br>Spring 2019</br></p>
+		<p>{{ course.description }}</p>
 	</center>
 </div>
 <div class="container assignment-announcements-container">
@@ -18,27 +24,21 @@
 	<div class="container">
 		<center>
 			<div class="row">
-				<div class="col-sm" id="upcoming-assignment-card" style="margin-left: -15px;">
-					<div id="upcoming-assignment-details">
-						<p>Kth Largest</p>
-						<p>Due date: <strong>04/12/2019</strong></p>
-						<a href="#" id="see-assignment-link">See assignment details</a>
-					</div>
-				</div>
-				<div class="col-sm" id="upcoming-assignment-card">
-					<div id="upcoming-assignment-details">
-						<p>Ackermann Function</p>
-						<p>Due date: <strong>04/19/2019</strong></p>
-						<a href="#" id="see-assignment-link">See assignment details</a>
-					</div>
-				</div>
-				<div class="col-sm" id="upcoming-assignment-card">
-					<div id="upcoming-assignment-details">
-						<p>AVL Trees</p>
-						<p>Due date: <strong>04/20/2019</strong></p>
-						<a href="#" id="see-assignment-link">See assignment details</a>
-					</div>
-				</div>
+				{% if assignments %}
+					{% for assignment in assignments %}
+						{% if assignment.course.name == course.name %}
+							<div class="col-sm" id="upcoming-assignment-card" style="margin-left: -15px;">
+								<div id="upcoming-assignment-details">
+									<p>{{ assignment.name }}</p>
+									<p>Due date: <strong>{{ assignment.due_date }}</strong></p>
+									<a href="{{ assignment.get_absolute_url }}" id="see-assignment-link">See assignment details</a>
+								</div>
+							</div>
+						{% endif %}
+					{% endfor %}
+				{% else %}
+					<p>You have no assignments</p>
+				{% endif %}
 			</div>
 		</center>
 	</div>
