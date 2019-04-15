@@ -11,7 +11,7 @@ from django.views import generic
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from catalog.models import Course, Instruct, Take
+from catalog.models import Course, Assignment, Instruct, Take
 from django.contrib.auth.models import User
 
 # This is the view for the location of a user's classes and thing of that sort.
@@ -36,3 +36,7 @@ class CourseListView(generic.ListView):
 class CourseDetailView(generic.DetailView):
     model = Course
     template = 'catalog/course_detail.html'
+
+class AssignmentDetailView(generic.DetailView):
+	model = Assignment
+	template = 'catalog/assignment_detail.html'

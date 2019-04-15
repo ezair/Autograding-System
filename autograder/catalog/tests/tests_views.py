@@ -81,16 +81,34 @@ class CourseListViewTest(TestCase):
         # checks to see if the page has a link with the courses name
         self.assertContains(response, course.name, html=True)
 
+class AssignmentDetailViewTest(TestCase):
+
+	def test_template_with_assingment(self):
+		Assignment.objects.create(name='Assignment1')
+		response = self.client.get(reverse('assignment_detail', args=[1]))
+		self.assertEqual(response.status_code, 200)
+		self.assertTemplateUsed(response, 'catalog/assignment_detail.html')
+
+	def test_template_without_assingment(self):
+		response = self.client.get(reverse('assignment_detail', args=[1]))
+		self.assertEqual(response.status_code, 404)
+
+	def test_display(self):
+		Assignment.objects.create(name='Assignment1')
+		response = self.client.get(reverse('assignment_detail', args=[1]))
+		assignment = Assignment.objects.get(id=1)
+		self.assertContains(response, assignment.name)
+		self.assertContains(response, assignment.due_date)
 
 class LogoutTemplateTests(TestCase):
-    # create user for testing reasons.
-    def setUp(self):
-        self.credentials = {'username': 'testuser', 'password': 'secret'}
-        self.user = User.objects.create_user('usertest', password='secret')
-        self.client.force_login(self.user)
+	# create user for testing reasons.
+	def setUp(self):
+		self.credentials = {'username': 'testuser', 'password': 'secret'}
+		self.user = User.objects.create_user('usertest', password='secret')
+		self.client.force_login(self.user)
 
     # make sure logout page is accessable to a user.
-    def test_logout_exists(self):
-        response = self.client.get(reverse('accounts-logout'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'accounts/logout.html')
+	def test_logout_exists(self):
+		response = self.client.get(reverse('accounts-logout'))
+		self.assertEqual(response.status_code, 200)
+		self.assertTemplateUsed(response, 'accounts/logout.html')
