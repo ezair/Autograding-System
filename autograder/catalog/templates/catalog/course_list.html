@@ -2,6 +2,7 @@
 {% block content %}
 
 <h1>Course List</h1>
+<button onclick="redirect()" type="button" name="New">New Course</button>
 {% if course_list %}
   <ul>
     {% for course in course_list %}
@@ -11,5 +12,9 @@
   {% else %}
     <p>You have no courses.</p>
   {% endif %}
-
+ <script>
+    function redirect(){
+        location.replace("{% url 'course_new' %}")
+ }
+  </script>
 {% endblock %}

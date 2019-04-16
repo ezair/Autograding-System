@@ -4,7 +4,7 @@ File: catalog/views.py
 Description:	contains all views for the catalog/ app.
 				These views include things for each model in
 				catalog/models.py
-Last Edited by:	04/15/2019
+Last Edited by:	04/16/2019
 Last Edited by: Chris Stannard
 '''
 from django.views import generic
@@ -15,7 +15,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from catalog.models import Course, Assignment, Instruct, Take
-from catalog.forms import CourseUpdateForm
+from catalog.forms import CourseForm
 from django.contrib.auth.models import User
 
 # This is the view for the location of a user's classes and thing of that sort.
@@ -34,17 +34,27 @@ def my_view(request):
 	}
 	return render(request, 'catalog/my.html', context=context)
 
+def course_new_view(request):
+	form = CourseForm()
+	if request.method == "POST":
+		form = CourseForm(request.POST)
+		if form.is_valid():
+			course = form.save(commit=True)
+			confirmation_message = "Course information updated successfully!"
+			return HttpResponseRedirect(reverse('course_detail', kwargs={'pk':course.id}))
+	return render(request, 'catalog/course_new.html', {'form': form})
+
 def course_update_view(request, pk):
 	course = Course.objects.get(id=pk)
-	form = CourseUpdateForm(instance=course)
+	form = CourseForm(instance=course)
 	if request.method == "POST":
-		form = CourseUpdateForm(request.POST,instance=course)
+		form = CourseForm(request.POST,instance=course)
 		if form.is_valid():
 			form.save(commit=True)
 			confirmation_message = "Course information updated successfully!"
 			return HttpResponseRedirect(reverse('course_detail', kwargs={'pk':course.id}))
 	else:
-		form=CourseUpdateForm(instance=course)
+		form=CourseForm(instance=course)
 	context = {
 		'form': form,
         'course_instance': course,

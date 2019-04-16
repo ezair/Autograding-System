@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<br />
+<div class="container">
+  <h1>Make your course</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+  <button type="submit">Make Course</button>
+</form>
+</div>
+{% endblock %}
