@@ -24,6 +24,10 @@
 	<div class="container">
 		<center>
 			<div class="row">
+				<form action="{ url 'course_update'}" method="get">
+    				<input type="submit" value="Go to my link location"
+         			name="Submit" id="frm1_submit" />
+	 			</form>
 				{% if assignments %}
 					{% for assignment in assignments %}
 						{% if assignment.course.name == course.name %}
