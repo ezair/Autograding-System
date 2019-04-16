@@ -8,10 +8,14 @@ Last Edited by:	04/15/2019
 Last Edited by: Chris Stannard
 '''
 from django.views import generic
-from django.shortcuts import render
+from django import forms
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from catalog.models import Course, Assignment, Instruct, Take
+from catalog.forms import CourseUpdateForm
 from django.contrib.auth.models import User
 
 # This is the view for the location of a user's classes and thing of that sort.
@@ -29,6 +33,23 @@ def my_view(request):
 		'assignments': assignment,
 	}
 	return render(request, 'catalog/my.html', context=context)
+
+def course_update_view(request, pk):
+	course = Course.objects.get(id=pk)
+	form = CourseUpdateForm(instance=course)
+	if request.method == "POST":
+		form = CourseUpdateForm(request.POST,instance=course)
+		if form.is_valid():
+			form.save(commit=True)
+			confirmation_message = "Course information updated successfully!"
+			return HttpResponseRedirect(reverse('course_detail', kwargs={'pk':course.id}))
+	else:
+		form=CourseUpdateForm(instance=course)
+	context = {
+		'form': form,
+        'course_instance': course,
+	}
+	return render(request, 'catalog/course_update.html', {'form': form}, context)
 
 
 class CourseListView(generic.ListView):

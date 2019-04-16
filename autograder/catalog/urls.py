@@ -18,6 +18,7 @@ urlpatterns = [
 	path('my/', views.my_view, name="catalog-my"),
 	path('my/courses/', views.CourseListView.as_view(), name='courses'),
 	path('course/<int:pk>', views.CourseDetailView.as_view(), name='course_detail'),
+	path('course/<int:pk>/update', views.course_update_view, name='course_update'),
 	path('my/assignments/', views.AssignmentListView.as_view(), name='assignments'),
 	path('assignment/<int:pk>', views.AssignmentDetailView.as_view(), name='assignment_detail'),
 ]
