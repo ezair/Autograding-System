@@ -12,6 +12,7 @@
 		{% endfor %}
 		<br>Spring 2019</br></p>
 		<p>{{ course.description }}</p>
+		<button onclick="redirect()" type="button" name="Update">Update</button>
 	</center>
 </div>
 <div class="container assignment-announcements-container">
@@ -24,10 +25,6 @@
 	<div class="container">
 		<center>
 			<div class="row">
-				<form action="{ url 'course_update'}" method="get">
-    				<input type="submit" value="Go to my link location"
-         			name="Submit" id="frm1_submit" />
-	 			</form>
 				{% if assignments %}
 					{% for assignment in assignments %}
 						{% if assignment.course.name == course.name %}
@@ -47,4 +44,10 @@
 		</center>
 	</div>
 </div>
+
+<script>
+	function redirect(){
+		location.replace("{% url 'course_update' pk=course.pk %}")
+	}
+</script>
 {% endblock %}
