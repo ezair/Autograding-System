@@ -21,7 +21,7 @@ class Course(models.Model):
 
 	# This is the url for the detail view location.
 	def get_absolute_url(self):
-		return reverse('course_detail', args=[str(self.id)])
+		return reverse('catalog-course_detail', args=[str(self.id)])
 
 # This model is used to keep tracks of the students that are taking a course.
 # Essentially, all we are doing is connecting a student to a course via a student's
@@ -53,7 +53,7 @@ class Assignment(models.Model):
 
     # This is the url for the detail view location.
 	def get_absolute_url(self):
-		return reverse('assignment_detail', args=[str(self.id)])
+		return reverse('catalog-assignment_detail', args=[str(self.id)])
 
 
 # At its core, this is a one prograamming assignment that will be given to an

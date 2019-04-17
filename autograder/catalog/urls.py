@@ -16,10 +16,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 urlpatterns = [
 	path('', views.my_view, name="catalog-my"),
 	path('my/', views.my_view, name="catalog-my"),
-	path('my/courses/', views.CourseListView.as_view(), name='courses'),
-	path('course/new', views.course_new_view, name='course_new'),
-	path('course/<int:pk>', views.CourseDetailView.as_view(), name='course_detail'),
-	path('course/<int:pk>/update', views.course_update_view, name='course_update'),
-	path('my/assignments/', views.AssignmentListView.as_view(), name='assignments'),
-	path('assignment/<int:pk>', views.AssignmentDetailView.as_view(), name='assignment_detail'),
+	path('my/courses/', views.CourseListView.as_view(), name='catalog-courses'),
+	path('course/new', views.course_new_view, name='catalog-course_new'),
+	path('course/<int:pk>', views.CourseDetailView.as_view(), name='catalog-course_detail'),
+	path('course/<int:pk>/update', views.course_update_view, name='catalog-course_update'),
+	path('my/assignments/', views.AssignmentListView.as_view(), name='catalog-assignments'),
+	path('assignment/<int:pk>', views.AssignmentDetailView.as_view(), name='catalog-assignment_detail'),
 ]
