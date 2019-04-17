@@ -1,17 +1,38 @@
 {% extends "base_generic.html" %}
 {% block content %}
-
-<h1>Course List</h1>
-<button onclick="redirect()" type="button" name="New">New Course</button>
-{% if course_list %}
-  <ul>
-    {% for course in course_list %}
-        <a href="{{ course.get_absolute_url }}">{{ course.name }}</a><br />
-    {% endfor %}
-  </ul>
+<br />
+<div class="container">
+  <h1>Course List</h1>
+  {% if course_list %}
+    <table class="table table-hover" style="background-color: #f8f9fa; color: #8A1538;">
+      <thead>
+        <tr>
+          <th scope="col">Course Name</th>
+          <th scope="col">CRN</th>
+          <th scope="col">Course Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          {% for course in course_list %}
+          <td>
+              <a href="{{ course.get_absolute_url }}" class="capitalize maroon-text">{{ course.name }}</a><br />
+          </td>
+          <td>
+              <p>{{ course.crn }}</p>
+          </td>
+          <td>
+              <p class="typewriter">{{ course.description }}</p>
+          </td>
+          {% endfor %}
+        </tr>
+      </tbody>
+    </table>
   {% else %}
-    <p>You have no courses.</p>
+    <p class="typewriter maroon-text">You have no courses.</p>
   {% endif %}
+  <button onclick="redirect()" type="button" name="New" class="btn maroon white">Add a new course</button>
+</div>
  <script>
     function redirect(){
         location.replace("{% url 'catalog-course_new' %}")
