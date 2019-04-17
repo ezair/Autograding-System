@@ -16,20 +16,21 @@ class Invite(models.Model):
 	# Used do add a drop down for deciding for what group to add a user to.
 	# Instructor that wants to send the invite.
 	# Can also be an admin.
-	GROUP_CHOICES = (('grader', 'GRADER'),
-					('instructor', 'INSTRUCTOR'),
-					('student', 'STUDENT'))
+	GROUP_CHOICES = (('Grader', 'GRADER'),
+					('Instructor', 'INSTRUCTOR'),
+					('Student', 'STUDENT'))
 
 	group_choice = models.CharField(max_length=20, choices=GROUP_CHOICES,
-									default=('student', 'STUDENT'), null=False)
+									default=('Student', 'STUDENT'), null=False)
 
 	invite_sender = models.ForeignKey(User, on_delete=models.DO_NOTHING,
-							   		  to_field='username', null=False,
-								 	  related_name='invite_sender')
+							   		  to_field='username', null=True,
+								 	  related_name='invite_sender',
+								 	  default='autograderinstructor')
 	# Cascade delete this so that if a user is removed, all fkey records
 	# accociated are as well.
 	invite_receiver = models.ForeignKey(User, on_delete=models.CASCADE,
-										to_field='username', null=False,
+										to_field='username', null=True,
 										related_name='invite_receiver')
 	# This is the course that you would like to invite a grader.
 	# or an instructor to.

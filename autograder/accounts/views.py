@@ -14,11 +14,13 @@ Last edited by:	Eric Zair
 Last edited on:	04/09/2019
 '''
 from django.urls import reverse_lazy
-from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User, Group
 from django.shortcuts import render
 from django.core.mail import EmailMultiAlternatives
 from django.http import Http404
 from . import forms
+from catalog import models
 
 
 # Created to make sure that pages that should only be accessed by
@@ -49,13 +51,27 @@ def send_confimation_email(username, password):
 	email = EmailMultiAlternatives(subject, message, sender, receivers)
 	email.send()
 
+
+# Send email to user that verifies they are now in a course.
+def send_join_course_email(invite_receivers, course, group,
+						   invite_sender='autograderinstructor@gmail.com'):
+	subject = "Welcome to " + course + "."
+	message = str(invite_sender) + " has invited you to " + str(course)
+	message += " as a " + str(group) + "."
+	# Currently this works (sends an email to 1 student), but eventually
+	# it will work for multiple.
+	for i in range(len(invite_receivers)):
+		invite_receivers[i] += "@potsdam.edu"
+	email = EmailMultiAlternatives(subject, message, invite_sender, invite_receivers)
+	email.send()
+
 #VIEWS BELOW_________________________________________________________________________________
 
 # View for an admin, when registering a user to the database.
 def register_account_view(request):
 	# USER MUST BE AN ADMIN, or they should not be creating other users
 	error_not_admin(request)
-	form = forms.UserRegistrationForm(request.POST or None)
+	form = forms.UserRegistrationForm(request.POST or request.GET or None)
 	# Grab the information from the user and make sure that the
 	# email field has been filled out successfully.
 	if request.POST and form.is_valid():
@@ -85,3 +101,43 @@ def register_account_view(request):
 	# I will think about if we want to redirect, or have a "add another page".
 	# Again...this will come later, it doesn't matter right now.
 	return render(request, 'accounts/registration.html', {'form' : form})
+
+
+@login_required()
+def make_invite_view(request):
+	form = forms.InviteForm(request.POST or request.GET or None)
+
+	if request.POST and form.is_valid():
+		# Rather than parsing these several times, we do it once in the beginning.
+		invite_receiver = form.cleaned_data['invite_receiver']
+		course = form.cleaned_data['course']
+		add_to_group = form.cleaned_data['group_choice']
+	
+		# We need to create the appropriate model for
+		# the approriate group.
+		if add_to_group == 'Student':
+			# We only want to add a student to the course, if the record does not exist.
+			if not models.Take.objects.filter(student=invite_receiver, course=course).exists():
+				models.Take.objects.create(student=invite_receiver, course=course).save()
+				send_join_course_email(invite_receivers=[str(invite_receiver)],
+									   course=str(course), group='Student')
+				form.save()
+
+		# THIS WILL ALSO ADD INSTRUCTOR TO GRADER ROLE BY DEFAULT....eventually...
+		elif add_to_group == 'Instructor':
+			# We only want to make a instructor, if the record does not already exist.
+			if not models.Instruct.objects.filter(instructor=invite_receiver, course=course).exists():
+				models.Instruct.objects.create(instructor=invite_receiver,
+											   course=course)
+				send_join_course_email(invite_receivers=[str(invite_receiver)],
+								       course=str(course), group='Instructor')
+				form.save()
+			## WE NEED TO ADD GRADER HERE
+			## WE NEED A GRADES MODEL.
+		
+		# Make sure the user is actually registered to the proper group.
+		group = Group.objects.get(name=str(add_to_group))
+		group.user_set.add(invite_receiver)
+
+		return render(request, 'accounts/make_invite.html', {'form' : form})
+	return render(request, 'accounts/make_invite.html', {'form': form})

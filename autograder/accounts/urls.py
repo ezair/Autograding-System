@@ -13,7 +13,6 @@ from django.contrib.auth.views import LoginView,LogoutView,PasswordChangeView,Pa
 from django.contrib.auth.views import PasswordResetView,PasswordResetDoneView,PasswordResetConfirmView,PasswordResetCompleteView
 from . import views
 
-
 # Linking of all /accounts application pages here.
 # Make sure to add the name = param, or everything will just suck.
 urlpatterns = [
@@ -31,8 +30,11 @@ urlpatterns = [
 
 	path('reset/done', PasswordResetDoneView.as_view(template_name='accounts/password_reset_done.html'),
 														name='password_reset_done'),
-	path('reset/confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name='accounts/password_reset_confirm.html'),
+	path('reset/confirm/<uidb64>/<token>/',
+		 PasswordResetConfirmView.as_view(template_name='accounts/password_reset_confirm.html'),
 														name='password_reset_confirm'),
-	path('reset/complete', PasswordResetCompleteView.as_view(template_name='accounts/password_reset_complete.html'),
-														name='password_reset_complete'),
+	path('reset/complete', PasswordResetCompleteView.as_view(
+		template_name='accounts/password_reset_complete.html'),
+		name='password_reset_complete'),
+	path('invite/', views.make_invite_view, name='accounts-make_invite'),
 ]

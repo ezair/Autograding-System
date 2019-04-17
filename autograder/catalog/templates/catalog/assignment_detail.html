@@ -1,10 +1,20 @@
 {% extends "base_generic.html" %}
 {% load static %}
 {% block content %}
-
-<p>{{ assignment.name }}</p>
-
-<p>{{ assignment.due_date }}</p>
-
-
+<br />
+<div class="container">
+	<div class="card text-center">
+		<div class="card-header">
+			Assignment Details
+		</div>
+		<div class="card-body">
+			<h5 class="card-title">{{ assignment.name }}</h5>
+			<p class="card-text typewriter">So many intructions...<br /> Some more instructions</p>
+			<a href="#" class="btn maroon white">Submit</a>
+		</div>
+		<div class="card-footer text-muted">
+			Due: {{ assignment.due_date }}
+		</div>
+	</div>
+</div>
 {% endblock %}
