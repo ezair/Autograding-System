@@ -61,13 +61,13 @@ class IndexLogInFailTest(TestCase):
 class CourseListViewTest(TestCase):
     # checks to see if the right template is used
     def test_template(self):
-        response = self.client.get(reverse('courses'))
+        response = self.client.get(reverse('catalog-courses'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'catalog/course_list.html')
 
     # checks to see if the response is there whithout courses
     def test_no_courses(self):
-        response = self.client.get(reverse('courses'))
+        response = self.client.get(reverse('catalog-courses'))
         self.assertContains(response, 'You have no courses.')
 
     # checks to see if there is a link with the courses name
@@ -77,7 +77,7 @@ class CourseListViewTest(TestCase):
         # get the course
         course = Course.objects.get(id=1)
         # get the page
-        response = self.client.get(reverse('courses'))
+        response = self.client.get(reverse('catalog-courses'))
         # checks to see if the page has a link with the courses name
         self.assertContains(response, course.name, html=True)
 
