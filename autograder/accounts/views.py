@@ -14,12 +14,13 @@ Last edited by:	Eric Zair
 Last edited on:	04/09/2019
 '''
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.core.mail import EmailMultiAlternatives
 from django.http import Http404
 from . import forms
-
+from catalog import models
 
 # Created to make sure that pages that should only be accessed by
 # admins...are only accessed by admins.
@@ -49,13 +50,25 @@ def send_confimation_email(username, password):
 	email = EmailMultiAlternatives(subject, message, sender, receivers)
 	email.send()
 
+
+# Send email to user that verifies they are now in a course.
+def send_join_course_email(invite_receivers, course, invite_sender='autograderinstructor@gmail.com'):
+	subject = "Welcome to " + course + "."
+	message = str(invite_sender) + " has invited you to " + str(course) + "."
+	# Currently this works (sends an email to 1 student), but eventually
+	# it will work for multiple.
+	for i in range(len(invite_receivers)):
+		invite_receivers[i] += "@potsdam.edu"
+	email = EmailMultiAlternatives(subject, message, invite_sender, invite_receivers)
+	email.send()
+
 #VIEWS BELOW_________________________________________________________________________________
 
 # View for an admin, when registering a user to the database.
 def register_account_view(request):
 	# USER MUST BE AN ADMIN, or they should not be creating other users
 	error_not_admin(request)
-	form = forms.UserRegistrationForm(request.POST or None)
+	form = forms.UserRegistrationForm(request.POST or request.GET or None)
 	# Grab the information from the user and make sure that the
 	# email field has been filled out successfully.
 	if request.POST and form.is_valid():
@@ -85,3 +98,39 @@ def register_account_view(request):
 	# I will think about if we want to redirect, or have a "add another page".
 	# Again...this will come later, it doesn't matter right now.
 	return render(request, 'accounts/registration.html', {'form' : form})
+
+
+@login_required()
+def make_invite_view(request):
+	form = forms.InviteForm(request.POST or request.GET or None)
+
+	if request.POST and form.is_valid():
+		invite_receiver = form.cleaned_data['invite_receiver']
+		course = form.cleaned_data['course']
+		add_to_group = form.cleaned_data['group_choice']
+
+		try:
+			# We need to create the appropriate model for
+			# the approriate group.
+			if add_to_group == 'student':
+				take = models.Take.objects.create(student=invite_receiver, course=course)
+				take.save()
+
+			# THIS WILL ALSO ADD INSTRUCTOR TO GRADER ROLE BY DEFAULT.
+			elif add_to_group == 'instructor':
+				instruct = models.Instruct.objects.create(instructor=invite_receiver, course=course)
+				instruct.save()
+
+			## WE NEED TO ADD GRADER HERE
+			## WE NEED A GRADES MODEL.
+
+			# Sender needs to be the below gmail address, because that is how it is
+			# is setup in the settings.py file.
+			form.save()
+			send_join_course_email(invite_receivers=[str(invite_receiver)], course=str(course))
+			return render(request, 'accounts/make_invite.html', {'form': form})
+		# Good, the models do not exist, keep it moving! 
+		except (models.Take.DoesNotExist, models.Instruct.DoesNotExist):
+			pass
+			return render(request, 'accounts/password_change.html')
+	return render(request, 'accounts/make_invite.html', {'form': form})
