@@ -15,12 +15,13 @@ Last edited on:	04/09/2019
 '''
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.shortcuts import render
 from django.core.mail import EmailMultiAlternatives
 from django.http import Http404
 from . import forms
 from catalog import models
+
 
 # Created to make sure that pages that should only be accessed by
 # admins...are only accessed by admins.
@@ -52,9 +53,11 @@ def send_confimation_email(username, password):
 
 
 # Send email to user that verifies they are now in a course.
-def send_join_course_email(invite_receivers, course, invite_sender='autograderinstructor@gmail.com'):
+def send_join_course_email(invite_receivers, course, group,
+						   invite_sender='autograderinstructor@gmail.com'):
 	subject = "Welcome to " + course + "."
-	message = str(invite_sender) + " has invited you to " + str(course) + "."
+	message = str(invite_sender) + " has invited you to " + str(course)
+	message += " as a " + str(group) + "."
 	# Currently this works (sends an email to 1 student), but eventually
 	# it will work for multiple.
 	for i in range(len(invite_receivers)):
@@ -105,32 +108,36 @@ def make_invite_view(request):
 	form = forms.InviteForm(request.POST or request.GET or None)
 
 	if request.POST and form.is_valid():
+		# Rather than parsing these several times, we do it once in the beginning.
 		invite_receiver = form.cleaned_data['invite_receiver']
 		course = form.cleaned_data['course']
 		add_to_group = form.cleaned_data['group_choice']
+	
+		# We need to create the appropriate model for
+		# the approriate group.
+		if add_to_group == 'Student':
+			# We only want to add a student to the course, if the record does not exist.
+			if not models.Take.objects.filter(student=invite_receiver, course=course).exists():
+				models.Take.objects.create(student=invite_receiver, course=course).save()
+				send_join_course_email(invite_receivers=[str(invite_receiver)],
+									   course=str(course), group='Student')
+				form.save()
 
-		try:
-			# We need to create the appropriate model for
-			# the approriate group.
-			if add_to_group == 'student':
-				take = models.Take.objects.create(student=invite_receiver, course=course)
-				take.save()
-
-			# THIS WILL ALSO ADD INSTRUCTOR TO GRADER ROLE BY DEFAULT.
-			elif add_to_group == 'instructor':
-				instruct = models.Instruct.objects.create(instructor=invite_receiver, course=course)
-				instruct.save()
-
+		# THIS WILL ALSO ADD INSTRUCTOR TO GRADER ROLE BY DEFAULT....eventually...
+		elif add_to_group == 'Instructor':
+			# We only want to make a instructor, if the record does not already exist.
+			if not models.Instruct.objects.filter(instructor=invite_receiver, course=course).exists():
+				models.Instruct.objects.create(instructor=invite_receiver,
+											   course=course)
+				send_join_course_email(invite_receivers=[str(invite_receiver)],
+								       course=str(course), group='Instructor')
+				form.save()
 			## WE NEED TO ADD GRADER HERE
 			## WE NEED A GRADES MODEL.
+		
+		# Make sure the user is actually registered to the proper group.
+		group = Group.objects.get(name=str(add_to_group))
+		group.user_set.add(invite_receiver)
 
-			# Sender needs to be the below gmail address, because that is how it is
-			# is setup in the settings.py file.
-			form.save()
-			send_join_course_email(invite_receivers=[str(invite_receiver)], course=str(course))
-			return render(request, 'accounts/make_invite.html', {'form': form})
-		# Good, the models do not exist, keep it moving! 
-		except (models.Take.DoesNotExist, models.Instruct.DoesNotExist):
-			pass
-			return render(request, 'accounts/password_change.html')
+		return render(request, 'accounts/make_invite.html', {'form' : form})
 	return render(request, 'accounts/make_invite.html', {'form': form})

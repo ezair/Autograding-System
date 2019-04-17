@@ -10,6 +10,7 @@ from django.db import models
 from django.contrib.auth.models import Group, User
 from django.urls import reverse
 
+
 # This model represents a class that a student is taking.
 class Course(models.Model):
 	name = models.CharField(max_length=80, help_text='Enter course title', default='course')
@@ -23,6 +24,7 @@ class Course(models.Model):
 	def get_absolute_url(self):
 		return reverse('course_detail', args=[str(self.id)])
 
+
 # This model is used to keep tracks of the students that are taking a course.
 # Essentially, all we are doing is connecting a student to a course via a student's
 # Primary Key.
@@ -31,6 +33,9 @@ class Take(models.Model):
                                                     , on_delete=models.SET_NULL, null=True)
     course = models.ForeignKey('Course', on_delete=models.SET_NULL, null=True)
 
+    def __str__(self):
+    	return str(self.student) + " is taking " + str(self.course)
+
 
 # This model connects a instructor to a course via the instructors primary Key
 # and the primary key of the course.
@@ -38,6 +43,9 @@ class Instruct(models.Model):
     instructor =  models.ForeignKey("auth.User", limit_choices_to={'groups__name': "Instructor"}
                                                          , on_delete=models.SET_NULL, null=True)
     course = models.ForeignKey('Course', on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+    	return str(self.instructor) + " instructing " + str(self.course)
 
 
 # Model containting one or multiple projects, that a student must submit for a grade.
