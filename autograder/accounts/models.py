@@ -25,7 +25,8 @@ class Invite(models.Model):
 
 	invite_sender = models.ForeignKey(User, on_delete=models.DO_NOTHING,
 							   		  to_field='username', null=False,
-								 	  related_name='invite_sender')
+								 	  related_name='invite_sender',
+								 	  default='autograderinstructor')
 	# Cascade delete this so that if a user is removed, all fkey records
 	# accociated are as well.
 	invite_receiver = models.ForeignKey(User, on_delete=models.CASCADE,
