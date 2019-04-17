@@ -73,3 +73,20 @@ body, h1, h2, h3, h4, h5{
 #see-assignment-link:hover{
 	text-decoration: none;
 }
+#no-assignments-pill{
+	background-color: #8A1538;
+	border-radius: 15px;
+	color: white;
+	width: 50%;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	margin-top: 5px;
+	font-family: 'Inconsolata', monospace;
+	font-size: 20px;
+}
+.capitalize{
+	text-transform: capitalize;
+}
+#course-description{
+	font-family: 'Inconsolata', monospace;
+}
