@@ -13,9 +13,9 @@
 				{% if course_list %}
 				<ul class="list-group">
 					{% for course in course_list %}
-					<a href="{{ course.get_absolute_url }}" class="list-group-item list-group-item-action flex-column align-items-start" style="">
+					<a href="{{ course.get_absolute_url }}" class="list-group-item list-group-item-action flex-column align-items-start capitalize" style="">
 						{{ course.name }}<span class="spacer"></span><!--<span class="badge badge-danger badge-pill maroon">14</span>-->
-						<p class="text-muted instructor-name">
+						<p class="text-muted instructor-name capitalize">
 						{% for instruct in instruct %}
 							{% if instruct.course.name == course.name %}
 								{{ instruct.instructor.username }}
@@ -48,7 +48,7 @@
 			</div>
 		{% endfor %}
 	{% else %}
-		<p>You have no courses.</p>
+		<p>You have no assignments.</p>
 	{% endif %}
 	</div>
 </div>
