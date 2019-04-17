@@ -1,15 +1,27 @@
 {% extends "base_generic.html" %}
 {% block content %}
-
-<h1>Assignment List</h1>
-{% if assignment_list %}
-  <ul>
-    {% for assignment in assignment_list %}
-        <a href="{{ assignment.get_absolute_url }}">{{ assignment.name }}</a><br />
-    {% endfor %}
-  </ul>
-  {% else %}
-    <p>You have no assignments.</p>
-  {% endif %}
-
+<br>
+<div class="container">
+  {% if assignment_list %}
+    <table class="table table-hover table-sm" style="background-color: #e9ecef; color: #8A1538;">
+      <thead>
+        <tr>
+          <th scope="col">Assignment Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          {% for assignment in assignment_list %}
+          <td>
+              <a href="{{ assignment.get_absolute_url }}" class="typewriter maroon-text">{{ assignment.name }}</a>
+              <br />
+          </td>
+          {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+    {% else %}
+      <p class="typewriter">You have no assignments.</p>
+    {% endif %}
+</div>
 {% endblock %}
