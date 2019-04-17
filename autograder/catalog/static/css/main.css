@@ -16,6 +16,13 @@ body, h1, h2, h3, h4, h5{
 .maroon{
 	background-color: #8A1538;
 }
+.maroon-text{
+	color: maroon;
+}
+.maroon-text:hover{
+	text-decoration: none;
+	color: #333;
+}
 .assignment-item{
 	background-color: #8A1538; 
 	color: white; 
@@ -72,4 +79,30 @@ body, h1, h2, h3, h4, h5{
 }
 #see-assignment-link:hover{
 	text-decoration: none;
+}
+#no-assignments-pill{
+	background-color: #8A1538;
+	border-radius: 15px;
+	color: white;
+	width: 50%;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	margin-top: 5px;
+	font-family: 'Inconsolata', monospace;
+	font-size: 20px;
+}
+.capitalize{
+	text-transform: capitalize;
+}
+.typewriter{
+	font-family: 'Inconsolata', monospace;
+}
+.assignment-list-item{
+	color: #8A1538;
+}
+.assignment-list-item:hover{
+	text-decoration: none;
+}
+#course-description{
+	font-family: 'Inconsolata', monospace;
 }

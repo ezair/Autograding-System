@@ -41,7 +41,7 @@ def course_new_view(request):
 		if form.is_valid():
 			course = form.save(commit=True)
 			confirmation_message = "Course information updated successfully!"
-			return HttpResponseRedirect(reverse('course_detail', kwargs={'pk':course.id}))
+			return HttpResponseRedirect(reverse('catalog-course_detail', kwargs={'pk':course.id}))
 	return render(request, 'catalog/course_new.html', {'form': form})
 
 def course_update_view(request, pk):
@@ -52,7 +52,7 @@ def course_update_view(request, pk):
 		if form.is_valid():
 			form.save(commit=True)
 			confirmation_message = "Course information updated successfully!"
-			return HttpResponseRedirect(reverse('course_detail', kwargs={'pk':course.id}))
+			return HttpResponseRedirect(reverse('catalog-course_detail', kwargs={'pk':course.id}))
 	else:
 		form=CourseForm(instance=course)
 	context = {

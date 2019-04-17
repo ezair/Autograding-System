@@ -2,17 +2,18 @@
 {% load static %}
 {% block content %}
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"> 
 <div class="jumbotron">
 	<center>
-		<h2>{{ course.name }}</h2>
-		<p>{% for instruct in instruct %}
+		<h2 class="capitalize">{{ course.name }}</h2>
+		<p class="capitalize">{% for instruct in instruct %}
 			{% if instruct.course.name == course.name %}
 				{{ instruct.instructor.username }}
 			{% endif %}
 		{% endfor %}
 		<br>Spring 2019</br></p>
-		<p>{{ course.description }}</p>
-		<button onclick="redirect()" type="button" name="Update">Update</button>
+		<p id="course-description">{{ course.description }}</p>
+		<button onclick="redirect()" type="button" name="Update" class="btn" style="background-color: #8A1538;color: white;">Update</button>
 	</center>
 </div>
 <div class="container assignment-announcements-container">
@@ -30,7 +31,7 @@
 						{% if assignment.course.name == course.name %}
 							<div class="col-sm" id="upcoming-assignment-card" style="margin-left: -15px;">
 								<div id="upcoming-assignment-details">
-									<p>{{ assignment.name }}</p>
+									<p class="capitalize">{{ assignment.name }}</p>
 									<p>Due date: <strong>{{ assignment.due_date }}</strong></p>
 									<a href="{{ assignment.get_absolute_url }}" id="see-assignment-link">See assignment details</a>
 								</div>
@@ -38,7 +39,9 @@
 						{% endif %}
 					{% endfor %}
 				{% else %}
-					<p>You have no assignments</p>
+					<div class="container">
+						<p id="no-assignments-pill">You have no assignments</p>
+					</div>
 				{% endif %}
 			</div>
 		</center>
@@ -47,7 +50,8 @@
 
 <script>
 	function redirect(){
-		location.replace("{% url 'course_update' pk=course.pk %}")
+		location.replace("{% url 'catalog-course_update' pk=course.pk %}")
 	}
+	$(document)
 </script>
 {% endblock %}
