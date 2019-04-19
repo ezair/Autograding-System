@@ -45,7 +45,7 @@ def send_confimation_email(username, password):
 	sender = 'autograderinstructor@gmail.com'
 	# The receivers are currently used just for sending.
 	# This will be changed later...
-	receivers = ['zairea200@potsdam.edu','demaraj198@potsdam.edu']
+	receivers = [username + '@potsdam.edu']
 	password_reset_link = 'Please reset your password at http://127.0.0.1:8000/accounts/change/'
 	message += "\n" + password_reset_link
 	# Attach password change link, so user can change their password to their liking.
@@ -139,6 +139,9 @@ def make_invite_view(request):
 		# Recall, the receiver_usernames field contains multiple
 		# usernames, all seperated by a ';'. We have handle each.
 		for username in receiver_usernames.split(';'):	
+			# The direct below line is done so that even if a user enters
+			# a email instead of a username (by accident), it is parsed out.
+			username = username.split('@')[0]
 			register_user_account(username)
 			user = User.objects.get(username=username)
 			# first we check to see if the user is in the database,
