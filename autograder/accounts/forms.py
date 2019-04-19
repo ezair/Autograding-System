@@ -13,6 +13,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, LogoutView
 from .models import *
 
+
 # Simple form that is used for admin's to enter a soon to be user's
 # email address, and create it.
 # (Group may be added as an additional drop down option for the soon
