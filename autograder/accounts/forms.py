@@ -20,33 +20,28 @@ from .models import *
 class UserRegistrationForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['email']
+        fields = ['username']
 
 
+# Form that will have a dropdown menu for selecting a group option
+# The instructor can then add a list of users to a course given by
+# a dropdown menu.
 class InviteForm(forms.ModelForm):
+	# Field used to grab multiple usernames sperated by a ';'.
+	receiver_usernames = forms.CharField(help_text='Enter emails separated by a semi-colin',
+									 	 required = True)
 	class Meta:
 		model = Invite
-		fields = '__all__'
-		exclude = ['invite_sender',]
-
-	# Created the invite form object.
-	# The sender and course will be filled in by default,
-	# because we will already know them by default.
-	# Essentially, there is no need for the user to add them.
+		fields = ('invite_sender', 'receiver_usernames', 'course', 'group_choice')
+		
+	def clean_receiver_usernames(self):
+		cleaned_data = self.cleaned_data['receiver_usernames']
+		# Individually grab each username, seperated by a semi-colon.
+		#for username in receiver_usernames:
+		return cleaned_data
 	
-	# def __init__(self, **kwargs):
-	# 	self.invite_sender = kwargs.pop('invite_sender')
-	# 	super(InviteForm, self).__init__(*kwargs)
-
-
-	# upon submission, we add the form to the actual database.
-	def save(self, commit=True):
-		# we need to set commit=True, since we are populating some
-		# forms by default, but don't want to do null=False
-		invite = super(InviteForm, self).save(commit=False)
-		# Form data is good, so we will save the invitation.
-		if commit:
-
-			#make take here??
-			invite.save()
-		return invite
+	def __init__(self, *args, **kwargs):
+		# we want to references the 'invite_sender' field, but not
+		# a field for the user to enter
+		super(InviteForm, self).__init__(*args, **kwargs)
+		self.fields.pop('invite_sender')

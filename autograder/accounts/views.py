@@ -11,7 +11,7 @@ Description:	Contains ALL views for our account application.
 				There will also be methods that are used for specific things
 				such as sending emails.
 Last edited by:	Eric Zair
-Last edited on:	04/09/2019
+Last edited on:	04/18/2019
 '''
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -21,6 +21,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.http import Http404
 from . import forms
 from catalog import models
+from .models import Invite
 
 
 # Created to make sure that pages that should only be accessed by
@@ -53,23 +54,24 @@ def send_confimation_email(username, password):
 
 
 # Send email to user that verifies they are now in a course.
-def send_join_course_email(invite_receivers, course, group,
+def send_join_course_email(receiver_username, course, group,
 						   invite_sender='autograderinstructor@gmail.com'):
 	subject = "Welcome to " + course + "."
 	message = "You have been registered to join " + str(course)
 	message += " as a " + str(group) + "."
 	# Currently this works (sends an email to 1 student), but eventually
 	# it will work for multiple.
-	for i in range(len(invite_receivers)):
-		invite_receivers[i] += "@potsdam.edu"
-	email = EmailMultiAlternatives(subject, message, invite_sender, invite_receivers)
+	email = EmailMultiAlternatives(subject,
+								   message,
+								   invite_sender,
+								   [receiver_username + '@potsdam.edu'])
 	email.send()
 
 
-# parses data given by a django form object.
-# We then create a user account based off of that form.
-def register_user_account(form):
-	username = form.cleaned_data['username']
+
+# Literally creates a user object with a random generated password,
+# then saids that user an email stating the account was made.
+def register_user_account(username):
 	email_address = str(username) + '@potsdam.edu'
 	password = User.objects.make_random_password()
 	# We NEED to make sure that we are NOT trying to create a duplicate user
@@ -88,55 +90,71 @@ def register_user_account(form):
 		send_confimation_email(username=username, password=password)
 
 
+# User was not yet in the course, so we send the confirmation email
+# and add them to the respective group needed.
+# Invite model will also be created here, with a record of what happened. 
+def invite_successful(receiver_user, sender_user, add_to_group, course):
+	send_join_course_email(receiver_username=receiver_user.username,
+						   course=str(course),
+						   group=add_to_group)
+	# Make sure the user is actually registered to the proper group.
+	# Even if they are in the group already, we do this to be safe.
+	group = Group.objects.get(name=add_to_group)
+	group.user_set.add(receiver_user)
+	Invite.objects.create(group_choice=add_to_group,
+						  invite_sender=sender_user,
+						  invite_receiver=receiver_user,
+						  course=course).save()
+
+
 #VIEWS BELOW_________________________________________________________________________________
 
+
 # View for an admin, when registering a user to the database.
+@login_required()
 def register_account_view(request):
 	# USER MUST BE AN ADMIN, or they should not be creating other users
 	error_not_admin(request)
-	form = forms.UserRegistrationForm(request.POST or request.GET or None)
+	form = forms.UserRegistrationForm(request.POST or None)
 	# Grab the information from the user and make sure that the
 	# email field has been filled out successfully.
 	if request.POST and form.is_valid():
-		register_user_account(form)
+		register_user_account(form.cleaned_data['username'])
 		return render(request, 'accounts/registration.html', {'form' : form})
 	# Not sure where we want to redirect quite yet.
 	return render(request, 'accounts/registration.html', {'form' : form})
 
 
 @login_required()
+# View that will allow an instructor to add MULTIPLE users to a group.
+# NOTE:	You must be an instructor to see this page ofc.
 def make_invite_view(request):
-	form = forms.InviteForm(request.POST or request.GET or None)
+	form = forms.InviteForm(request.POST or None)
 
 	if request.POST and form.is_valid():
-		# Rather than parsing these several times, we do it once in the beginning.
-		invite_receiver = form.cleaned_data['invite_receiver']
+		receiver_usernames = form.cleaned_data['receiver_usernames']
 		course = form.cleaned_data['course']
 		add_to_group = form.cleaned_data['group_choice']
-	
-		# We need to create the appropriate model for
-		# the approriate group given in the view dropdown menu.
-		if add_to_group == 'Student':
-			# We only want to add a student to the course, if the record does not exist.
-			if not models.Take.objects.filter(student=invite_receiver, course=course).exists():
-				models.Take.objects.create(student=invite_receiver, course=course).save()
 
-		# THIS WILL ALSO ADD INSTRUCTOR TO GRADER ROLE BY DEFAULT....eventually...
-		elif add_to_group == 'Instructor':
-			# We only want to make a instructor, if the record does not already exist.
-			if not models.Instruct.objects.filter(instructor=invite_receiver, course=course).exists():
-				models.Instruct.objects.create(instructor=invite_receiver, course=course).save()
-		
-		# Form is valid, so we store into our database, and then email the user.
-		form.save()
-		send_join_course_email(invite_receivers=[str(invite_receiver)],
-							   course=str(course), group=add_to_group)
+		# Recall, the receiver_usernames field contains multiple
+		# usernames, all seperated by a ';'. We have handle each.
+		for username in receiver_usernames.split(';'):	
+			register_user_account(username)
+			user = User.objects.get(username=username)
+			# first we check to see if the user is in the database,
+			# so that we can create their account, if they are not.
+			if add_to_group == 'Student':
+				# We only want to add a student to the course, if the record does not exist.
+				if not models.Take.objects.filter(student=user, course=course).exists():
+					models.Take.objects.create(student=user, course=course).save()
+					invite_successful(user, request.user, add_to_group, course)
 
-		# Make sure the user is actually registered to the proper group.
-		# Even if they are in the group already, we do this to be safe.
-		group = Group.objects.get(name=str(add_to_group))
-		group.user_set.add(invite_receiver)
-
+			# THIS WILL ALSO ADD INSTRUCTOR TO GRADER ROLE BY DEFAULT....eventually...
+			elif add_to_group == 'Instructor':
+				# We only want to make a instructor, if the record does not already exist.
+				if not models.Instruct.objects.filter(instructor=user, course=course).exists():
+					models.Instruct.objects.create(instructor=user, course=course).save()			
+					invite_successful(user, request.user, add_to_group, course)
 		return render(request, 'accounts/make_invite.html', {'form' : form})
 	
 	# Have not decided if we want to redirect the page, or just yield a
