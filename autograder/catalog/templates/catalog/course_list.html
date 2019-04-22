@@ -1,4 +1,6 @@
 {% extends "base_generic.html" %}
+{% load accounts_template_tags %}
+
 {% block content %}
 <br />
 <div class="container">
@@ -31,7 +33,9 @@
   {% else %}
     <p class="typewriter maroon-text">You have no courses.</p>
   {% endif %}
-  <button onclick="redirect()" type="button" name="New" class="btn maroon white">Add a new course</button>
+  {% if request.user|has_group:"Instructor" %}
+    <button onclick="redirect()" type="button" name="New" class="btn maroon white">Add a new course</button>
+  {% endif %}
 </div>
  <script>
     function redirect(){

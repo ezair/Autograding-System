@@ -1,5 +1,7 @@
 {% extends "base_generic.html" %}
+{% load accounts_template_tags %}
 {% load static %}
+
 {% block content %}
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css?family=Inconsolata" rel="stylesheet"> 
@@ -13,7 +15,9 @@
 		{% endfor %}
 		<br>Spring 2019</br></p>
 		<p id="course-description">{{ course.description }}</p>
-		<button onclick="redirect()" type="button" name="Update" class="btn" style="background-color: #8A1538;color: white;">Update</button>
+		{% if request.user|has_group:"Instructor" %}
+			<button onclick="redirect()" type="button" name="Update" class="btn" style="background-color: #8A1538;color: white;">Update</button>
+		{% endif %}
 	</center>
 </div>
 <div class="container assignment-announcements-container">
