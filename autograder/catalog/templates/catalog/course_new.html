@@ -2,8 +2,8 @@
 {% block content %}
 {% load crispy_forms_tags %}
 {% load accounts_template_tags %}
-{% if request.user|has_group:"Instructor" %}
-<br />
+
+<br/>
 <div class="container">
   <h1>Make your course</h1>
   <form method="post">

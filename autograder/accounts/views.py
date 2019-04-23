@@ -68,7 +68,6 @@ def send_join_course_email(receiver_username, course, group,
 	email.send()
 
 
-
 # Literally creates a user object with a random generated password,
 # then saids that user an email stating the account was made.
 def register_user_account(username):
@@ -130,36 +129,41 @@ def register_account_view(request):
 # NOTE:	You must be an instructor to see this page ofc.
 def make_invite_view(request):
 	form = forms.InviteForm(request.POST or None)
-
+	# In any other case, we simply redirect somewhere else.
 	if request.POST and form.is_valid():
-		receiver_usernames = form.cleaned_data['receiver_usernames']
 		course = form.cleaned_data['course']
 		add_to_group = form.cleaned_data['group_choice']
 
-		# Recall, the receiver_usernames field contains multiple
+		# Recall: The receiver_usernames field contains multiple
 		# usernames, all seperated by a ';'. We have handle each.
-		for username in receiver_usernames.split(';'):	
+		for username in form.cleaned_data['receiver_usernames'].split(';'):	
 			# The direct below line is done so that even if a user enters
 			# a email instead of a username (by accident), it is parsed out.
 			username = username.split('@')[0]
 			register_user_account(username)
 			user = User.objects.get(username=username)
-			# first we check to see if the user is in the database,
-			# so that we can create their account, if they are not.
+			
 			if add_to_group == 'Student':
 				# We only want to add a student to the course, if the record does not exist.
 				if not models.Take.objects.filter(student=user, course=course).exists():
 					models.Take.objects.create(student=user, course=course).save()
 					invite_successful(user, request.user, add_to_group, course)
 
-			# THIS WILL ALSO ADD INSTRUCTOR TO GRADER ROLE BY DEFAULT....eventually...
 			elif add_to_group == 'Instructor':
 				# We only want to make a instructor, if the record does not already exist.
 				if not models.Instruct.objects.filter(instructor=user, course=course).exists():
-					models.Instruct.objects.create(instructor=user, course=course).save()			
+					models.Instruct.objects.create(instructor=user, course=course).save()
+					# Recall: An instructor should always be registered as a grader.
+					models.Grade.objects.create(grader=user, course=course).save()			
 					invite_successful(user, request.user, add_to_group, course)
+
+
+			if add_to_group == 'Grader':
+				if not models.Grade.objects.filter(grader=user, course=course).exists():
+					models.Grade.objects.create(grader=user, course=course).save()
+					invite_successful(user, request.user, add_to_group, course)
+
 		return render(request, 'accounts/make_invite.html', {'form' : form})
-	
 	# Have not decided if we want to redirect the page, or just yield a
 	# pop up message. TBA.
 	return render(request, 'accounts/make_invite.html', {'form': form})
