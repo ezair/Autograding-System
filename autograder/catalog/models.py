@@ -3,8 +3,8 @@ Created by: Chris S
 File: catalog/models.py
 Description: contains all url/path and logic in regards
 			 to routing for the catalog application.
-Last edited by: Chris Stannard
-Last edited on:	04/015/2019
+Last edited by: Eric Zair
+Last edited on:	04/24/2019
 '''
 from django.db import models
 from django.contrib.auth.models import Group, User
@@ -29,8 +29,9 @@ class Course(models.Model):
 # Essentially, all we are doing is connecting a student to a course via a student's
 # Primary Key.
 class Take(models.Model):
-    student =  models.ForeignKey("auth.User", limit_choices_to={'groups__name': "Student"}
-                                                    , on_delete=models.SET_NULL, null=True)
+    student =  models.ForeignKey("auth.User",
+                                 limit_choices_to={'groups__name': "Student"},
+                                 on_delete=models.SET_NULL, null=True)
     course = models.ForeignKey('Course', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
@@ -40,12 +41,25 @@ class Take(models.Model):
 # This model connects a instructor to a course via the instructors primary Key
 # and the primary key of the course.
 class Instruct(models.Model):
-    instructor =  models.ForeignKey("auth.User", limit_choices_to={'groups__name': "Instructor"}
-                                                         , on_delete=models.SET_NULL, null=True)
+    instructor =  models.ForeignKey("auth.User",
+                                    limit_choices_to={'groups__name': "Instructor"},
+                                    on_delete=models.SET_NULL, null=True)
     course = models.ForeignKey('Course', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
     	return str(self.instructor) + " instructing " + str(self.course)
+
+
+# This model connects a grader to a course via the instructors primary Key
+# and the primary key of the course.
+class Grade(models.Model):
+    grader =  models.ForeignKey("auth.User",
+                                limit_choices_to={'groups__name': "Grader"},
+                                on_delete=models.SET_NULL, null=True)
+    course = models.ForeignKey('Course', on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return str(self.grader) + " grading " + str(self.course)
 
 
 # Model containting one or multiple projects, that a student must submit for a grade.
