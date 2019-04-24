@@ -11,7 +11,7 @@ Description:	Contains ALL views for our account application.
 				There will also be methods that are used for specific things
 				such as sending emails.
 Last edited by:	Eric Zair
-Last edited on:	04/18/2019
+Last edited on:	04/24/2019
 '''
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
