@@ -13,15 +13,16 @@ Description:	Contains ALL views for our account application.
 Last edited by:	Eric Zair
 Last edited on:	04/24/2019
 '''
-from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
-from django.shortcuts import render
 from django.core.mail import EmailMultiAlternatives
+from django.core.exceptions import PermissionDenied
+from django.urls import reverse_lazy
+from django.shortcuts import render
 from django.http import Http404
-from . import forms
 from catalog import models
 from .models import Invite
+from . import forms
 
 
 # Created to make sure that pages that should only be accessed by
@@ -33,6 +34,14 @@ def error_not_admin(request):
 			raise Http404
 	else:
 		raise Http404
+
+
+# In the event that the user is NOT an instructor, we throw
+# then a 403 error message, stating that they cannot go to the given
+# page.
+def not_instructor_throw_error(user):
+	if not user.groups.filter(name='Instructor').exists():
+		raise PermissionDenied
 
 
 # Send an email to (my account...for now) that has all the information
@@ -128,7 +137,11 @@ def register_account_view(request):
 # View that will allow an instructor to add MULTIPLE users to a group.
 # NOTE:	You must be an instructor to see this page ofc.
 def make_invite_view(request):
+	# Don't want non-instructors to get to this page.
+	not_instructor_throw_error(request.user)
+
 	form = forms.InviteForm(request.POST or None)
+	
 	# In any other case, we simply redirect somewhere else.
 	if request.POST and form.is_valid():
 		course = form.cleaned_data['course']

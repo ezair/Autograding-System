@@ -17,6 +17,8 @@ from django.contrib.auth import logout
 from catalog.models import Course, Assignment, Instruct, Take
 from catalog.forms import CourseForm
 from django.contrib.auth.models import User
+from accounts.views import not_instructor_throw_error
+import git
 
 
 # This is the view for the location of a user's classes and thing of that sort.
@@ -35,7 +37,12 @@ def my_view(request):
 	}
 	return render(request, 'catalog/my.html', context=context)
 
+
+@login_required
 def course_new_view(request):
+	# You need to be an instructor to see this page.
+	not_instructor_throw_error(request.user)
+
 	form = CourseForm()
 	if request.method == "POST":
 		form = CourseForm(request.POST)
@@ -45,7 +52,12 @@ def course_new_view(request):
 			return HttpResponseRedirect(reverse('catalog-course_detail', kwargs={'pk':course.id}))
 	return render(request, 'catalog/course_new.html', {'form': form})
 
+
+@login_required
 def course_update_view(request, pk):
+	# You need to be an instructor to see this page.
+	not_instructor_throw_error(request.user)
+	
 	course = Course.objects.get(id=pk)
 	form = CourseForm(instance=course)
 	if request.method == "POST":
@@ -55,7 +67,7 @@ def course_update_view(request, pk):
 			confirmation_message = "Course information updated successfully!"
 			return HttpResponseRedirect(reverse('catalog-course_detail', kwargs={'pk':course.id}))
 	else:
-		form=CourseForm(instance=course)
+		form = CourseForm(instance=course)
 	context = {
 		'form': form,
         'course_instance': course,
