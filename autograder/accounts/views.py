@@ -157,8 +157,8 @@ def make_invite_view(request):
 					models.Grade.objects.create(grader=user, course=course).save()			
 					invite_successful(user, request.user, add_to_group, course)
 
-
-			if add_to_group == 'Grader':
+			# User must be a grader in this case.
+			else:
 				if not models.Grade.objects.filter(grader=user, course=course).exists():
 					models.Grade.objects.create(grader=user, course=course).save()
 					invite_successful(user, request.user, add_to_group, course)
