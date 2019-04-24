@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'accounts.apps.AccountsConfig',
     'catalog.apps.CatalogConfig',
+    'submission_grader.apps.SubmissionGraderConfig',
     'django_clear_tables',
 
     # Default installed django applications
