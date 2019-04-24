@@ -18,6 +18,7 @@ from catalog.models import Course, Assignment, Instruct, Take
 from catalog.forms import CourseForm
 from django.contrib.auth.models import User
 
+
 # This is the view for the location of a user's classes and thing of that sort.
 # If you are logged in, you get sent to the page.
 # Not logged in? Then you redirected to the login page. Upon logging, you are
