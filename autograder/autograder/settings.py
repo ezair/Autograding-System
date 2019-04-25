@@ -156,3 +156,8 @@ EMAIL_HOST_USER = 'autograderinstructor@gmail.com'
 EMAIL_HOST_PASSWORD = 'autograder1'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+# Placement for where assignments and submissions must go
+# before being graded or pushed.
+MEDIA_URL = '/media/submissions/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
