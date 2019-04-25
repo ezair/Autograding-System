@@ -4,37 +4,45 @@
 {% block content %}
 <br />
 <div class="container">
-  <h1>Course List</h1>
+    <div style="container">
+      <div style="width: 49%; float: left;">
+          <h1>Course List</h1>
+      </div>
+      <div style="float: right;">
+          {% if request.user|has_group:"Instructor" %}
+            <button onclick="redirect()" type="button" name="New" class="btn maroon white">Add a new course</button>
+          {% endif %}
+      </div>
+  </div>
   {% if course_list %}
     <table class="table table-hover" style="background-color: #f8f9fa; color: #8A1538;">
       <thead>
         <tr>
+          <th scope="col" style="width: 100px;"">CRN</th>
           <th scope="col">Course Name</th>
-          <th scope="col">CRN</th>
-          <th scope="col">Course Description</th>
+          <th scope="col">Instructor</th>
         </tr>
       </thead>
       <tbody>
+        {% for instruct in instruct %}
+        {% if instruct.instructor.username == user.username%}
         <tr>
-          {% for course in course_list %}
           <td>
-              <a href="{{ course.get_absolute_url }}" class="capitalize maroon-text">{{ course.name }}</a><br />
+              <p>{{ instruct.course.crn }}</p>
           </td>
           <td>
-              <p>{{ course.crn }}</p>
+              <a href="{{ course.get_absolute_url }}" class="capitalize maroon-text">{{ instruct.course.name }}</a><br />
           </td>
           <td>
-              <p class="typewriter">{{ course.description }}</p>
+      		{{ instruct.instructor.username }}
           </td>
-          {% endfor %}
         </tr>
+        {% endif %}
+        {% endfor %}
       </tbody>
     </table>
   {% else %}
     <p class="typewriter maroon-text">You have no courses.</p>
-  {% endif %}
-  {% if request.user|has_group:"Instructor" %}
-    <button onclick="redirect()" type="button" name="New" class="btn maroon white">Add a new course</button>
   {% endif %}
 </div>
  <script>

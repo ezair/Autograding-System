@@ -57,7 +57,7 @@ def course_new_view(request):
 def course_update_view(request, pk):
 	# You need to be an instructor to see this page.
 	not_instructor_throw_error(request.user)
-	
+
 	course = Course.objects.get(id=pk)
 	form = CourseForm(instance=course)
 	if request.method == "POST":
@@ -78,6 +78,11 @@ def course_update_view(request, pk):
 class CourseListView(generic.ListView):
 	model = Course
 	template = 'catalog/course_list.html'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['instruct'] = Instruct.objects.all()
+		return context
 
 
 class CourseDetailView(generic.DetailView):
