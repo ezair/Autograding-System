@@ -1,12 +1,14 @@
 {% extends "base_generic.html" %}
 {% load static %}
+{% load accounts_template_tags %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'css\main.css' %}" />
 <div class="jumbotron">
+	{% if request.user|has_group:"Student"%}
 	<center>
 		<h3>Active Courses:</h3>
 	</center>
-	<br>
+	<br/>
 	<div class="container">
 		<center>
 			<div class="col-8">
@@ -16,11 +18,11 @@
 					<a href="{{ course.get_absolute_url }}" class="list-group-item list-group-item-action flex-column align-items-start capitalize" style="">
 						{{ course.name }}<span class="spacer"></span><!--<span class="badge badge-danger badge-pill maroon">14</span>-->
 						<p class="text-muted instructor-name capitalize">
-						{% for instruct in instruct %}
-							{% if instruct.course.name == course.name %}
-								{{ instruct.instructor.username }}
-							{% endif %}
-						{% endfor %}
+							{% for instruct in instruct %}
+								{% if instruct.course.name == course.name %}
+									{{ instruct.instructor.username }}
+								{% endif %}
+							{% endfor %}
 						</p>
 					</a>
 					{% endfor %}
@@ -31,7 +33,16 @@
 			</div>
 		</center>
 	</div>
+	{% elif request.user|has_group:"Instructor"%}
+	<div class="">
+		<a href="{% url 'catalog-courses' %}" class="list-group-item list-group-item-action flex-column align-items-start capitalize" style="width: 33%; float: left; text-align: center;">Courses</a>
+		<a href="{% url 'catalog-assignments' %}" class="list-group-item list-group-item-action flex-column align-items-start capitalize" style="width: 33%; float: left; text-align: center;">Assignments</a>
+		<a href="#" class="list-group-item list-group-item-action flex-column align-items-start capitalize" style="width: 33%; float: left; text-align: center;">Projects</a>
+	</div>
+	<br/>
+	{% endif %}
 </div>
+{% if request.user|has_group:"Student"%}
 <div class="container-fluid">
 	<h3 style="padding-left: 20px;">Upcoming Assignments</h3>
 	<br>
@@ -50,6 +61,6 @@
 	{% else %}
 		<p>You have no assignments.</p>
 	{% endif %}
-	</div>
 </div>
+{% endif %}
 {% endblock %}

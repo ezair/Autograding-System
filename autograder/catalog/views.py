@@ -84,7 +84,6 @@ class CourseListView(generic.ListView):
 		context['instruct'] = Instruct.objects.all()
 		return context
 
-
 class CourseDetailView(generic.DetailView):
 	model = Course
 	template = 'catalog/course_detail.html'
