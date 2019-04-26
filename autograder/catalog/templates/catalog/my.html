@@ -12,24 +12,22 @@
 	<div class="container">
 		<center>
 			<div class="col-8">
-				{% if course_list %}
 				<ul class="list-group">
-					{% for course in course_list %}
-					<a href="{{ course.get_absolute_url }}" class="list-group-item list-group-item-action flex-column align-items-start capitalize" style="">
-						{{ course.name }}<span class="spacer"></span><!--<span class="badge badge-danger badge-pill maroon">14</span>-->
+					{% for take in take %}
+					{% if take.student.username == user.username %}
+					<a href="{{ take.course.get_absolute_url }}" class="list-group-item list-group-item-action flex-column align-items-start capitalize" style="">
+						{{ take.course.name }}<span class="spacer"></span><!--<span class="badge badge-danger badge-pill maroon">14</span>-->
 						<p class="text-muted instructor-name capitalize">
 							{% for instruct in instruct %}
-								{% if instruct.course.name == course.name %}
+								{% if instruct.course.name == take.course.name %}
 									{{ instruct.instructor.username }}
 								{% endif %}
 							{% endfor %}
 						</p>
 					</a>
+					{% endif %}
 					{% endfor %}
 				</ul>
-				{% else %}
-					<p>You have no courses.</p>
-				{% endif %}
 			</div>
 		</center>
 	</div>

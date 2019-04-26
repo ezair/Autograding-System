@@ -27,11 +27,11 @@ import git
 # then directed back to the page you were trying to
 @login_required
 def my_view(request):
-	course_list = Course.objects.all()
+	take = Take.objects.all()
 	instruct = Instruct.objects.all()
 	assignment = Assignment.objects.all()
 	context = {
-		'course_list': course_list,
+		'take': take,
 		'instruct': instruct,
 		'assignments': assignment,
 	}
