@@ -9,22 +9,41 @@ Some notes on running our docker:
 
 		The script has instructions as to how it works.
 
-Important note:
+
+
+
+Important note on running project:
 	All commands stated may need to be run with sudo, varying on your computer and operating system.
 
-Before doing anything, you want to run "docker-compose build" so that you can make any needed install changes that are required.
+	Before doing anything, you want to run "docker-compose build" so that you can make any needed install changes that are required.
 
-Next, run "docker-compose run web python3 manage.py migrate" (this will perform the migrations needed to populate the database)
+	Next, run "docker-compose run web python3 manage.py migrate" (this will perform the migrations needed to populate the database)
 
-Then you can simply type "docker-compose up" to begin running the project's web server.
+	Then you can simply type "docker-compose up" to begin running the project's web server.
 
-To sign into admin page, Username: "admin", Password: "password"
+	To sign into admin page, Username: "admin", Password: "password"
 
-To sign into as a basic, Username: "user", Password: "userpassword"
+	To sign into as a basic, Username: "user", Password: "userpassword"
 
-Varying on your computer, you may have to put sudo in front of the command.
+	Varying on your computer, you may have to put sudo in front of the command.
 
+
+Recommended way to run project:
+	In the main directory of the project "autograder/", run the following:
+		"python3 run.py all"	(leave the quotes out...)
+
+	This will launch a script and deal with all the steps of building and loading tables.
+
+	THIS WILL ONLY WORK ON MAC AND LINUX COMPUTERS
 
 EMAIL ACCOUNT INFORMATION:
 	instructor email: autograderinstructor@gmail.com
 	instructor password: autograder1
+
+ADMIN ACCOUNT INFORMATION:
+	username:	admin
+	password:	password
+
+STUDENT ACCOUNT INFORMATION:
+	username:	student
+	password:	autograder1
