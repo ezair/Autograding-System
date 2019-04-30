@@ -16,10 +16,22 @@ from .models import *
 # the code they wrote for an assignment.
 class SubmissionUploadForm(forms.ModelForm):
 	
-	class Meta:
+	class Meta():
 		model = Submission
 		fields = '__all__'
+		exclude = ('assignment', 'student',)
 
+	# Need to access this data, m8.
 	def __init__(self, *args, **kwargs):
+		self.assignment = kwargs.pop('assignment')
+		self.student = kwargs.pop('student')
 		super(SubmissionUploadForm, self).__init__(*args, **kwargs)
-		self.fields.pop('assignment', 'submitted_at',)
+
+	# Override the form, so that it gets the args that it needs.
+	def save(self, commit=True):
+		submission = super(SubmissionUploadForm, self).save(commit=False)
+		submission.assignment = self.assignment
+		submission.student = self.student
+		if commit:
+			submission.save()
+		return submission
