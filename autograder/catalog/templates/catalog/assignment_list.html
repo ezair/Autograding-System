@@ -13,11 +13,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
           {% for assignment in assignment_list %}
-          <td>
-              <a href="{{ assignment.get_absolute_url }}" class="typewriter maroon-text">{{ assignment.name }}</a>
-          </td>
+          <tr>
+            <td>
+              <ul style="list-style: none;">
+                <li>
+                  <a href="{{ assignment.get_absolute_url }}" class="typewriter maroon-text">{{ assignment.name }}</a>
+                </li>
+              </ul>
+            </td>
           <td>
               <p>{{ assignment.due_date }}</p>
           </td>
