@@ -14,7 +14,7 @@ from django.urls import reverse
 # This model represents a class that a student is taking.
 class Course(models.Model):
 	name = models.CharField(max_length=80, help_text='Enter course title', default='course')
-	crn = models.CharField(max_length=6, help_text='Enter course title', default='00000')
+	crn = models.CharField(max_length=6, help_text='Enter course title', default='00000', unique=True)
 	description = models.TextField(help_text='Enter a detailed description', default='This class description')
 
 	def __str__(self):
