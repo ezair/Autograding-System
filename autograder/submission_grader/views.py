@@ -14,6 +14,8 @@ from accounts.views import not_instructor_throw_error
 from . import forms
 from . import models
 from catalog.models import Assignment, Project
+from datetime import datetime
+from django.views.generic import DeleteView
 
 
 @login_required
@@ -30,12 +32,14 @@ def submit_view(request, pk):
 	if request.method == 'POST':
 		form = forms.SubmissionUploadForm(student=request.user,
 										  assignment=assignment,
-										  files=request.FILES)
+										  files=request.FILES,
+										  submitted_at=datetime.now)
 		if form.is_valid():
 			form.save()
 			return HttpResponseRedirect('/catalog/')
 	# When we start handling newer submissions, this will have to be changed.
 	form = forms.SubmissionUploadForm(student=request.user,
 									  assignment=assignment,
-									  files=request.FILES)
+									  files=request.FILES,
+									  submitted_at=datetime.now)
 	return render(request, 'submission_grader/submit.html', {'form': form})

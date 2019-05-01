@@ -19,12 +19,13 @@ class SubmissionUploadForm(forms.ModelForm):
 	class Meta():
 		model = Submission
 		fields = '__all__'
-		exclude = ('assignment', 'student',)
+		exclude = ('assignment', 'student', 'submitted_at',)
 
 	# Need to access this data, m8.
 	def __init__(self, *args, **kwargs):
 		self.assignment = kwargs.pop('assignment')
 		self.student = kwargs.pop('student')
+		self.submitted = kwargs.pop('submitted_at')
 		super(SubmissionUploadForm, self).__init__(*args, **kwargs)
 
 	# Override the form, so that it gets the args that it needs.

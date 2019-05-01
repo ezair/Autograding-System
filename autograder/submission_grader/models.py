@@ -8,19 +8,23 @@ Last Edited by:	Eric Zair
 '''
 from django.db import models
 from django.core.validators import FileExtensionValidator
-
+import datetime
+from django.utils import timezone
 
 # This will return the location that a submission will be stored in.
 #The format is:
 #				assignment_primary_key/student_username
 def get_files_path(submission, filename):
-	return str(submission.assignment.pk) + '/' + str(submission.student) + '/' + filename
+	path = str(submission.assignment) + '/' + str(submission.student) 
+	path += '/' + str(submission) + '/' + filename
+	return path
+
 
 # When a student submits a project for a given assignment, we must store it in the
 # database of course...hence this Submission model.
 class Submission(models.Model):
 	assignment = models.ForeignKey('catalog.Assignment', on_delete=models.SET_NULL, null=True)
-	submitted_at = models.DateField(auto_now_add=True, blank=True)
+	submitted_at = models.DateField(default=datetime.datetime.now, blank=True)
 	student =  models.ForeignKey("auth.User",
                                  limit_choices_to={'groups__name': "Student"},
                                  on_delete=models.SET_NULL, null=True)
