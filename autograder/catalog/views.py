@@ -14,7 +14,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from catalog.models import Course, Assignment, Instruct, Take
+from catalog.models import Course, Assignment, Instruct, Take, Project
+from submission_grader.models import Submission
 from catalog.forms import CourseForm
 from django.contrib.auth.models import User
 from accounts.views import not_instructor_throw_error
@@ -103,3 +104,9 @@ class AssignmentListView(generic.ListView):
 class AssignmentDetailView(generic.DetailView):
 	model = Assignment
 	template = 'catalog/assignment_detail.html'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['submission_list'] = Submission.objects.all()
+		context['project_list'] = Project.objects.all()
+		return context

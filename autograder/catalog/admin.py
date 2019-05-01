@@ -17,6 +17,15 @@ admin.site.register(Assignment)
 admin.site.register(Project)
 admin.site.register(TestCase)
 admin.site.register(Course)
-admin.site.register(Take)
-admin.site.register(Instruct)
-admin.site.register(Grade)
+
+@admin.register(Instruct)
+class InstructAdmin(admin.ModelAdmin):
+    list_display = ('instructor', 'course')
+
+@admin.register(Take)
+class TakeAdmin(admin.ModelAdmin):
+    list_display = ('student', 'course')
+
+@admin.register(Grade)
+class InstructAdmin(admin.ModelAdmin):
+    list_display = ('grader', 'course')
