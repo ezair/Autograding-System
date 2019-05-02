@@ -65,7 +65,7 @@ class Grade(models.Model):
 # Model containting one or multiple projects, that a student must submit for a grade.
 # Assignment is going to be created by an instructor.
 class Assignment(models.Model):
-    name = models.CharField(max_length=60, help_text='Enter a name', unique=True)
+    name = models.CharField(max_length=60, help_text='Enter a name')
     course = models.ForeignKey('Course', on_delete=models.SET_NULL, null=True)
     due_date = models.DateField(null=True, blank=True)
     assigned_student = models.ForeignKey("auth.user",
@@ -89,8 +89,7 @@ class Assignment(models.Model):
 class Project(models.Model):
     short_description = models.CharField(max_length=60, help_text='Enter a short description')
     long_description = models.TextField(help_text='Enter a detailed description')
-    # Will NEED to come back here to edit shortly.
-
+    
     def __str__(self):
         return self.short_description
 

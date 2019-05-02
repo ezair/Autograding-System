@@ -4,7 +4,7 @@ File:	submission_grader/views.py
 Description:	Contains all views/pages used for the submission_grader app
 				These views will include things like students submitting
 				things to git and such.
-Last Edited on: 04/25/2019
+Last Edited on: 05/1/2019
 Last Edited by:	Eric Zair
 '''
 from django.shortcuts import render
@@ -15,7 +15,8 @@ from . import forms
 from . import models
 from catalog.models import Assignment, Project
 from datetime import datetime
-from django.views.generic import DeleteView
+from django.views.generic import DeleteView, DetailView
+from django.urls import reverse_lazy
 
 
 @login_required
@@ -43,3 +44,24 @@ def submit_view(request, pk):
 									  files=request.FILES,
 									  submitted_at=datetime.now)
 	return render(request, 'submission_grader/submit.html', {'form': form})
+
+
+class DeleteSubmissionView(DeleteView):
+	model = models.Submission
+	template = 'submission_confirm_delete'
+	success_url = reverse_lazy('catalog-courses')
+
+	#def get_success_url(self):
+	# 	submission = self.object
+	# 	return reverse_lazy('catalog-assignment_detail',
+	# 						kwargs={'pk': self.object.pk})
+
+
+class SubmissionDetailView(DetailView):
+	model = models.Submission
+	template = 'submission_grader/submission_detail.html'
+
+	def get_success_url(self):
+		submission = self.object
+		return reverse_lazy('submission_grader-submission_detail',
+							 kwargs={'pk': self.object.pk})
