@@ -15,6 +15,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from catalog.models import Course, Assignment, Instruct, Take
+from submission_grader.models import Submission
 from catalog.forms import CourseForm
 from django.contrib.auth.models import User
 from accounts.views import not_instructor_throw_error
@@ -28,11 +29,11 @@ from accounts.views import not_instructor_throw_error
 def my_view(request):
 	take = Take.objects.all()
 	instruct = Instruct.objects.all()
-	assignment = Assignment.objects.all()
+	assignment = Assignment.objects.order_by('due_date')[:6]
 	context = {
 		'take': take,
 		'instruct': instruct,
-		'assignments': assignment,
+		'assignment': assignment,
 	}
 	return render(request, 'catalog/my.html', context=context)
 
@@ -103,3 +104,8 @@ class AssignmentListView(generic.ListView):
 class AssignmentDetailView(generic.DetailView):
 	model = Assignment
 	template = 'catalog/assignment_detail.html'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['submission_list'] = Submission.objects.all()
+		return context
