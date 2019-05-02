@@ -1,5 +1,6 @@
 {% extends "base_generic.html" %}
 {% load static %}
+{% load accounts_template_tags %}
 {% block content %}
 <br />
 <div class="container">
@@ -17,14 +18,12 @@
 				<p>You have no submissions</p>
 			{% endfor %}
 			<a href="{% url 'submission_grader-submit' pk=assignment.project.pk %}" class="btn maroon white">Submit</a>
-			<a href="{% url 'submission_grader-submit' pk=assignment.project.pk %}" class="btn maroon white">Delete</a>
+			<a href="{% url 'submission_grader-submission_confirm_delete' pk=submission.pk %}" class="btn maroon white">Delete</a>
 		</div>
 		<div class="card-footer text-muted">
 			{% for submission in submission_list %}
-				{% if submission.assignment.name ==  assignment.name %}
-					{% if submission.student.username == user.username %}
-						{{ submission.assignment.name }}{{ submission.student.username }}<br/>
-					{% endif %}
+				{% if submission == get_recent_submission:"assignment" %}
+					<p>hello</p>
 				{% endif %}
 			{% empty %}
 				<p>You have no submissions</p>

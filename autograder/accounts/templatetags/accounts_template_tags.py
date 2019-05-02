@@ -14,7 +14,7 @@ Last edited by:	Eric Zair
 Last edited on:	04/22/2019
 '''
 from django import template
-
+from submission_grader.models import Submission
 
 # Instance created so that we can create custom templates tags.
 # Template tags in this app will have respect to user's and permissons.
@@ -27,3 +27,8 @@ register = template.Library()
 @register.filter(name='has_group')
 def has_group(user, group_name):
 	return user.groups.filter(name=group_name).exists()
+
+@register.filter(name='get_recent_submission')
+def get_recent_submission(assignment):
+	submission = Submission.object.filter(assignment=assignment.pk, student=assignment.student.pk).order_by('id').last()
+	return submission
