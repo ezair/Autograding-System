@@ -44,23 +44,26 @@
 <div class="container-fluid">
 	<h3 style="padding-left: 20px;">Upcoming Assignments</h3>
 	<br>
-	{% if assignment %}
-		{% for assignment in assignment %}
-			{% if assignment.assigned_student.username == user.username %}
-				<div class="row">
-					<div class="col-4">
-						<div class="assignment-item">
-							<a href="{{ assignment.get_absolute_url }}" class="maroon-text white"><strong>{{ assignment.name }}</strong></a>
-							<p>Assignment short description</p>
-							<span><p>Due Date: {{ assignment.due_date }}</span>
+	<div class="row">
+		{% if assignment %}
+			{% for assignment in assignment %}
+				{% if assignment.assigned_student.username == user.username %}
+					<div class="col-md-4 col-md-offset-1" style='margin-bottom: 35px'>
+						<div class="mx-auto" >
+							<div class="assignment-item">
+								<a href="{{ assignment.get_absolute_url }}" class="maroon-text white"'><strong>{{ assignment.name }}</strong></a>
+								<p>Assignment short description</p>
+								<span><p>Due Date: {{ assignment.due_date }}</span>
+							</div>
 						</div>
 					</div>
-				</div>
-			{% endif %}
-		{% endfor %}
-	{% else %}
-		<p>You have no assignments.</p>
-	{% endif %}
+					<br/>
+				{% endif %}
+			{% endfor %}
+		{% else %}
+			<p>You have no assignments.</p>
+		{% endif %}
+	</div>
 </div>
 {% endif %}
 {% endblock %}
