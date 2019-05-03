@@ -18,7 +18,7 @@
 				<p>You have no submissions</p>
 			{% endfor %}
 			<a href="{% url 'submission_grader-submit' pk=assignment.project.pk %}" class="btn maroon white">Submit</a>
-			{% if assignment|get_recent_submission >= 1 %}
+			{% if assignment|get_recent_submission_pk >= 1 %}
 				<a href="{% url 'submission_grader-submission_confirm_delete' pk=assignment|get_recent_submission_pk %}" class="btn maroon white">Delete</a>
 			{% endif %}
 		</div>
