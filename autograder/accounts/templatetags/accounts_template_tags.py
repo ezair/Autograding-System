@@ -35,7 +35,8 @@ def has_group(user, group_name):
 # with it.
 @register.filter(name='get_recent_submission')
 def get_recent_submission(assignment):
-	if Submission.objects.filter(assignment=assignment.pk, student=assignment.assigned_student.pk).exists():
+	if Submission.objects.filter(assignment=assignment.pk,
+			student=assignment.assigned_student.pk).exists():
 		submission = Submission.objects.filter( assignment=assignment.pk,
 			student=assignment.assigned_student.pk).order_by('id').last()
 		return submission.file_name()
@@ -52,3 +53,15 @@ def get_recent_submission_pk(assignment):
 					student=assignment.assigned_student.pk).order_by('id').last()
 		return submission.pk
 	return 0
+
+
+# Given an assignment, we can find the last created submission's path associated
+# with it.
+@register.filter(name='get_recent_submission_path')
+def get_recent_submission_path(assignment):
+	if Submission.objects.filter(assignment=assignment.pk,
+			student=assignment.assigned_student.pk).exists():
+		submission = Submission.objects.filter( assignment=assignment.pk,
+			student=assignment.assigned_student.pk).order_by('id').last()
+		return submission
+	return "No submissions"
