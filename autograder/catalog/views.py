@@ -4,7 +4,7 @@ File: catalog/views.py
 Description:	contains all views for the catalog/ app.
 				These views include things for each model in
 				catalog/models.py
-Last Edited by:	04/16/2019
+Last Edited by:	05/02/2019
 Last Edited by: Chris Stannard
 '''
 from django.views import generic
@@ -14,7 +14,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from catalog.models import Course, Assignment, Instruct, Take
+from catalog.models import Course, Assignment, Instruct, Take, Grade
 from submission_grader.models import Submission
 from catalog.forms import CourseForm
 from django.contrib.auth.models import User
@@ -37,18 +37,26 @@ def my_view(request):
 	}
 	return render(request, 'catalog/my.html', context=context)
 
-
+# This is the view for course creation for instructors to make thier courses
 @login_required
 def course_new_view(request):
 	# You need to be an instructor to see this page.
 	not_instructor_throw_error(request.user)
-
+	# get the course form
 	form = CourseForm()
 	if request.method == "POST":
 		form = CourseForm(request.POST)
 		if form.is_valid():
+			# creates the course
 			course = form.save(commit=True)
-			confirmation_message = "Course information updated successfully!"
+			user = request.user
+			# the creator instructs the course
+			instruct = Instruct.objects.create(instructor=user, course=course)
+			instruct.save()
+			# and becomes a grader for the course
+			grade = Grade.objects.create(grader=user, course=course)
+			grade.save()
+			# redirect to the newly created course
 			return HttpResponseRedirect(reverse('catalog-course_detail', kwargs={'pk':course.id}))
 	return render(request, 'catalog/course_new.html', {'form': form})
 
