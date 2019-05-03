@@ -16,7 +16,7 @@ from . import models
 from catalog.models import Assignment, Project
 from datetime import datetime
 from django.views.generic import DeleteView, DetailView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 
 @login_required
@@ -26,7 +26,7 @@ def submit_view(request, pk):
 	if not Assignment.objects.filter(project=pk, assigned_student=request.user).exists():
 		raise Http404
 
-	# Aye, so the assignment does exist, so we take the firsts one in existance, m8.
+	# Aye, so the assignment does exist, so we, pk take the firsts one in existance, m8.
 	# We filter it for the first assignment, just incase there is another model of the project.
 	# There should NOT EVER BE, but stuff happens.
 	assignment = Assignment.objects.filter(project=pk).order_by('id').first()
@@ -37,7 +37,8 @@ def submit_view(request, pk):
 										  submitted_at=datetime.now)
 		if form.is_valid():
 			form.save()
-			return HttpResponseRedirect('/catalog/')
+			return HttpResponseRedirect(reverse('catalog-assignment_detail',
+										kwargs={'pk': assignment.pk}))
 	# When we start handling newer submissions, this will have to be changed.
 	form = forms.SubmissionUploadForm(student=request.user,
 									  assignment=assignment,
@@ -49,12 +50,12 @@ def submit_view(request, pk):
 class DeleteSubmissionView(DeleteView):
 	model = models.Submission
 	template = 'submission_confirm_delete'
-	success_url = reverse_lazy('catalog-courses')
 
-	#def get_success_url(self):
-	# 	submission = self.object
-	# 	return reverse_lazy('catalog-assignment_detail',
-	# 						kwargs={'pk': self.object.pk})
+	def get_success_url(self):
+		submission = self.object
+		assignment = submission.assignment.pk
+		return reverse_lazy('catalog-assignment_detail',
+	 						kwargs={'pk': assignment})
 
 
 class SubmissionDetailView(DetailView):
