@@ -30,5 +30,17 @@ def has_group(user, group_name):
 
 @register.filter(name='get_recent_submission')
 def get_recent_submission(assignment):
-	submission = Submission.object.filter(assignment=assignment.pk, student=assignment.student.pk).order_by('id').last()
-	return submission
+	if Submission.objects.filter(assignment=assignment.pk, student=assignment.assigned_student.pk).exists():
+		submission = Submission.objects.filter( assignment=assignment.pk,
+			student=assignment.assigned_student.pk).order_by('id').last()
+		return submission.file_name()
+	return "No submissions"
+
+@register.filter(name='get_recent_submission_pk')
+def get_recent_submission_pk(assignment):
+	if Submission.objects.filter(assignment=assignment.pk,
+					student=assignment.assigned_student.pk).exists():
+		submission = Submission.objects.filter(assignment=assignment.pk,
+					student=assignment.assigned_student.pk).order_by('id').last()
+		return submission.pk
+	return 0

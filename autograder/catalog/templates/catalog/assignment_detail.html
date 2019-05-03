@@ -18,16 +18,14 @@
 				<p>You have no submissions</p>
 			{% endfor %}
 			<a href="{% url 'submission_grader-submit' pk=assignment.project.pk %}" class="btn maroon white">Submit</a>
-			<a href="{% url 'submission_grader-submission_confirm_delete' pk=submission.pk %}" class="btn maroon white">Delete</a>
+			{% if assignment|get_recent_submission >= 1%}
+				<a href="{% url 'submission_grader-submission_confirm_delete' pk=assignment|get_recent_submission_pk %}" class="btn maroon white">Delete</a>
+			{% endif %}
 		</div>
 		<div class="card-footer text-muted">
-			{% for submission in submission_list %}
-				{% if submission == get_recent_submission:"assignment" %}
-					<p>hello</p>
-				{% endif %}
-			{% empty %}
-				<p>You have no submissions</p>
-			{% endfor %}
+			{% if assignment|get_recent_submission %}
+				<p>{{ assignment|get_recent_submission }}</p>
+			{% endif %}
 		</div>
 	</div>
 </div>
