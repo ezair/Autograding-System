@@ -16,14 +16,15 @@
 					{% for take in take %}
 					{% if take.student.username == user.username %}
 					<a href="{{ take.course.get_absolute_url }}" class="list-group-item list-group-item-action flex-column align-items-start capitalize" style="">
-						{{ take.course.name }}<span class="spacer"></span><!--<span class="badge badge-danger badge-pill maroon">14</span>-->
-						<p class="text-muted instructor-name capitalize">
+						<h4>{{ take.course.name }}</h4>
+						<span class="spacer"></span><!--<span class="badge badge-danger badge-pill maroon">14</span>-->
+						<span class="text-muted instructor-name capitalize">
 							{% for instruct in instruct %}
 								{% if instruct.course.name == take.course.name %}
 									{{ instruct.instructor.username }}
 								{% endif %}
 							{% endfor %}
-						</p>
+						</span>
 					</a>
 					{% endif %}
 					{% endfor %}
@@ -51,9 +52,10 @@
 					<div class="col-md-4 col-md-offset-1" style='margin-bottom: 35px'>
 						<div class="mx-auto" >
 							<div class="assignment-item">
-								<a href="{{ assignment.get_absolute_url }}" class="maroon-text white"'><strong>{{ assignment.name }}</strong></a>
-								<p>Assignment short description</p>
-								<span><p>Due Date: {{ assignment.due_date }}</span>
+								<a href="{{ assignment.get_absolute_url }}" class="maroon-text white"'><strong>{{ assignment.name }}</strong></a><br/>
+								<span>{{ assignment.course }}</span><br/>
+								<span>Assignment short description</span><br/>
+								<span>Due Date: {{ assignment.due_date }}</span>
 							</div>
 						</div>
 					</div>
