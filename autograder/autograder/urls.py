@@ -42,8 +42,8 @@ urlpatterns = [
     path('submission_grader/', include('submission_grader.urls')),
 ]
 
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
 # So that we can load static files properly from ALL url locations.
 # This DOES NOT need to be added to any other urls.py files.
 urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_URL)

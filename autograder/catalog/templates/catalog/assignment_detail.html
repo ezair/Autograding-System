@@ -11,20 +11,20 @@
 		<div class="card-body">
 			<h5 class="card-title">{{ assignment.name }}</h5>
 			{% for project in project_list %}
-				{% if project in  assignment.project %}
+				{% if project in assignment.project %}
 					<p class="card-text typewriter">{{ project.short_description }}</p><br/>
 				{% endif %}
 			{% empty %}
 				<p>You have no submissions</p>
 			{% endfor %}
 			<a href="{% url 'submission_grader-submit' pk=assignment.project.pk %}" class="btn maroon white">Submit</a>
-			{% if assignment|get_recent_submission >= 1%}
+			{% if assignment|get_recent_submission_pk >= 1 %}
 				<a href="{% url 'submission_grader-submission_confirm_delete' pk=assignment|get_recent_submission_pk %}" class="btn maroon white">Delete</a>
 			{% endif %}
 		</div>
 		<div class="card-footer text-muted">
 			{% if assignment|get_recent_submission %}
-				<p>{{ assignment|get_recent_submission }}</p>
+				<a href="{{ assignment|get_recent_submission_path }}">{{ assignment|get_recent_submission }}</a>
 			{% endif %}
 		</div>
 	</div>
