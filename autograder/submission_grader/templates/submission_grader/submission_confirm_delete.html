@@ -1,9 +1,13 @@
 {% extends "base_generic.html" %}
 {% load static %}
 {% block content %}
-
-<form method="post">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"?</p>
-    <input type="submit" value="Confirm">
-</form>
+<br />
+<div class="container">
+    <center>
+        <form method="post">{% csrf_token %}
+            <h3>Are you sure you want to delete:</h3> <p>"{{ object }}"?</p>
+            <input type="submit" class="btn maroon white" value="Confirm">
+        </form>
+    </center>
+</div>
 {% endblock %}
