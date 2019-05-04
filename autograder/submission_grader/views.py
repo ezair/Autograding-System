@@ -7,6 +7,7 @@ Description:	Contains all views/pages used for the submission_grader app
 Last Edited on: 05/1/2019
 Last Edited by:	Eric Zair
 '''
+from django.views import generic
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
@@ -66,3 +67,7 @@ class SubmissionDetailView(DetailView):
 		submission = self.object
 		return reverse_lazy('submission_grader-submission_detail',
 							 kwargs={'pk': self.object.pk})
+
+class SubmissionListView(generic.ListView):
+	model = models.Submission
+	template = 'submission_grader/submission_list.html'
