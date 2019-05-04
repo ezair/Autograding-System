@@ -159,5 +159,5 @@ EMAIL_USE_TLS = True
 
 # Placement for where assignments and submissions must go
 # before being graded or pushed.
-MEDIA_URL = '/media/submissions/'
+MEDIA_URL = 'code/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

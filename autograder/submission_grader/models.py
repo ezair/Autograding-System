@@ -35,10 +35,14 @@ class Submission(models.Model):
 							 validators=[FileExtensionValidator(allowed_extensions=['zip', 'java'])])
 
 	def __str__(self):
-		return str(self.student) + "submitted " + str(self.assignment) + "on " + str(self.submitted_at) 
+		return str(self.student) + "submitted " + str(self.assignment) + "on " + str(self.submitted_at)
+
 
 	def file_name(self):
 		str_ = self.files.path
 		return str_[str_.rindex('/') + 1 : len(str_)]
 
-		# will need a detail page at some point soon.
+
+	def submission_folder_path(self):
+		path = self.files.path
+		return path[0 : path.rindex('/')]

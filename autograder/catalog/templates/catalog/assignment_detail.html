@@ -18,15 +18,40 @@
 				<p>You have no submissions</p>
 			{% endfor %}
 			<a href="{% url 'submission_grader-submit' pk=assignment.project.pk %}" class="btn maroon white">Submit</a>
-			{% if assignment|get_recent_submission_pk >= 1 %}
+			{% if assignment|get_recent_submission_pk != 0 %}
 				<a href="{% url 'submission_grader-submission_confirm_delete' pk=assignment|get_recent_submission_pk %}" class="btn maroon white">Delete</a>
 			{% endif %}
-		</div>
-		<div class="card-footer text-muted">
-			{% if assignment|get_recent_submission %}
-				<a href="{{ assignment|get_recent_submission_path }}">{{ assignment|get_recent_submission }}</a>
+			<br/>
+			{% if assignment|get_recent_submission_pk != 0 %}
+				<span>Last Modified: {{assignment|get_recent_submission_time}}</span>
 			{% endif %}
-		</div>
+	</div>
+
+	<div>
+		{% if assignment|get_recent_submission_java_files != 0 %}
+		<table class="table table-hover" style="background-color: #f8f9fa; color: #8A1538;">
+	      <thead>
+	        <tr>
+	          <th scope="col" style="width: 200px;">File Name</th>
+			  <th scope="col">Download</th>
+	        </tr>
+	      </thead>
+	      <tbody>
+				{% for string in assignment|get_recent_submission_java_files %}
+		        <tr>
+		          <td>
+					  <p> {{string}} </p>
+		          </td>
+		          <td>
+					  {% with assignment|get_recent_submission_folder_path|add:"/"|add:string as path %}
+					  <a href="{{ path }}" download=string>{{path}}</a>
+					  {% endwith %}
+				  </td>
+		        </tr>
+				{% endfor %}
+	      </tbody>
+	    </table>
+		{% endif %}
 	</div>
 </div>
 {% endblock %}

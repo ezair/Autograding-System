@@ -15,7 +15,7 @@ Last edited on:	04/22/2019
 '''
 from django import template
 from submission_grader.models import Submission
-
+import os
 
 # Instance created so that we can create custom templates tags.
 # Template tags in this app will have respect to user's and permissons.
@@ -63,5 +63,42 @@ def get_recent_submission_path(assignment):
 			student=assignment.assigned_student.pk).exists():
 		submission = Submission.objects.filter( assignment=assignment.pk,
 			student=assignment.assigned_student.pk).order_by('id').last()
-		return submission
+		return submission.files.path
 	return "No submissions"
+
+
+@register.filter(name='get_recent_submission_java_files')
+# Grabs all java files that are located inside the recent submission folder.
+def get_recent_submission_java_files(assignment):
+	# Assuming that submissions exist, we will find ONLY all the associated
+	# java files.
+	if Submission.objects.filter(assignment=assignment.pk,
+			student=assignment.assigned_student.pk).exists():
+		submission = Submission.objects.filter( assignment=assignment.pk,
+			student=assignment.assigned_student.pk).order_by('id').last()
+		all_java_files = []
+		for file in os.listdir(submission.submission_folder_path()):
+			if file.endswith('.java'):
+				all_java_files.append(file)
+		# We want to return the set version, so that we can parse through it
+		# in .html pages.
+		return all_java_files
+	return 0;
+
+@register.filter(name='get_recent_submission_folder_path')
+def get_recent_submission_folder_path(assignment):
+	if Submission.objects.filter(assignment=assignment.pk,
+			student=assignment.assigned_student.pk).exists():
+		submission = Submission.objects.filter( assignment=assignment.pk,
+			student=assignment.assigned_student.pk).order_by('id').last()
+		return submission.submission_folder_path()
+	return 0
+
+@register.filter(name='get_recent_submission_time')
+def get_recent_submission_time(assignment):
+	if Submission.objects.filter(assignment=assignment.pk,
+			student=assignment.assigned_student.pk).exists():
+		submission = Submission.objects.filter( assignment=assignment.pk,
+			student=assignment.assigned_student.pk).order_by('id').last()
+		return submission.submitted_at
+	return 0
