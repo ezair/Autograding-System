@@ -6,7 +6,7 @@
 <div class="container">
 	<div class="card text-center">
 		<div class="card-header">
-			Assignment Details
+			<h5>Assignment Details</h5>
 		</div>
 		<div class="card-body">
 			<h5 class="card-title">{{ assignment.name }}</h5>
@@ -31,22 +31,26 @@
 		{% if assignment|get_recent_submission_java_files != 0 %}
 		<table class="table table-hover" style="background-color: #f8f9fa; color: #8A1538;">
 	      <thead>
-	        <tr>
-	          <th scope="col" style="width: 200px;">File Name</th>
-			  <th scope="col">Download</th>
+	        <tr style="align: left;">
+				<th scope="col" style="width: 50px;">Download</th>
+				<th scope="col">File Name</th>
 	        </tr>
 	      </thead>
 	      <tbody>
 				{% for string in assignment|get_recent_submission_java_files %}
 		        <tr>
-		          <td>
-					  <p> {{string}} </p>
-		          </td>
-		          <td>
-					  {% with assignment|get_recent_submission_folder_path|add:"/"|add:string as path %}
-					  <a href="{{ path }}" download=string>{{path}}</a>
-					  {% endwith %}
-				  </td>
+					<td>
+					{% with assignment|get_recent_submission_folder_path|add:"/"|add:string as path %}
+						<button class="btn">
+							<a href="{{ path }}" download={{string}}>
+								<img src="\static\img\download.png" alt="Download" style="width: 50px;">
+							</a>
+						</button>
+					{% endwith %}
+					</td>
+					<td style="align: left;">
+						<p> {{ string }} </p>
+					</td>
 		        </tr>
 				{% endfor %}
 	      </tbody>
