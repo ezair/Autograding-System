@@ -7,7 +7,7 @@ urlpatterns = [
 	path('assignment/<int:pk>/delete/',
 		 DeleteSubmissionView.as_view(),
 		 name='submission_grader-submission_confirm_delete'),
-	path('submissions/', views.SubmissionListView.as_view(), name='submission_grader-submission_list'),
+	path('assignment/<int:pk>/submissions', SubmissionListView.as_view(), name='submission_grader-submission_list'),
 
 	#ignore for now.
 	path('submission/<int:pk>',

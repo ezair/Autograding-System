@@ -102,3 +102,15 @@ def get_recent_submission_time(assignment):
 			student=assignment.assigned_student.pk).order_by('id').last()
 		return submission.submitted_at
 	return 0
+
+# Possibly temp
+def some_name_here(assignment_name):
+	assignments = Assignment.objects.filter(name=assignment_name,  course=course.pk)
+	all_student_submissions = []
+	for assignment in assignments:
+		if Submission.objects.filter(assignment=assignment.pk,
+				student=assignment.assigned_student.pk).exists():
+			submission = Submission.objects.filter(assignment=assignment.pk,
+				student=assignment.assigned_student.pk).last()
+			all_student_submissions.append(submission)
+	return all_student_submissions

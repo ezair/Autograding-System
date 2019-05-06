@@ -11,7 +11,7 @@
 		<div class="card-body">
 			<h3 class="card-title">{{ assignment.name }}</h3>
 				{% if assignment %}
-					<h6 class="card-text typewriter">{{ assignment.project.short_description }}<br/></br>{{ assignment.project.long_description }}</h6><br/>
+					<h6 class="card-text typewriter">{{ assignment.project.short_description }}<br/><br>{{ assignment.project.long_description }}</h6><br/>
 				{% endif %}
 			<center>
 				<a href="{% url 'submission_grader-submit' pk=assignment.project.pk %}" class="btn maroon white">Submit</a>
