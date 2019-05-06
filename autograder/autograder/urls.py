@@ -45,5 +45,7 @@ urlpatterns = [
 # So that we can load static files properly from ALL url locations.
 # This DOES NOT need to be added to any other urls.py files.
 urlpatterns += staticfiles_urlpatterns()
+# Adding this allows us to locate the media/ folder in our project base location.
+# This is import, as media/ contains all of the submitted files for a project.  
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_URL)

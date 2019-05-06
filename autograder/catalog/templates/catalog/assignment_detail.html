@@ -6,25 +6,27 @@
 <div class="container">
 	<div class="card text-center">
 		<div class="card-header">
-			<h5>Assignment Details</h5>
+			<h2>Assignment Details</h2>
 		</div>
 		<div class="card-body">
-			<h5 class="card-title">{{ assignment.name }}</h5>
-			{% for project in project_list %}
-				{% if project in assignment.project %}
-					<p class="card-text typewriter">{{ project.short_description }}</p><br/>
+			<h3 class="card-title">{{ assignment.name }}</h3>
+				{% if assignment %}
+					<h6 class="card-text typewriter">{{ assignment.project.short_description }}<br/></br>{{ assignment.project.long_description }}</h6><br/>
 				{% endif %}
-			{% empty %}
-				<p>You have no submissions</p>
-			{% endfor %}
-			<a href="{% url 'submission_grader-submit' pk=assignment.project.pk %}" class="btn maroon white">Submit</a>
-			{% if assignment|get_recent_submission_pk != 0 %}
-				<a href="{% url 'submission_grader-submission_confirm_delete' pk=assignment|get_recent_submission_pk %}" class="btn maroon white">Delete</a>
-			{% endif %}
-			<br/>
-			{% if assignment|get_recent_submission_pk != 0 %}
-				<span>Last Modified: {{assignment|get_recent_submission_time}}</span>
-			{% endif %}
+			<center>
+				<a href="{% url 'submission_grader-submit' pk=assignment.project.pk %}" class="btn maroon white">Submit</a>
+				{% if assignment|get_recent_submission_pk != 0 %}
+					<a href="{{ assignment|get_recent_submission_path }}" class="btn maroon white">Download All</a>
+					<a href="{% url 'submission_grader-submission_confirm_delete' pk=assignment|get_recent_submission_pk %}" class="btn maroon white">Delete</a>
+				{% else %}
+					<p>You have no submissions</p>
+				{% endif %}
+				<br/>
+				{% if assignment|get_recent_submission_pk != 0 %}
+					<span><center>Last Modified: {{assignment|get_recent_submission_time}}</center></span>
+				{% endif %}
+			</center>
+		</div>
 	</div>
 
 	<div>
