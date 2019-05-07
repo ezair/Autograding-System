@@ -73,6 +73,7 @@ class MasterAssignment(models.Model):
 	def get_absolute_url(self):
 		return reverse('submission_grader-submission_list', args=[str(self.id)])
 
+
 # Model containting one or multiple projects, that a student must submit for a grade.
 # Assignment is going to be created by an instructor.
 class Assignment(models.Model):
@@ -93,6 +94,8 @@ class Assignment(models.Model):
 	# This is the url for the detail view location.
 	def get_absolute_url(self):
 		return reverse('catalog-assignment_detail', args=[str(self.id)])
+
+
 # At its core, this is a one prograamming assignment that will be given to an
 # Assignment model.
 # Connects to assignment model via Assignment.

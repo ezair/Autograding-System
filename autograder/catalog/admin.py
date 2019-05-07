@@ -11,7 +11,7 @@ from django.contrib import admin
 from catalog.models import *
 
 
-# All we are doing here is adding the option to create the following gorups
+# All we are doing here is adding the option to create the following groups
 # in the /admin page.
 admin.site.register(Project)
 admin.site.register(TestCase)
