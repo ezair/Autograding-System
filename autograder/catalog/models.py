@@ -62,7 +62,7 @@ class Grade(models.Model):
         return str(self.grader) + " grading " + str(self.course)
 
 
-class MasterAssingment(models.Model):
+class MasterAssignment(models.Model):
 	name = models.CharField(max_length=60, help_text='Enter a name')
 	course = models.ForeignKey('Course', on_delete=models.SET_NULL, null=True)
 
@@ -85,7 +85,7 @@ class Assignment(models.Model):
 										 on_delete=models.SET_NULL,
 										 null=True)
 	project = models.ForeignKey('Project', on_delete=models.SET_NULL, null=True)
-	master = models.ForeignKey('MasterAssingment', on_delete=models.SET_NULL, null=True)
+	master = models.ForeignKey('MasterAssignment', on_delete=models.SET_NULL, null=True)
 
 	def __str__(self):
 		return self.name

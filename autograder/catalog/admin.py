@@ -17,6 +17,10 @@ admin.site.register(Project)
 admin.site.register(TestCase)
 admin.site.register(Course)
 
+@admin.register(MasterAssignment)
+class MasterAssignmentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'course')
+
 @admin.register(Assignment)
 class AssignmentAdmin(admin.ModelAdmin):
     list_display = ('name', 'course', 'assigned_student', 'due_date')
