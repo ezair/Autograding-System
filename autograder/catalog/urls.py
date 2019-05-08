@@ -22,4 +22,5 @@ urlpatterns = [
 	path('course/<int:pk>/update', views.course_update_view, name='catalog-course_update'),
 	path('my/assignments/', views.AssignmentListView.as_view(), name='catalog-assignments'),
 	path('assignment/<int:pk>', views.AssignmentDetailView.as_view(), name='catalog-assignment_detail'),
+	path('my/instructor_assignments/', views.MasterAssignmentListView.as_view(), name='catalog-master_assignments'),
 ]

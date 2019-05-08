@@ -12,7 +12,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from catalog.models import Course, Assignment, Instruct, Take, Grade
+from catalog.models import Course, Assignment, Instruct, Take, Grade, MasterAssignment
 from submission_grader.models import Submission
 from catalog.forms import CourseForm
 from django.contrib.auth.models import User
@@ -136,3 +136,12 @@ class AssignmentDetailView(DetailView):
 	@method_decorator(login_required)
 	def dispatch(self, *args, **kwargs):
 		return super(AssignmentDetailView, self).dispatch(*args, **kwargs)
+
+class MasterAssignmentListView(ListView):
+	model = MasterAssignment
+	template = 'catalog/masterassignment_list.html'
+
+	# User must be logged in to see this page.
+	@method_decorator(login_required)
+	def dispatch(self, *args, **kwargs):
+		return super(MasterAssignmentListView, self).dispatch(*args, **kwargs)

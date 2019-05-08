@@ -1,0 +1,36 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<br>
+<div class="container">
+  <h1 class="">Assignment List</h1>
+  <br />
+  {% if masterassignment_list %}
+    <table class="table table-hover" style="background-color: #f8f9fa; color: #8A1538;">
+      <thead>
+        <tr>
+          <th scope="col">Assignment Name</th>
+          <th scope="col">Course</th>
+        </tr>
+      </thead>
+      <tbody>
+          {% for assignment in masterassignment_list %}
+          <tr>
+            <td>
+              <ul style="list-style: none;">
+                <li>
+                  <a href="{{ assignment.get_absolute_url }}" class="typewriter maroon-text">{{ assignment.name }}</a>
+                </li>
+              </ul>
+            </td>
+            <td>
+              <a href="{{ assignment.course.get_absolute_url }}" class="typewriter maroon-text">{{ assignment.course }}</a>
+            </td>
+          {% endfor %}
+        </tr>
+      </tbody>
+    </table>
+    {% else %}
+      <p class="typewriter">You have no assignments.</p>
+    {% endif %}
+</div>
+{% endblock %}
