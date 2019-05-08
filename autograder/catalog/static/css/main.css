@@ -106,3 +106,8 @@ body, h1, h2, h3, h4, h5{
 #course-description{
 	font-family: 'Inconsolata', monospace;
 }
+#submit-container{
+	border: 2px solid #8A1538;
+	border-radius: 15px;
+	width: 50%;
+}

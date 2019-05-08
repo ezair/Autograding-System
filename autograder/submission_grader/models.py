@@ -15,7 +15,7 @@ from django.utils import timezone
 #The format is:
 #				assignment_primary_key/student_username
 def get_files_path(submission, filename):
-	path = str(submission.assignment) + '/' + str(submission.student) 
+	path = str(submission.assignment) + '/' + str(submission.student)
 	path += '/' + str(submission) + '/' + filename
 	return path
 
@@ -35,7 +35,14 @@ class Submission(models.Model):
 							 validators=[FileExtensionValidator(allowed_extensions=['zip', 'java'])])
 
 	def __str__(self):
-		str_ = str(self.student) + " submitted to " + str(self.files)
-		return str_ + " at " + str(self.submitted_at)
+		return str(self.student) + "submitted " + str(self.assignment) + "on " + str(self.submitted_at)
 
-		# will need a detail page at some point soon.
+
+	def file_name(self):
+		str_ = self.files.path
+		return str_[str_.rindex('/') + 1 : len(str_)]
+
+
+	def submission_folder_path(self):
+		path = self.files.path
+		return path[0 : path.rindex('/')]

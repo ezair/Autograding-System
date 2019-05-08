@@ -10,7 +10,7 @@ Description:	This file is just a quick script to allow people
 
 				List of things you can do from this file:					
 					Run with just build and up:
-						python3 run.py
+						python3 run.py build
 
 					Run migrations with:
 						python3 run.py migrate
@@ -49,8 +49,8 @@ def main():
 	if 'down'.strip() in sys.argv or all_commands:
 		system("sudo docker-compose down")
 
-	# ALWAYS run a build before doing anything, no matter what.
-	system("sudo docker-compose build")
+	if 'build'.strip() in sys.argv or all_commands:
+		system("sudo docker-compose build")
 
 	# Allows us to run a docker-compose down
 	if 'migrate'.strip() in sys.argv or all_commands:

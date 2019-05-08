@@ -11,12 +11,19 @@ from django.contrib import admin
 from catalog.models import *
 
 
-# All we are doing here is adding the option to create the following gorups
+# All we are doing here is adding the option to create the following groups
 # in the /admin page.
-admin.site.register(Assignment)
 admin.site.register(Project)
 admin.site.register(TestCase)
 admin.site.register(Course)
+
+@admin.register(MasterAssignment)
+class MasterAssignmentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'course')
+
+@admin.register(Assignment)
+class AssignmentAdmin(admin.ModelAdmin):
+    list_display = ('name', 'course', 'assigned_student', 'due_date')
 
 @admin.register(Instruct)
 class InstructAdmin(admin.ModelAdmin):
