@@ -1,10 +1,20 @@
-import os.path,subprocess
-from subprocess import STDOUT,PIPE,Popen
+import os.path, subprocess
+from subprocess import STDOUT, PIPE, Popen
 
 #file name minus java
-testFile = "testHelloWorld"
-studentFile = "helloWorld"
+testFile = "compiler/testHelloWorld"
+studentFile = "\nhelloWorld.java"
 
+#     "javac " + studentFile + ".java"
+process = subprocess.Popen(['java ' + studentFile], stdout=subprocess.PIPE,  shell=True)
+out, err = process.communicate()
+print(out)
+print("yeet")
+
+
+
+
+'''
 #compiles student to check if worked successfully
 compileCheck = "javac " + studentFile + ".java"
 compileCheck = os.system(compileCheck)
@@ -12,12 +22,19 @@ compileCheck = os.system(compileCheck)
 if compileCheck == 256:	
 	print("Failed to compile on student")
 
-
 #second versa same as the first
 compileCheck = "javac " + testFile + ".java"
 compileCheck = os.system(compileCheck)
+
+#process = subprocess.Popen(['ls', '-a'], stdout=subprocess.PIPE)
+
+
+
+
+
+
 #only difference minus name, mode goes into mode 1
-mode = 1
+mode = 0
 if compileCheck == 256:	
 	print("Failed to compile on teacher")
 
@@ -28,12 +45,15 @@ elif mode == 1:
 	executeTest = "javac " + testFile + ".java;java " + testFile
 
 	#get output of the files
-	testOutput = subprocess.check_output(executeTest, shell = True) 
+	#testOutput = subprocess.check_output(executeTest, shell = True) 
 	studentOutput = subprocess.check_output(executeStudent, shell = True) 
 
 	#simple compair print
 	print(studentOutput.decode("utf-8") == testOutput.decode("utf-8")) 
 	
+
+# docker-compose run web java -cp compiler/ testHelloWorld
+
 
 
 
@@ -67,12 +87,7 @@ elif mode == 3:
     
     #prints out the output of the entire program
     print(testOutput.decode("utf-8")) 
-
-
-
-
-
-
+'''
 
 
 
