@@ -29,8 +29,8 @@
 	<br>
 	<div class="container">
 		<center>
-			<div class="row">
-				{% if assignments.course %}
+			<div class="row ">
+				{% if assignments %}
 					{% for assignment in assignments %}
 						{% if assignment.course.name == course.name %}
 							<div class="col-sm" id="upcoming-assignment-card" style="margin-left: -15px;">
