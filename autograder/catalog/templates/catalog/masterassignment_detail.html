@@ -1,0 +1,43 @@
+<!-- Lists all submissions for a given assignment-->
+{% extends "base_generic.html" %}
+{% load accounts_template_tags %}
+{% load static %}
+
+{% block content %}
+<br>
+<div class="container">
+    <h1>All Submissions For {{ masterassignment.name }}</h1>
+
+    {% if masterassignment|recent_student_submissions != 0 %}
+    <table class="table table-hover" style="background-color: #f8f9fa; color: #8A1538;">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 100px;"">Download</th>
+            <th scope="col">Submission Name</th>
+            <th scope="col">Submitted By</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for submission in masterassignment|recent_student_submissions %}
+            <tr>
+            {% with submission.submission_folder_path|add:"/"|add:submission.file_name as path%}
+                <td><a href="{{ path }}" download={{submission.student}}/{{submission.file_name}}>
+                    <img src="\static\img\download.png" alt="Download" style="width: 50px;">
+                </a></td>
+                <td>{{ submission.file_name }}</td>
+                <td>{{ submission.student }}</td>
+            {% endwith %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No submissions</p>
+    {% endif %}
+
+</div>
+
+
+
+
+{% endblock %}
