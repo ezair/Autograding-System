@@ -6,9 +6,11 @@ Description: contains all url/path and logic in regards
 Last edited by: Eric Zair
 Last edited on:	04/24/2019
 '''
-from django.db import models
+from django.core.validators import FileExtensionValidator
 from django.contrib.auth.models import Group, User
 from django.urls import reverse
+from django.db import models
+import datetime
 
 
 # This model represents a class that a student is taking.
@@ -71,7 +73,7 @@ class MasterAssignment(models.Model):
 
 		# This is the url for the submissions list location.
 	def get_absolute_url(self):
-		return reverse('submission_grader-master_assignment_detail', args=[str(self.id)])
+		return reverse('submission_grader-submission_list', args=[str(self.id)])
 
 
 # Model containting one or multiple projects, that a student must submit for a grade.
@@ -107,10 +109,23 @@ class Project(models.Model):
         return self.short_description
 
 
+# Function used to acutally find the location of a .zip testfiles.
+# THIS IS CALLED IN THE TESTCASE MODEL. DON'T CHANGE IT.
+# path is: testcases/test case's primary key/file/submitted_at time.
+def get_files_path(test_case, filename):
+	str_ = "testcases/" + str(test_case.pk) + "/" + str(filename)
+	str_ += "/" + str(test_case.submitted_at) + "/" + str(test_case.test_file)
+	return str_
+
 # MORE ON THIS LATER.
 class TestCase(models.Model):
-    name = models.CharField(max_length=60, help_text='Enter a name')
+    submitted_at = models.DateField(default=datetime.datetime.now, blank=True)
+    # only .zip files are allowed.
+    test_file = models.FileField(upload_to=get_files_path,
+    							 null=True,
+    							 max_length=255,
+    							 validators=[FileExtensionValidator(allowed_extensions=['zip'])])
     project = models.ForeignKey('Project', on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
-        return self.name
+        return str(self.test_file) + " for project " + str(self.project)
