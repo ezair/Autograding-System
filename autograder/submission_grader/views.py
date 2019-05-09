@@ -9,7 +9,7 @@ Last Edited by:	Eric Zair
 '''
 from django.views.generic import DeleteView, DetailView, ListView
 from django.contrib.auth.decorators import login_required
-from accounts.views import not_instructor_throw_error
+from accounts.views import not_instructor_throw_error, not_student_throw_error
 from django.http import HttpResponseRedirect, Http404
 from django.utils.decorators import method_decorator
 from catalog.models import Assignment, Project, MasterAssignment
@@ -23,6 +23,10 @@ from . import models
 @login_required
 # View page for when a student submits an assignment.
 def submit_view(request, pk):
+	# must be a student to get to this page.
+	# otherwise, you get a 404 error.
+	not_student_throw_error(request.user)
+
 	# We need to account for if the assignment even exists in the first place.
 	if not Assignment.objects.filter(project=pk, assigned_student=request.user).exists():
 		raise Http404

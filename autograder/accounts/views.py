@@ -43,6 +43,13 @@ def not_instructor_throw_error(user):
 	if not user.groups.filter(name='Instructor').exists():
 		raise PermissionDenied
 
+# In the event that the user is NOT a STUDENT, we throw
+# then a 403 error message, stating that they cannot go to the given
+# page.
+def not_student_throw_error(user):
+	if not user.groups.filter(name='Student').exists():
+		raise PermissionDenied	
+
 
 # Send an email to (my account...for now) that has all the information
 # for a user to successfully log into "their" autograder account.
@@ -80,6 +87,7 @@ def send_join_course_email(receiver_username, course, group,
 # Literally creates a user object with a random generated password,
 # then saids that user an email stating the account was made.
 def register_user_account(username):
+
 	email_address = str(username) + '@potsdam.edu'
 	password = User.objects.make_random_password()
 	# We NEED to make sure that we are NOT trying to create a duplicate user
@@ -121,8 +129,9 @@ def invite_successful(receiver_user, sender_user, add_to_group, course):
 # View for an admin, when registering a user to the database.
 @login_required()
 def register_account_view(request):
-	# USER MUST BE AN ADMIN, or they should not be creating other users
-	error_not_admin(request)
+	# User must be in instructor group.
+	not_instructor_throw_error(request.user)
+
 	form = forms.UserRegistrationForm(request.POST or None)
 	# Grab the information from the user and make sure that the
 	# email field has been filled out successfully.
