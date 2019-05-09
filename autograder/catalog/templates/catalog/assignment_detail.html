@@ -10,25 +10,28 @@
 		</div>
 		<div class="card-body">
 			<h3 class="card-title">{{ assignment.name }}</h3>
-				<h6 class="card-text typewriter"> Due: {{ assignment.due_date }}</h6>
+				<h6 class="card-text typewriter text-primary"> Due: {{ assignment.due_date }}</h6>
 				{% if assignment %}
-					<h6 class="card-text typewriter">{{ assignment.project.short_description }}<br/><br>{{ assignment.project.long_description }}</h6><br/>
+					<div class="container" style="width: 65%;padding-top: 10px;">
+						<p class="card-text typewriter">{{ assignment.project.short_description }}</p>
+						<p>{{ assignment.project.long_description }}</p>
+						<br/>
+					</div>
 				{% endif %}
 			<center>
 				<a href="{% url 'submission_grader-submit' pk=assignment.pk %}" class="btn maroon white">Submit</a>
 				{% if assignment|get_recent_submission_pk != 0 %}
 					<a href="{{ assignment|get_recent_submission_path }}" class="btn maroon white">Download All</a>
 					<a href="{% url 'submission_grader-submission_confirm_delete' pk=assignment|get_recent_submission_pk %}" class="btn maroon white">Delete</a>
+					<br />
 				{% else %}
 					<p>You have no submissions</p>
 				{% endif %}
 				<br/>
 				{% if assignment|get_recent_submission_pk != 0 %}
-					<span><center>Last Submitted: {{assignment|get_recent_submission_time}}</center></span>
+					<center>Last Submitted: <span class="text-primary">{{assignment|get_recent_submission_time}}</span></center>
 					{% if assignment|get_recent_submission_time|pass_due:assignment.due_date %}
-						<p>Submitted Late</p>
-					{% else %}
-						<p>{{ assignment|get_recent_submission_time }}</p>
+						<p class="text-danger">Submitted Late</p>
 					{% endif %}
 				{% endif %}
 			</center>
