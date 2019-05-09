@@ -120,6 +120,9 @@ def recent_student_submissions(master_assignment):
 			return 0
 	return all_student_submissions
 
+
+# We use this tag to check if a date is older than or equal to todays date
+# or if there is an argument see if it is older than the argument date
 @register.filter(name='pass_due')
 def pass_due(date, due_date):
 	if due_date != None:
