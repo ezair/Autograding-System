@@ -15,6 +15,8 @@ Last edited on:	04/22/2019
 '''
 from django import template
 from submission_grader.models import Submission
+from catalog.models import Assignment
+import datetime
 import os
 
 # Instance created so that we can create custom templates tags.
@@ -104,8 +106,9 @@ def get_recent_submission_time(assignment):
 	return 0
 
 # Possibly temp
-def some_name_here(assignment_name):
-	assignments = Assignment.objects.filter(name=assignment_name,  course=course.pk)
+@register.filter(name='recent_student_submissions')
+def recent_student_submissions(master_assignment):
+	assignments = Assignment.objects.filter(master=master_assignment)
 	all_student_submissions = []
 	for assignment in assignments:
 		if Submission.objects.filter(assignment=assignment.pk,
@@ -113,4 +116,13 @@ def some_name_here(assignment_name):
 			submission = Submission.objects.filter(assignment=assignment.pk,
 				student=assignment.assigned_student.pk).last()
 			all_student_submissions.append(submission)
+		else:
+			return 0
 	return all_student_submissions
+
+@register.filter(name='pass_due')
+def pass_due(date, due_date):
+	if due_date != None:
+		return date > due_date
+	else:
+		return date >= datetime.date.today()

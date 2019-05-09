@@ -71,7 +71,7 @@ class MasterAssignment(models.Model):
 
 		# This is the url for the submissions list location.
 	def get_absolute_url(self):
-		return reverse('submission_grader-submission_list', args=[str(self.id)])
+		return reverse('submission_grader-master_assignment_detail', args=[str(self.id)])
 
 
 # Model containting one or multiple projects, that a student must submit for a grade.

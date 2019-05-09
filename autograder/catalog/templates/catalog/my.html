@@ -49,6 +49,7 @@
 		{% if assignment %}
 			{% for assignment in assignment %}
 				{% if assignment.assigned_student.username == user.username %}
+				{% if assignment.due_date|pass_due:None %}
 					<div class="col-md-4 col-md-offset-1" style='margin-bottom: 35px'>
 						<div class="mx-auto" >
 							<div class="assignment-item">
@@ -60,6 +61,7 @@
 						</div>
 					</div>
 					<br/>
+				{% endif %}
 				{% endif %}
 			{% endfor %}
 		{% else %}

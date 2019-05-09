@@ -10,6 +10,7 @@
 		</div>
 		<div class="card-body">
 			<h3 class="card-title">{{ assignment.name }}</h3>
+				<h6 class="card-text typewriter"> Due: {{ assignment.due_date }}</h6>
 				{% if assignment %}
 					<h6 class="card-text typewriter">{{ assignment.project.short_description }}<br/><br>{{ assignment.project.long_description }}</h6><br/>
 				{% endif %}
@@ -23,7 +24,12 @@
 				{% endif %}
 				<br/>
 				{% if assignment|get_recent_submission_pk != 0 %}
-					<span><center>Last Modified: {{assignment|get_recent_submission_time}}</center></span>
+					<span><center>Last Submitted: {{assignment|get_recent_submission_time}}</center></span>
+					{% if assignment|get_recent_submission_time|pass_due:assignment.due_date %}
+						<p>Submitted Late</p>
+					{% else %}
+						<p>{{ assignment|get_recent_submission_time }}</p>
+					{% endif %}
 				{% endif %}
 			</center>
 		</div>

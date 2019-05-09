@@ -3,11 +3,17 @@ from .views import *
 from . import views
 
 urlpatterns = [
-	path('assignment/<int:pk>/submit/', submit_view, name='submission_grader-submit'),
+	path('assignment/<int:pk>/submit/',
+		 submit_view,
+		 name='submission_grader-submit'),
+
 	path('assignment/<int:pk>/delete/',
 		 DeleteSubmissionView.as_view(),
 		 name='submission_grader-submission_confirm_delete'),
-	path('assignment/<int:pk>/submissions', SubmissionListView.as_view(), name='submission_grader-submission_list'),
+
+	path('instructor_assignment/<int:pk>/',
+		 MasterAssignmentDetailView.as_view(),
+		 name='submission_grader-master_assignment_detail'),
 
 	#ignore for now.
 	path('submission/<int:pk>',

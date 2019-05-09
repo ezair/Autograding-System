@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from accounts.views import not_instructor_throw_error
 from django.http import HttpResponseRedirect, Http404
 from django.utils.decorators import method_decorator
-from catalog.models import Assignment, Project
+from catalog.models import Assignment, Project, MasterAssignment
 from django.urls import reverse_lazy, reverse
 from django.shortcuts import render
 from datetime import datetime
@@ -86,11 +86,11 @@ class SubmissionDetailView(DetailView):
 
 # NOTE SURE IF THIS IS NEEDED OR NOT.
 # MORE ON THIS LATER.
-class SubmissionListView(ListView):
-	model = models.Submission
-	template = 'submission_grader/submission_list.html'
+class MasterAssignmentDetailView(DetailView):
+	model = MasterAssignment
+	template = 'catalog/masterassignment_detail.html'
 
 	# User must be logged in to see this page.
 	@method_decorator(login_required)
 	def dispatch(self, *args, **kwargs):
-		return super(SubmissionListView, self).dispatch(*args, **kwargs)
+		return super(MasterAssignmentDetailView, self).dispatch(*args, **kwargs)
