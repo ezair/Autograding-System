@@ -15,7 +15,7 @@ from django.utils import timezone
 #The format is:
 #				assignment_primary_key/student_username
 def get_files_path(submission, filename):
-	path = str(submission.assignment) + '/' + str(submission.student)
+	path = "submissions/" + str(submission.assignment) + '/' + str(submission.student)
 	path += '/' + str(submission) + '/' + filename
 	return path
 
