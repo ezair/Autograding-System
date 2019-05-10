@@ -31,15 +31,25 @@ def instructor_courses(instructor):
 def get_master_assignment(course):
     return MasterAssignment.objects.filter(course = course)
 
-# @register.filter(name='grading_courses')
-# def grading_courses(grader):
-#     courses_grading = Grade.objects.filter(grader = grader)
-#     not_my_courses = []
-#     for course_grading in courses_grading:
-#         instructor = Instruct.object.get(course = course_grading.course)
-#         if instructor != grader:
-#             not_my_courses.append(instruct.course)
-#     return courses
+@register.filter(name='get_instructor')
+def get_instructor(course):
+	instructs = Instruct.objects.filter(course = course)
+	instructors = []
+	for instruct in instructs:
+		instructors.append(instruct.instructor)
+	return instructors
+
+@register.filter(name='grading_courses')
+def grading_courses(grader):
+	all_grading = Grade.objects.filter(grader = grader)
+	not_my_courses = []
+	for grading in all_grading:
+		if Instruct.objects.filter(course = grading.course, instructor = grading.grader).exists():
+			pass
+		else:
+			not_my_courses.append(grading.course)
+	return not_my_courses
+
 #
 # @register.filter(name='get_course_instructors')
 # def get_course_instructors(course):
