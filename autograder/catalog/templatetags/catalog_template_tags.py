@@ -12,7 +12,7 @@ Last edited by:	Chris Stannard
 Last edited on:	05/9/2019
 '''
 from django import template
-from catalog.models import Instruct, Grade
+from catalog.models import Instruct, Grade, MasterAssignment
 import datetime
 import os
 
@@ -26,6 +26,10 @@ def instructor_courses(instructor):
     for instruct in instructs:
         courses.append(instruct.course)
     return courses
+
+@register.filter(name='get_master_assignment')
+def get_master_assignment(course):
+    return MasterAssignment.objects.filter(course = course)
 
 # @register.filter(name='grading_courses')
 # def grading_courses(grader):

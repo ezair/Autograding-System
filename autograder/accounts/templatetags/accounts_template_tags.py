@@ -116,8 +116,6 @@ def recent_student_submissions(master_assignment):
 			submission = Submission.objects.filter(assignment=assignment.pk,
 				student=assignment.assigned_student.pk).last()
 			all_student_submissions.append(submission)
-		else:
-			return 0
 	return all_student_submissions
 
 

@@ -1,5 +1,6 @@
 {% extends "base_generic.html" %}
 {% load accounts_template_tags %}
+{% load catalog_template_tags %}
 {% load static %}
 
 {% block content %}
@@ -30,22 +31,44 @@
 	<div class="container">
 		<center>
 			<div class="row ">
-				{% if assignments %}
-					{% for assignment in assignments %}
-						{% if assignment.course.name == course.name %}
+				{% if request.user|has_group:"Student" %}
+					{% if assignments %}
+						{% for assignment in assignments %}
+							{% if assignment.course.name == course.name %}
+								{% if assignment.assigned_student == request.user %}
+								<div class="col-sm" id="upcoming-assignment-card" style="margin-left: -15px;">
+									<div id="upcoming-assignment-details">
+										<p class="capitalize">{{ assignment.name }}</p>
+										<p>Due date: <strong>{{ assignment.due_date }}</strong></p>
+										<a href="{{ assignment.get_absolute_url }}" id="see-assignment-link">See assignment details</a>
+									</div>
+								</div>
+								{% endif %}
+							{% endif %}
+						{% endfor %}
+					{% else %}
+						<div class="container">
+							<p id="no-assignments-pill">You have no assignments</p>
+						</div>
+					{% endif %}
+				{% endif %}
+				{% if request.user|has_group:"Instructor" %}
+					{% if course|get_master_assignment %}
+						{% for assignment in course|get_master_assignment %}
 							<div class="col-sm" id="upcoming-assignment-card" style="margin-left: -15px;">
 								<div id="upcoming-assignment-details">
 									<p class="capitalize">{{ assignment.name }}</p>
 									<p>Due date: <strong>{{ assignment.due_date }}</strong></p>
-									<a href="{{ assignment.get_absolute_url }}" id="see-assignment-link">See assignment details</a>
+									<a href="{{ assignment.get_absolute_url }}" id="see-assignment-link">
+										See assignment details</a>
 								</div>
 							</div>
-						{% endif %}
-					{% endfor %}
-				{% else %}
-					<div class="container">
-						<p id="no-assignments-pill">You have no assignments</p>
-					</div>
+						{% endfor %}
+					{% else %}
+						<div class="container">
+							<p id="no-assignments-pill">You have no assignments</p>
+						</div>
+					{% endif %}
 				{% endif %}
 			</div>
 		</center>

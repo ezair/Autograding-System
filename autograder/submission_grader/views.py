@@ -28,13 +28,13 @@ def submit_view(request, pk):
 	not_student_throw_error(request.user)
 
 	# We need to account for if the assignment even exists in the first place.
-	if not Assignment.objects.filter(project=pk, assigned_student=request.user).exists():
+	if not Assignment.objects.filter(pk=pk, assigned_student=request.user).exists():
 		raise Http404
 
 	# Aye, so the assignment does exist, so we, pk take the firsts one in existance, m8.
 	# We filter it for the first assignment, just incase there is another model of the project.
 	# There should NOT EVER BE, but stuff happens.
-	assignment = Assignment.objects.filter(project=pk).order_by('id').first()
+	assignment = Assignment.objects.filter(pk=pk).order_by('id').first()
 	if request.method == 'POST':
 		form = forms.SubmissionUploadForm(student=request.user,
 										  assignment=assignment,
