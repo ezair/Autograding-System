@@ -55,7 +55,7 @@
 							<div class="assignment-item">
 								<a href="{{ assignment.get_absolute_url }}" class="maroon-text white"'><strong>{{ assignment.name }}</strong></a><br/>
 								<span>{{ assignment.course }}</span><br/>
-								<span>Assignment short description</span><br/>
+								<span>{{ assignment.project.short_description}}</span><br/>
 								<span>Due Date: {{ assignment.due_date }}</span>
 							</div>
 						</div>

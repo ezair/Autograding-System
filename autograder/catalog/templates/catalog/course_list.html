@@ -41,6 +41,36 @@
         {% endfor %}
         </tbody>
     </table>
+    <table class="table table-hover" style="background-color: #f8f9fa; color: #8A1538;">
+        <thead>
+            <tr>
+                <th scope="col" style="width: 100px;"">CRN</th>
+                <th scope="col">Course Name</th>
+                <th scope="col">Instructor</th>
+            </tr>
+        </thead>
+        <div style="width: 49%; float: left;">
+            <h2>Other Courses for Grading</h2>
+        </div>
+        <tbody>
+            {% for course in request.user|grading_courses %}
+                <tr>
+                    <td>
+                        <p>{{ course.crn }}</p>
+                    </td>
+                    <td>
+                        <a href="{{ course.get_absolute_url }}" class="capitalize maroon-text">
+                            {{ course.name }}</a><br/>
+                    </td>
+                    <td>
+                        {% for instructor in course|get_instructor %}
+                            {{ instructor }}
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
 <script>
