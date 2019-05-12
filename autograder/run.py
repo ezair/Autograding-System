@@ -54,6 +54,7 @@ def main():
 
 	# Allows us to run a docker-compose down
 	if 'migrate'.strip() in sys.argv or all_commands:
+		system("sudo docker-compose run web python3 manage.py makemigrations")
 		system("sudo docker-compose run web python3 manage.py migrate")
 
 	# This will load all data into the database.
