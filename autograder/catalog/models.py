@@ -127,5 +127,12 @@ class TestCase(models.Model):
     							 validators=[FileExtensionValidator(allowed_extensions=['zip'])])
     project = models.ForeignKey('Project', on_delete=models.SET_NULL, null=True)
 
+    def file_name(self):
+    	str_ = self.test_file.path
+    	return str_[str_.rindex('/') + 1 : len(str_)]
+
+    def get_abs_path(self):
+    	return str(self.test_file.path)
+
     def __str__(self):
         return str(self.test_file) + " for project " + str(self.project)

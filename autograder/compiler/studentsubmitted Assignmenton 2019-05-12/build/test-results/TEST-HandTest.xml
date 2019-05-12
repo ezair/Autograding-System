@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="HandTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2019-05-12T22:45:03" hostname="ez-Inspiron" time="0.003">
+  <properties/>
+  <testcase name="testHandConstructor" classname="HandTest" time="0.001"/>
+  <testcase name="testAddCardToHand" classname="HandTest" time="0.001"/>
+  <testcase name="testRemoveCardByIndex" classname="HandTest" time="0.0"/>
+  <testcase name="testRetrieveCardByIndex" classname="HandTest" time="0.0"/>
+  <testcase name="testFindCardLocation" classname="HandTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
