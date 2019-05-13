@@ -48,7 +48,7 @@ def not_instructor_throw_error(user):
 # page.
 def not_student_throw_error(user):
 	if not user.groups.filter(name='Student').exists():
-		raise PermissionDenied	
+		raise PermissionDenied
 
 
 # Send an email to (my account...for now) that has all the information
@@ -88,10 +88,11 @@ def send_join_course_email(receiver_username, course, group,
 # then saids that user an email stating the account was made.
 def register_user_account(username):
 
+	username = username.split('@')[0].strip()
 	email_address = str(username) + '@potsdam.edu'
 	password = User.objects.make_random_password()
 	# We NEED to make sure that we are NOT trying to create a duplicate user
-	# accounts. Because that just sucks. Like omg it really sucks. 
+	# accounts. Because that just sucks. Like omg it really sucks.
 	# It's actually not fun at all.
 	if not User.objects.filter(username=username).exists():
 		# Basically, we create the user account and fill in default information
@@ -108,7 +109,7 @@ def register_user_account(username):
 
 # User was not yet in the course, so we send the confirmation email
 # and add them to the respective group needed.
-# Invite model will also be created here, with a record of what happened. 
+# Invite model will also be created here, with a record of what happened.
 def invite_successful(receiver_user, sender_user, add_to_group, course):
 	send_join_course_email(receiver_username=receiver_user.username,
 						   course=str(course),
@@ -137,6 +138,9 @@ def register_account_view(request):
 	# email field has been filled out successfully.
 	if request.POST and form.is_valid():
 		register_user_account(form.cleaned_data['username'])
+		group = Group.objects.get(name='Instructor')
+		new_user = User.objects.get(username=form.cleaned_data['username'])
+		group.user_set.add(new_user.pk)
 		return render(request, 'accounts/registration.html', {'form' : form})
 	# Not sure where we want to redirect quite yet.
 	return render(request, 'accounts/registration.html', {'form' : form})
@@ -150,7 +154,7 @@ def make_invite_view(request):
 	not_instructor_throw_error(request.user)
 
 	form = forms.InviteForm(request.POST or None)
-	
+
 	# In any other case, we simply redirect somewhere else.
 	if request.POST and form.is_valid():
 		course = form.cleaned_data['course']
@@ -158,13 +162,13 @@ def make_invite_view(request):
 
 		# Recall: The receiver_usernames field contains multiple
 		# usernames, all seperated by a ';'. We have handle each.
-		for username in form.cleaned_data['receiver_usernames'].split(';'):	
+		for username in form.cleaned_data['receiver_usernames'].split(';'):
 			# The direct below line is done so that even if a user enters
 			# a email instead of a username (by accident), it is parsed out.
 			username = username.split('@')[0]
 			register_user_account(username)
 			user = User.objects.get(username=username)
-			
+
 			if add_to_group == 'Student':
 				# We only want to add a student to the course, if the record does not exist.
 				if not models.Take.objects.filter(student=user, course=course).exists():
@@ -176,7 +180,7 @@ def make_invite_view(request):
 				if not models.Instruct.objects.filter(instructor=user, course=course).exists():
 					models.Instruct.objects.create(instructor=user, course=course).save()
 					# Recall: An instructor should always be registered as a grader.
-					models.Grade.objects.create(grader=user, course=course).save()			
+					models.Grade.objects.create(grader=user, course=course).save()
 					invite_successful(user, request.user, add_to_group, course)
 
 			# User must be a grader in this case.
