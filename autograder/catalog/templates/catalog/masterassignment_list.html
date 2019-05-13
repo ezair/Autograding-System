@@ -1,10 +1,11 @@
 {% extends "base_generic.html" %}
+{% load catalog_template_tags %}
 {% block content %}
 <br>
 <div class="container">
   <h1 class="">Assignment List</h1>
   <br />
-  {% if masterassignment_list %}
+  {% if request.user|get_all_my_grading_assignments %}
     <table class="table table-hover" style="background-color: #f8f9fa; color: #8A1538;">
       <thead>
         <tr>
@@ -13,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-          {% for assignment in masterassignment_list %}
+          {% for assignment in request.user|get_all_my_grading_assignments %}
           <tr>
             <td>
               <ul style="list-style: none;">
