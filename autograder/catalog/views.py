@@ -14,7 +14,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from catalog.models import Course, Assignment, Instruct, Take, Grade, MasterAssignment
 from submission_grader.models import Submission
-from catalog.forms import CourseForm
+from catalog.forms import CourseForm, AssignmentForm
 from django.contrib.auth.models import User
 from accounts.views import not_instructor_throw_error
 from django.utils.decorators import method_decorator
@@ -78,6 +78,31 @@ def course_update_view(request, pk):
         'course_instance': course,
 	}
 	return render(request, 'catalog/course_update.html', {'form': form}, context)
+
+#View for creating an assingment
+@login_required
+def assignment_new_view(request):
+	# You need to be an instructor to see this page.
+	not_instructor_throw_error(request.user)
+	# get the course form
+	form = AssignmentForm()
+	if request.method == "POST":
+		form = AssignmentForm(request.POST)
+		if form.is_valid():
+			name = form.cleaned_data['name']
+			course = form.cleaned_data['course']
+			master = MasterAssignment.objects.create(name=name, course=course)
+			takes = Take.objects.filter(course=course)
+			for takes in takes:
+				Assignment.objects.create(name=name,
+					assigned_student=takes.student,
+					course=course,
+					due_date=form.cleaned_data['due_date'],
+					project=form.cleaned_data['project'],
+					master=master)
+			# redirect to the newly created assignment
+			return HttpResponseRedirect(reverse('submission_grader-master_assignment_detail', kwargs={'pk':master.id}))
+	return render(request, 'catalog/assignment_new.html', {'form': form})
 
 
 # This is where students will view the courses that THEY are taking.

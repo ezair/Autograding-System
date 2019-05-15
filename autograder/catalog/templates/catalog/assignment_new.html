@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+{% load crispy_forms_tags %}
+{% load accounts_template_tags %}
+
+
+{% block content %}
+<br/>
+<div class="container">
+  <h1>Create an Assignment</h1>
+  <form method="post">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit" class="btn maroon white">Create Assignment</button>
+  </form>
+</div>
+
+
+
+
+{% endblock %}
