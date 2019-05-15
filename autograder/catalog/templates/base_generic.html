@@ -14,7 +14,7 @@
 				<a href="{% url 'catalog-my' %}" class="navbar-brand" style="width: 12%;">
 					<img src="{% static 'img\potsdam(8).png' %}" alt="potsdam" width="100%">
 				</a>
-				<span style="width: 1050px;"></span>
+				<div style="width: 70vw;"><p></p></div>
 			{% if request.user.is_authenticated %}
 			<script>
 				// Keeps the user logged in
@@ -71,6 +71,9 @@
 						<a class="dropdown-item" href="{% url 'catalog-assignments' %}">Assignments</a>
 						{% if request.user|has_group:"Instructor" %}
 							<a class="dropdown-item" href="{% url 'accounts-make_invite' %}">Create course invite</a>
+						{% endif %}
+						{% if request.user.is_superuser %}
+							<a class="dropdown-item" href="{% url 'accounts-registration' %}">Add an Instructor</a>
 						{% endif %}
 						<a class="dropdown-item" href="{% url 'accounts-password_change' %}">Change Password</a>
 						<a class="dropdown-item" href="{% url 'accounts-logout' %}">Log Out</a>
