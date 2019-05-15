@@ -31,6 +31,15 @@ def instructor_courses(instructor):
 def get_master_assignment(course):
     return MasterAssignment.objects.filter(course = course)
 
+@register.filter(name='get_all_my_grading_assignments')
+def get_all_my_grading_assignments(user):
+	assignments = []
+	my_grading_courses = Grade.objects.filter(grader = user)
+	for grading in my_grading_courses:
+		for assignment in get_master_assignment(grading.course):
+			assignments.append(assignment)
+	return assignments
+
 @register.filter(name='get_instructor')
 def get_instructor(course):
 	instructs = Instruct.objects.filter(course = course)
@@ -40,8 +49,8 @@ def get_instructor(course):
 	return instructors
 
 @register.filter(name='grading_courses')
-def grading_courses(grader):
-	all_grading = Grade.objects.filter(grader = grader)
+def grading_courses(user):
+	all_grading = Grade.objects.filter(grader = user)
 	not_my_courses = []
 	for grading in all_grading:
 		if Instruct.objects.filter(course = grading.course, instructor = grading.grader).exists():
@@ -50,6 +59,10 @@ def grading_courses(grader):
 			not_my_courses.append(grading.course)
 	return not_my_courses
 
+@register.filter(name='run_gradle')
+def run_gradle(submission):
+
+	return 0
 #
 # @register.filter(name='get_course_instructors')
 # def get_course_instructors(course):
