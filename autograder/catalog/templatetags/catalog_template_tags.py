@@ -106,4 +106,4 @@ def run_gradle(submission):
 	os.system("gradle build")
 
 	# This is the path to the "index.html" file after the build is done.
-	return "code/compiler/" + new_dir_name + "/build/reports/tests/test/index.html"
+	return "code/" + new_dir_name + "/build/reports/tests/test/index.html"
