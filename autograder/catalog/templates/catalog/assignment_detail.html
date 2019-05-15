@@ -6,7 +6,15 @@
 <div class="container">
 	<div class="card text-center">
 		<div class="card-header">
-			<h2>Assignment Details</h2>
+			<div style="float: left;">
+				<h2>Assignment Details</h2>
+			</div>
+			<div style="float: right;">
+		    {% if request.user|has_group:"Instructor" %}
+		        <button onclick="redirect()" type="button" name="New" class="btn maroon white">
+		            Add a new course</button>
+		    {% endif %}
+		    </div>
 		</div>
 		<div class="card-body">
 			<h3 class="card-title">{{ assignment.name }}</h3>
@@ -69,4 +77,9 @@
 		{% endif %}
 	</div>
 </div>
+<script>
+    function redirect(){
+        location.replace("{% url 'catalog-assignment_new' %}")
+    }
+</script>
 {% endblock %}
