@@ -63,7 +63,7 @@ def main():
 		system("sudo docker-compose run web python3 manage.py loaddata fixtures/all_fixtures.json")
 
 	# Allows us to run ALL tests.
-	if 'test'.strip() in sys.argv or all_commands:
+	if 'test'.strip() in sys.argv:
 		system("sudo docker-compose run web python3 manage.py test")
 
 	# Run after script, no matter what.

@@ -1,6 +1,7 @@
 <!-- Lists all submissions for a given assignment-->
 {% extends "base_generic.html" %}
 {% load accounts_template_tags %}
+{% load catalog_template_tags %}
 {% load static %}
 
 {% block content %}
@@ -15,6 +16,8 @@
             <th scope="col" style="width: 100px;"">Download</th>
             <th scope="col">Submission Name</th>
             <th scope="col">Submitted By</th>
+            <th scope="col">Grade</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
@@ -26,6 +29,18 @@
                 </a></td>
                 <td>{{ submission.file_name }}</td>
                 <td>{{ submission.student }}</td>
+                <td>
+                    {% if submission|grade_exists %}
+                        {{submission|grade_path}}
+                    {% else %}
+                        {{submission|run_gradle}}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if submission.submitted_at|pass_due:submission.assignment.due_date %}
+                    Late
+                    {% endif %}
+                </td>
             {% endwith %}
             </tr>
         {% endfor %}
@@ -38,6 +53,8 @@
 </div>
 
 
-
+<script type="text/javascript">
+    
+</script>
 
 {% endblock %}
