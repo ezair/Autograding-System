@@ -31,7 +31,7 @@
                 <td>{{ submission.student }}</td>
                 <td>
                     {% if submission|grade_exists %}
-                        {{submission|grade_path}}
+                            {{submission|grade_path}}
                     {% else %}
                         {{submission|run_gradle}}
                     {% endif %}
@@ -51,10 +51,5 @@
     {% endif %}
 
 </div>
-
-
-<script type="text/javascript">
-    
-</script>
 
 {% endblock %}

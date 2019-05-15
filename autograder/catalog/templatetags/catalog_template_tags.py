@@ -72,7 +72,6 @@ def grading_courses(user):
 def run_gradle(submission):
 	# Need to find location of test files, so they can be copied over later.
 	test_case = TestCase.objects.get(project=submission.assignment.project.pk)
-	print(type(test_case))
 	# We need to create the dir/ that gradle will be located in.
 	# Then, we will proceed to create a .gradle in that location.
 	# We then need to move to that location in our server, so we can
@@ -96,7 +95,6 @@ def run_gradle(submission):
 	os.mkdir("src/test/")
 	shutil.copy(submission_location, "./src/main/")
 	shutil.copy(test_case_location, "./src/test/")
-
 	# Need to unzip these bad bois into their respective folders.
 	zip_file = zipfile.ZipFile("./src/main/" + submission.file_name(), 'r')
 	zip_file.extractall('./src/main/')
@@ -113,11 +111,11 @@ def run_gradle(submission):
 
 @register.filter(name='grade_exists')
 def grade_exists(submission):
-	new_dir_name ="compiler/" + str(submission)
-	return os.path.isfile("./" + new_dir_name + "/build/reports/tests/test/index.html")
+	new_dir_name = "compiler/" + str(submission)
+	return os.path.isfile("code/" + new_dir_name + "/build/reports/tests/test/index.html")
 
 @register.filter(name='grade_path')
 def grade_path(submission):
 	new_dir_name ="compiler/" + str(submission)
-	if os.path.isfile("./" + new_dir_name + "/build/reports/tests/test/index.html"):
-		return "./" + new_dir_name + "/build/reports/tests/test/index.html"
+	if os.path.isfile("code/" + new_dir_name + "/build/reports/tests/test/index.html"):
+		return "code/" + new_dir_name + "/build/reports/tests/test/index.html"
