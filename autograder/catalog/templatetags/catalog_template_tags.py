@@ -27,9 +27,11 @@ def instructor_courses(instructor):
         courses.append(instruct.course)
     return courses
 
+
 @register.filter(name='get_master_assignment')
 def get_master_assignment(course):
     return MasterAssignment.objects.filter(course = course)
+
 
 @register.filter(name='get_all_my_grading_assignments')
 def get_all_my_grading_assignments(user):
@@ -40,6 +42,7 @@ def get_all_my_grading_assignments(user):
 			assignments.append(assignment)
 	return assignments
 
+
 @register.filter(name='get_instructor')
 def get_instructor(course):
 	instructs = Instruct.objects.filter(course = course)
@@ -47,6 +50,7 @@ def get_instructor(course):
 	for instruct in instructs:
 		instructors.append(instruct.instructor)
 	return instructors
+
 
 @register.filter(name='grading_courses')
 def grading_courses(user):
@@ -59,12 +63,47 @@ def grading_courses(user):
 			not_my_courses.append(grading.course)
 	return not_my_courses
 
+
 @register.filter(name='run_gradle')
 def run_gradle(submission):
+	# Need to find location of test files, so they can be copied over later.
+	test_case = TestCase.objects.filter(project=submission.assignment.project.pk)
 
-	return 0
-#
-# @register.filter(name='get_course_instructors')
-# def get_course_instructors(course):
-#     instructors = Instruct(course = course)
-#     return instructors
+	# We need to create the dir/ that gradle will be located in.
+	# Then, we will proceed to create a .gradle in that location.
+	# We then need to move to that location in our server, so we can
+	# later run the gradle build command.
+	new_dir_name = "compiler/" + str(submission)
+	os.mkdir(new_dir_name)
+	os.chdir(new_dir_name)
+	os.system("gradle init")
+	
+	# We need to edit the build file, so that it has the correct dependencies.
+	with open('./build.gradle', 'w') as build_file:
+		build_file.write("apply plugin: 'java'\n")
+		build_file.write("repositories {\nmavenCentral()\n}\n")
+		build_file.write("dependencies {\ntestCompile group: 'junit', name: 'junit', version: '4+'\n}")
+	
+	# We need the correct directories, so we that we can copy the test_case files & submission
+	# files to the location where gradle can actually find them.
+	os.mkdir("src/")
+	os.mkdir("src/main/")
+	os.mkdir("src/test/")
+	shutil.copy(submission_location, "./src/main/")
+	shutil.copy(test_case_location, "./src/test/")
+	
+	# Need to unzip these bad bois into their respective folders.
+	zip_file = zipfile.ZipFile("./src/main/" + submission.file_name(), 'r')
+	zip_file.extractall('./src/main/')
+	zip_file = zipfile.ZipFile("./src/test/" + test_case.file_name(), 'r')
+	zip_file.extractall('./src/test/')
+	zip_file.close()
+
+	# Finally, we will now compile all the java files, so that it creates
+	# the "reports/" directory where "index.html" will be located.
+	os.system("gradle build")
+	os.chdir("/")
+	os.system("gradle build")
+
+	# This is the path to the "index.html" file after the build is done.
+	return "code/compiler/" + new_dir_name + "/build/reports/tests/test/index.html"
