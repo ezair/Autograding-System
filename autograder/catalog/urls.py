@@ -28,4 +28,6 @@ urlpatterns = [
 	path('my/instructor_assignments/',
 		 views.MasterAssignmentListView.as_view(),
 		 name='catalog-master_assignments'),
+
+	path('assignment/new', views.assignment_new_view, name= 'catalog-assignment_new'),
 ]
