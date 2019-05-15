@@ -9,13 +9,17 @@ Description:	This file contains CUSTOM made template tags for things like
 								"{% load accounts_template_tags %}"
 								...don't actually add the quotes with it...
 Last edited by:	Chris Stannard
-Last edited on:	05/9/2019
+Last edited on:	05/15/2019
 '''
 from django import template
 from catalog.models import Instruct, Grade, MasterAssignment
 import datetime
 import os
+import shutil
+import zipfile
 
+
+# needed so that template tags are actually usable.
 register = template.Library()
 
 
