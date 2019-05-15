@@ -19,15 +19,20 @@ submission = Submission.objects.all()[0]
 submission_location = submission.files.path
 print(submission_location)
 
-# create new dir
+# # create new dir
 new_dir_name = "compiler/" + str(submission)
 if not os.path.isdir(new_dir_name):
 	os.mkdir(new_dir_name)
 
-# move to new dir && create gradle locations.
+# # move to new dir && create gradle locations.
 os.chdir(new_dir_name)
-# if not os.path.exists(".gradle"):
 os.system("gradle init")
+# We need to edit the build file, so that it has the correct dependencies.
+with open('./build.gradle', 'w') as build_file:
+	build_file.write("apply plugin: 'java'\n")
+	build_file.write("repositories {\nmavenCentral()\n}\n")
+	build_file.write("dependencies {\ntestCompile group: 'junit', name: 'junit', version: '4+'\n}")
+
 os.mkdir("src/")
 os.mkdir("src/main/")
 os.mkdir("src/test/")
@@ -42,11 +47,7 @@ zip_file.extractall('./src/test/')
 zip_file.close()
 
 #...let's run this son of a gun.
+print(os.listdir('.'))
 os.system("gradle build")
-
-# os.system("gradle build")		
-# os.chdir("build/reports/tests/test")
-# os.system("ls")
-# webbrowser.open('file://' + os.path.realpath('index.html'))
-# print(os.path.realpath('index.html'))
-#os.system('ls')
+os.chdir("/")
+os.system("gradle build")		
