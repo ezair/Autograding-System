@@ -33,10 +33,14 @@
 		</center>
 	</div>
 	{% elif request.user|has_group:"Instructor"%}
-	<div class="">
-		<a href="{% url 'catalog-courses' %}" class="list-group-item list-group-item-action flex-column align-items-start capitalize" style="width: 33%; float: left; text-align: center;">Courses</a>
-		<a href="{% url 'catalog-master_assignments' %}" class="list-group-item list-group-item-action flex-column align-items-start capitalize" style="width: 33%; float: left; text-align: center;">Assignments</a>
-		<a href="#" class="list-group-item list-group-item-action flex-column align-items-start capitalize" style="width: 33%; float: left; text-align: center;">Projects</a>
+	<div class="container" style="width: 50vw; text-align: center;">
+		<h2>Instructor Menu</h2>
+		<br />
+		<div class="list-group">
+		  <a href="{% url 'catalog-courses' %}" class="list-group-item list-group-item-action">Courses</a>
+		  <a href="{% url 'catalog-master_assignments' %}" class="list-group-item list-group-item-action">Assignments</a>
+		  <a href="#" class="list-group-item list-group-item-action">Projects</a>
+		</div>
 	</div>
 	<br/>
 	{% endif %}
