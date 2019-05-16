@@ -112,10 +112,10 @@ def run_gradle(submission):
 @register.filter(name='grade_exists')
 def grade_exists(submission):
 	new_dir_name = "compiler/" + str(submission)
-	return os.path.isfile("code/" + new_dir_name + "/build/reports/tests/test/index.html")
+	return os.path.isfile("/code/" + new_dir_name + "/build/reports/tests/test/index.html")
 
 @register.filter(name='grade_path')
 def grade_path(submission):
 	new_dir_name ="compiler/" + str(submission)
-	if os.path.isfile("code/" + new_dir_name + "/build/reports/tests/test/index.html"):
-		return "code/" + new_dir_name + "/build/reports/tests/test/index.html"
+	if os.path.isfile("/code/" + new_dir_name + "/build/reports/tests/test/index.html"):
+		return "/code/" + new_dir_name + "/build/reports/tests/test/index.html"
