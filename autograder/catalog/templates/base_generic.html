@@ -71,9 +71,6 @@
 						{% if request.user|has_group:"Instructor" %}
 							<a class="dropdown-item" href="{% url 'catalog-master_assignments' %}">Assignments</a>
 						{% endif %}
-						{% if request.user|has_group:"Student" %}
-							<a class="dropdown-item" href="{% url 'catalog-assignments' %}">Assignments</a>
-						{% endif %}
 						{% if request.user|has_group:"Instructor" %}
 							<a class="dropdown-item" href="{% url 'accounts-make_invite' %}">Create course invite</a>
 						{% endif %}
