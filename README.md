@@ -35,15 +35,3 @@ Recommended way to run project:
 	This will launch a script and deal with all the steps of building and loading tables.
 
 	THIS WILL ONLY WORK ON MAC AND LINUX COMPUTERS
-
-EMAIL ACCOUNT INFORMATION:
-	instructor email: autograderinstructor@gmail.com
-	instructor password: autograder1
-
-ADMIN ACCOUNT INFORMATION:
-	username:	admin
-	password:	password
-
-STUDENT ACCOUNT INFORMATION:
-	username:	student
-	password:	autograder1
